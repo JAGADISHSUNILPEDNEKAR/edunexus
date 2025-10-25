@@ -1,0 +1,21 @@
+{
+  "name": "edunexus",
+  "version": "1.0.0",
+  "description": "Mini Learning Management System - MERN Stack",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "test": "npm test --workspaces",
+    "build": "npm run build --prefix client",
+    "start": "npm start --prefix server"
+  },
+  "keywords": ["lms", "mern", "education", "learning"],
+  "author": "EduNexus Team",
+  "license": "MIT",
+  "workspaces": ["server", "client"],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+
