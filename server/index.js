@@ -41,6 +41,15 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// Root route (for Render health check)
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'EduNexus backend is live 🚀',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Health check route
 app.get('/health', (req, res) => {
   res.status(200).json({
