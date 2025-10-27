@@ -47,8 +47,8 @@ const Login = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10">
-      <div className="card"></div>
-      <h2 className="text-3xl font-bold text-center mb-6">Login to EduNexus</h2>
+      <div className="card">
+        <h2 className="text-3xl font-bold text-center mb-6">Login to EduNexus</h2>
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -114,6 +114,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+    </div>
   )
 }
 

@@ -145,12 +145,12 @@ const CourseDetail = () => {
                       </p>
                     </div>
                   </div>
-                  
+                  <a
                     href={lecture.videoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-primary text-sm"
-                  <a>
+                  >
                     ▶️ Watch
                   </a>
                 </div>

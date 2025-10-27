@@ -31,7 +31,8 @@ const ContentModeration = () => {
 
     try {
       await courseAPI.delete(courseId)
-      fetchCourses()} catch (err) {
+      fetchCourses()
+    } catch (err) {
       alert('Failed to delete course')
     }
   }
@@ -72,12 +73,12 @@ const ContentModeration = () => {
                 </td>
                 <td className="py-3 px-4 text-right">
                   <div className="flex justify-end space-x-2">
-                    
+                    <a
                       href={`/courses/${course._id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-primary-600 hover:underline"
-                    <a>
+                    >
                       View
                     </a>
                     <button
