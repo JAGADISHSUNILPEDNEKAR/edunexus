@@ -16,8 +16,13 @@ const { initSocket } = require('./socket');
 const app = express();
 const server = http.createServer(app);
 
-// Connect to database
-connectDB();
+// ✅ Connect to database (safe startup)
+connectDB()
+  .then(() => console.log('✅ MongoDB Connected successfully'))
+  .catch((err) => {
+    console.error('❌ Failed to connect to MongoDB:', err.message);
+    console.log('⚠️  Server starting without database connection');
+  });
 
 // Initialize Socket.io
 initSocket(server);
@@ -91,7 +96,7 @@ app.use((err, req, res, next) => {
 });
 
 // ✅ Start server
-// Important: Bind to 0.0.0.0 so Render's internal health checker can access it
+// Important: Bind to 0.0.0.0 so Render’s internal health checker can access it
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
