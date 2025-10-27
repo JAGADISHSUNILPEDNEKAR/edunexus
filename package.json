@@ -1,6 +1,7 @@
 {
   "name": "edunexus",
   "version": "1.0.0",
+  "private": true,
   "description": "Mini Learning Management System - MERN Stack",
   "main": "index.js",
   "scripts": {
@@ -18,4 +19,3 @@
     "concurrently": "^8.2.2"
   }
 }
-
