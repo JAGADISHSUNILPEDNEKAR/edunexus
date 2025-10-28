@@ -1,9 +1,9 @@
-// API service with axios configuration - FIXED VERSION
+// API service with axios configuration - PRODUCTION FIXED
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+const API_URL = import.meta.env.VITE_API_URL || 'https://edunexus-tix1.onrender.com/api'
 
 console.log('🔧 API Configuration:', {
   apiUrl: API_URL,
@@ -30,6 +30,7 @@ api.interceptors.request.use(
     console.log('📤 API Request:', {
       method: config.method?.toUpperCase(),
       url: config.url,
+      fullUrl: `${API_URL}${config.url}`,
       hasAuth: !!token
     })
     
@@ -54,7 +55,8 @@ api.interceptors.response.use(
     console.error('❌ API Error:', {
       url: error.config?.url,
       status: error.response?.status,
-      message: error.response?.data?.message || error.message
+      message: error.response?.data?.message || error.message,
+      fullError: error
     })
     
     if (error.response?.status === 401) {
