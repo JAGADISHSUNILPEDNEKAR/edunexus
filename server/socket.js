@@ -1,4 +1,4 @@
-// Socket.io configuration for real-time chat
+// Socket.io configuration for real-time chat - PRODUCTION FIXED
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 const socketIo = require('socket.io');
@@ -9,8 +9,14 @@ let io;
 const initSocket = (server) => {
   io = socketIo(server, {
     cors: {
-      origin: process.env.CLIENT_URL || 'http://localhost:5173',
-      credentials: true
+      origin: [
+        'https://edunexus-client.vercel.app',  // ✅ Your Vercel frontend
+        process.env.CLIENT_URL || 'http://localhost:5173',
+        'http://localhost:5173',
+        'http://localhost:3000'
+      ],
+      credentials: true,
+      methods: ['GET', 'POST']
     }
   });
 
