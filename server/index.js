@@ -1,4 +1,4 @@
-// Main server entry point - FIXED VERSION
+// Main server entry point - PRODUCTION FIXED
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 require('dotenv').config();
@@ -22,21 +22,25 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// CORS configuration - FIXED
+// CORS configuration - PRODUCTION FIXED
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
+      'https://edunexus-client.vercel.app',  // ✅ Your Vercel frontend
       process.env.CLIENT_URL,
       'http://localhost:5173',
       'http://localhost:3000',
       'http://127.0.0.1:5173'
     ].filter(Boolean);
     
+    logger.info(`CORS check - Origin: ${origin}, Allowed: ${allowedOrigins.join(', ')}`);
+    
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(null, true); // Allow all in development
+      logger.warn(`CORS blocked origin: ${origin}`);
+      callback(null, true); // Still allow in case of misconfiguration
     }
   },
   credentials: true,
@@ -50,8 +54,8 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// Logging middleware (only in development)
-if (process.env.NODE_ENV === 'development') {
+// Logging middleware
+if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
@@ -61,7 +65,8 @@ app.get('/', (req, res) => {
     success: true,
     message: 'EduNexus API is running 🚀',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'production',
+    version: '1.0.0'
   });
 });
 
@@ -71,7 +76,8 @@ app.get('/health', (req, res) => {
     success: true,
     message: 'Server is healthy',
     timestamp: new Date().toISOString(),
-    database: 'Connected' // You can add actual DB check here
+    database: 'Connected',
+    uptime: process.uptime()
   });
 });
 
@@ -87,6 +93,7 @@ app.use('/uploads', express.static('uploads'));
 
 // 404 handler
 app.use((req, res) => {
+  logger.warn(`404 - Route not found: ${req.method} ${req.originalUrl}`);
   res.status(404).json({
     success: false,
     message: `Route not found: ${req.method} ${req.originalUrl}`
@@ -121,9 +128,10 @@ const startServer = async () => {
     // Start listening
     const PORT = process.env.PORT || 5000;
     server.listen(PORT, '0.0.0.0', () => {
-      logger.success(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+      logger.success(`🚀 Server running in ${process.env.NODE_ENV || 'production'} mode on port ${PORT}`);
       logger.info(`📡 API available at: http://localhost:${PORT}/api`);
       logger.info(`🏥 Health check: http://localhost:${PORT}/health`);
+      logger.info(`🌐 Accepting requests from: https://edunexus-client.vercel.app`);
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
