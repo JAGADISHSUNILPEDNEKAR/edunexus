@@ -7,7 +7,7 @@ import { io } from 'socket.io-client'
 import { chatAPI, courseAPI } from '../../services/api'
 import { useAuth } from '../../hooks/useAuth'
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000'
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'https://edunexus-tix1.onrender.com'
 
 const ChatRoom = () => {
   const { id: courseId } = useParams()
