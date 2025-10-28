@@ -1,4 +1,4 @@
-// Course list component with pagination
+// Course list component with pagination - FIXED
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 import { useState, useEffect } from 'react'
@@ -19,12 +19,32 @@ const CourseList = () => {
   const fetchCourses = async () => {
     try {
       setLoading(true)
+      setError('') // Clear previous errors
+      
+      console.log('🔄 Fetching courses...', { page })
+      
       const response = await courseAPI.getAll({ page, limit: 9 })
-      setCourses(response.data.courses)
-      setTotalPages(response.data.pages)
+      
+      console.log('✅ Courses fetched:', response.data)
+      
+      setCourses(response.data.courses || [])
+      setTotalPages(response.data.pages || 1)
     } catch (err) {
-      setError('Failed to load courses')
-      console.error(err)
+      console.error('❌ Failed to fetch courses:', err)
+      
+      // More detailed error message
+      const errorMsg = err.response?.data?.message 
+        || err.message 
+        || 'Failed to load courses. Please try again later.'
+      
+      setError(errorMsg)
+      
+      // Show network-specific errors
+      if (err.code === 'ECONNABORTED') {
+        setError('Request timeout. Please check your connection.')
+      } else if (!err.response) {
+        setError('Cannot connect to server. Please check your internet connection.')
+      }
     } finally {
       setLoading(false)
     }
@@ -32,16 +52,26 @@ const CourseList = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex flex-col justify-center items-center h-64">
         <div className="spinner"></div>
+        <p className="mt-4 text-gray-600">Loading courses...</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        {error}
+      <div className="card">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <p className="font-semibold">Error loading courses</p>
+          <p className="text-sm mt-1">{error}</p>
+          <button 
+            onClick={fetchCourses}
+            className="mt-3 btn btn-secondary text-sm"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     )
   }
@@ -54,7 +84,10 @@ const CourseList = () => {
 
       {courses.length === 0 ? (
         <div className="card text-center py-12">
-          <p className="text-gray-600 text-lg">No courses available yet.</p>
+          <p className="text-gray-600 text-lg mb-2">No courses available yet.</p>
+          <p className="text-gray-500 text-sm">
+            Check back later for new courses!
+          </p>
         </div>
       ) : (
         <>
@@ -74,16 +107,16 @@ const CourseList = () => {
 
                 <div className="flex items-center justify-between text-sm text-gray-500">
                   <div className="flex items-center space-x-4">
-                    <span>👨‍🏫 {course.instructor?.name}</span>
+                    <span>👨‍🏫 {course.instructor?.name || 'Unknown'}</span>
                   </div>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between text-sm">
                   <span className="text-gray-600">
-                    📚 {course.lectureCount || 0} lectures
+                    📚 {course.lectures?.length || course.lectureCount || 0} lectures
                   </span>
                   <span className="text-gray-600">
-                    👥 {course.enrolledCount || 0} enrolled
+                    👥 {course.enrolledStudents?.length || course.enrolledCount || 0} enrolled
                   </span>
                 </div>
               </Link>

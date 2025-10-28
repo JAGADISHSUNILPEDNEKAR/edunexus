@@ -1,4 +1,4 @@
-// API service with axios configuration - PRODUCTION FIXED
+// API service with axios configuration - PRODUCTION FIXED v2
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 import axios from 'axios'
@@ -31,7 +31,8 @@ api.interceptors.request.use(
       method: config.method?.toUpperCase(),
       url: config.url,
       fullUrl: `${API_URL}${config.url}`,
-      hasAuth: !!token
+      hasAuth: !!token,
+      timestamp: new Date().toISOString()
     })
     
     return config
@@ -47,20 +48,34 @@ api.interceptors.response.use(
   (response) => {
     console.log('✅ API Response:', {
       status: response.status,
-      url: response.config.url
+      url: response.config.url,
+      dataPreview: response.data?.success ? 'Success' : 'Check data'
     })
     return response
   },
   (error) => {
-    console.error('❌ API Error:', {
+    // Detailed error logging
+    console.error('❌ API Error Details:', {
       url: error.config?.url,
+      method: error.config?.method,
       status: error.response?.status,
+      statusText: error.response?.statusText,
       message: error.response?.data?.message || error.message,
+      code: error.code,
+      isTimeout: error.code === 'ECONNABORTED',
+      isNetworkError: !error.response,
       fullError: error
     })
     
-    if (error.response?.status === 401) {
-      // Token expired or invalid
+    // Add user-friendly error messages
+    if (error.code === 'ECONNABORTED') {
+      error.userMessage = 'Request timeout - the server took too long to respond'
+    } else if (!error.response) {
+      error.userMessage = 'Network error - cannot reach the server'
+    } else if (error.response.status >= 500) {
+      error.userMessage = 'Server error - please try again later'
+    } else if (error.response.status === 401) {
+      error.userMessage = 'Unauthorized - please login again'
       console.warn('⚠️ Unauthorized - clearing token')
       localStorage.removeItem('token')
       
@@ -68,6 +83,10 @@ api.interceptors.response.use(
       if (window.location.pathname !== '/login') {
         window.location.href = '/login'
       }
+    } else if (error.response.status === 404) {
+      error.userMessage = 'Resource not found'
+    } else {
+      error.userMessage = error.response?.data?.message || 'An error occurred'
     }
     
     return Promise.reject(error)
@@ -92,7 +111,10 @@ export const authAPI = {
 
 // Courses
 export const courseAPI = {
-  getAll: (params) => api.get('/courses', { params }),
+  getAll: (params) => {
+    console.log('📚 Fetching courses with params:', params)
+    return api.get('/courses', { params })
+  },
   getById: (id) => api.get(`/courses/${id}`),
   create: (data) => api.post('/courses', data),
   update: (id, data) => api.put(`/courses/${id}`, data),
