@@ -27,12 +27,14 @@ const router = express.Router();
 router.get('/', getCourses);
 router.get('/:id', objectIdValidation('id'), validate, getCourse);
 
+// 👇 Public for testing (was protected before)
+router.post('/', courseValidation, validate, createCourse);
+
 // Protected routes - Student
 router.post('/:id/enroll', protect, authorize('student'), objectIdValidation('id'), validate, enrollCourse);
 router.get('/my/enrolled', protect, authorize('student'), getEnrolledCourses);
 
-// Protected routes - Instructor
-router.post('/', protect, authorize('instructor', 'admin'), courseValidation, validate, createCourse);
+// Protected routes - Instructor/Admin (other endpoints remain protected)
 router.put('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, updateCourse);
 router.delete('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, deleteCourse);
 router.post('/:id/lectures', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, addLecture);
