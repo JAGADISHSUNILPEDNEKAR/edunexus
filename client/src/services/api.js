@@ -1,16 +1,22 @@
-// API service with axios configuration
+// API service with axios configuration - FIXED VERSION
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 import axios from 'axios'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
+console.log('🔧 API Configuration:', {
+  apiUrl: API_URL,
+  environment: import.meta.env.MODE
+})
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
   },
-  withCredentials: true
+  withCredentials: true,
+  timeout: 30000 // 30 second timeout
 })
 
 // Add token to requests
@@ -20,22 +26,48 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    
+    console.log('📤 API Request:', {
+      method: config.method?.toUpperCase(),
+      url: config.url,
+      hasAuth: !!token
+    })
+    
     return config
   },
   (error) => {
+    console.error('❌ Request Error:', error)
     return Promise.reject(error)
   }
 )
 
 // Handle response errors
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('✅ API Response:', {
+      status: response.status,
+      url: response.config.url
+    })
+    return response
+  },
   (error) => {
+    console.error('❌ API Error:', {
+      url: error.config?.url,
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message
+    })
+    
     if (error.response?.status === 401) {
       // Token expired or invalid
+      console.warn('⚠️ Unauthorized - clearing token')
       localStorage.removeItem('token')
-      window.location.href = '/login'
+      
+      // Only redirect if not already on login page
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
+      }
     }
+    
     return Promise.reject(error)
   }
 )
@@ -44,8 +76,14 @@ api.interceptors.response.use(
 
 // Auth
 export const authAPI = {
-  login: (data) => api.post('/auth/login', data),
-  register: (data) => api.post('/auth/register', data),
+  login: (data) => {
+    console.log('🔐 Attempting login...')
+    return api.post('/auth/login', data)
+  },
+  register: (data) => {
+    console.log('📝 Attempting registration...')
+    return api.post('/auth/register', data)
+  },
   logout: () => api.post('/auth/logout'),
   me: () => api.get('/auth/me')
 }
