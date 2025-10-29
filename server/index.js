@@ -1,4 +1,4 @@
-// Main server entry point - PRODUCTION FIXED
+// Main server entry point - PRODUCTION DEPLOYMENT FIXED
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 require('dotenv').config();
@@ -22,32 +22,62 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// CORS configuration - PRODUCTION FIXED
+// ✅ FIXED CORS Configuration for Production
 const corsOptions = {
   origin: function (origin, callback) {
+    // List of allowed origins
     const allowedOrigins = [
-      'https://edunexus-client.vercel.app',  // ✅ Your Vercel frontend
+      'https://edunexus-client.vercel.app',
+      'https://edunexus-client-git-main-your-username.vercel.app', // Vercel preview URLs
+      'https://edunexus-client-*.vercel.app', // Wildcard for Vercel
       process.env.CLIENT_URL,
       'http://localhost:5173',
       'http://localhost:3000',
       'http://127.0.0.1:5173'
     ].filter(Boolean);
     
-    logger.info(`CORS check - Origin: ${origin}, Allowed: ${allowedOrigins.join(', ')}`);
+    logger.info(`🔍 CORS Request - Origin: ${origin || 'NO ORIGIN'}`);
     
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
+    // Allow requests with no origin (mobile apps, Postman, server-to-server)
+    if (!origin) {
+      logger.info('✅ CORS: Allowing request with no origin');
+      return callback(null, true);
+    }
+    
+    // Check exact match
+    if (allowedOrigins.includes(origin)) {
+      logger.info(`✅ CORS: Allowed origin (exact match): ${origin}`);
+      return callback(null, true);
+    }
+    
+    // Check wildcard patterns for Vercel
+    const isVercelDomain = origin.match(/^https:\/\/edunexus-client.*\.vercel\.app$/);
+    if (isVercelDomain) {
+      logger.info(`✅ CORS: Allowed origin (Vercel pattern): ${origin}`);
+      return callback(null, true);
+    }
+    
+    logger.warn(`❌ CORS: Blocked origin: ${origin}`);
+    logger.warn(`   Allowed origins: ${allowedOrigins.join(', ')}`);
+    
+    // In production, strictly enforce CORS
+    if (process.env.NODE_ENV === 'production') {
+      callback(new Error('Not allowed by CORS'));
     } else {
-      logger.warn(`CORS blocked origin: ${origin}`);
-      callback(null, true); // Still allow in case of misconfiguration
+      // In development, be permissive for testing
+      callback(null, true);
     }
   },
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
 
 app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // Body parser middleware
 app.use(express.json({ limit: '10mb' }));
@@ -56,7 +86,7 @@ app.use(cookieParser());
 
 // Logging middleware
 if (process.env.NODE_ENV !== 'test') {
-  app.use(morgan('dev'));
+  app.use(morgan('combined')); // More detailed logging for production
 }
 
 // ✅ Root route (for health checks)
@@ -66,7 +96,12 @@ app.get('/', (req, res) => {
     message: 'EduNexus API is running 🚀',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'production',
-    version: '1.0.0'
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      api: '/api',
+      docs: '/api/docs'
+    }
   });
 });
 
@@ -77,7 +112,20 @@ app.get('/health', (req, res) => {
     message: 'Server is healthy',
     timestamp: new Date().toISOString(),
     database: 'Connected',
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    environment: process.env.NODE_ENV
+  });
+});
+
+// ✅ CORS Debug endpoint (remove in production after testing)
+app.get('/api/cors-test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'CORS is working!',
+    origin: req.headers.origin,
+    headers: req.headers,
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -96,7 +144,8 @@ app.use((req, res) => {
   logger.warn(`404 - Route not found: ${req.method} ${req.originalUrl}`);
   res.status(404).json({
     success: false,
-    message: `Route not found: ${req.method} ${req.originalUrl}`
+    message: `Route not found: ${req.method} ${req.originalUrl}`,
+    availableRoutes: ['/api/auth', '/api/courses', '/api/assignments', '/api/users', '/api/chat']
   });
 });
 
@@ -117,13 +166,21 @@ app.use((err, req, res, next) => {
 // ✅ Start server function
 const startServer = async () => {
   try {
+    // Validate required environment variables
+    const requiredEnvVars = ['MONGO_URI', 'JWT_SECRET'];
+    const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    
+    if (missingEnvVars.length > 0) {
+      throw new Error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
+    }
+    
     // Connect to database FIRST
     await connectDB();
-    logger.success('Database connected successfully');
+    logger.success('✅ Database connected successfully');
     
     // Initialize Socket.io
     initSocket(server);
-    logger.success('Socket.io initialized');
+    logger.success('✅ Socket.io initialized');
     
     // Start listening
     const PORT = process.env.PORT || 5000;
@@ -131,24 +188,34 @@ const startServer = async () => {
       logger.success(`🚀 Server running in ${process.env.NODE_ENV || 'production'} mode on port ${PORT}`);
       logger.info(`📡 API available at: http://localhost:${PORT}/api`);
       logger.info(`🏥 Health check: http://localhost:${PORT}/health`);
-      logger.info(`🌐 Accepting requests from: https://edunexus-client.vercel.app`);
+      logger.info(`🌐 CORS enabled for: ${process.env.CLIENT_URL || 'Vercel domains'}`);
+      logger.info(`📊 Database: ${process.env.MONGO_URI ? 'Connected' : 'Not configured'}`);
     });
   } catch (error) {
-    logger.error('Failed to start server:', error);
+    logger.error('❌ Failed to start server:', error.message);
+    logger.error('Stack:', error.stack);
     process.exit(1);
   }
 };
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
-  logger.error('Unhandled Promise Rejection:', err);
+  logger.error('❌ Unhandled Promise Rejection:', err);
   server.close(() => process.exit(1));
 });
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
-  logger.error('Uncaught Exception:', err);
+  logger.error('❌ Uncaught Exception:', err);
   process.exit(1);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM received, shutting down gracefully...');
+  server.close(() => {
+    logger.info('Process terminated');
+  });
 });
 
 // Start the server

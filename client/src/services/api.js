@@ -1,13 +1,31 @@
-// API service with axios configuration - PRODUCTION FIXED v2
+// API service with axios configuration - PRODUCTION DEPLOYMENT FIXED
 // spec: see FullStackProject-Sem3_33099103.pdf
 
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://edunexus-tix1.onrender.com/api'
+// ✅ FIXED: Proper API URL detection for all environments
+const getApiUrl = () => {
+  // Priority 1: Environment variable (Vercel automatically provides this)
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // Priority 2: Production default
+  if (import.meta.env.MODE === 'production') {
+    return 'https://edunexus-tix1.onrender.com/api';
+  }
+  
+  // Priority 3: Development default
+  return 'http://localhost:5000/api';
+};
+
+const API_URL = getApiUrl();
 
 console.log('🔧 API Configuration:', {
   apiUrl: API_URL,
-  environment: import.meta.env.MODE
+  environment: import.meta.env.MODE,
+  viteApiUrl: import.meta.env.VITE_API_URL,
+  timestamp: new Date().toISOString()
 })
 
 const api = axios.create({
@@ -15,11 +33,11 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json'
   },
-  withCredentials: true,
+  withCredentials: true, // Important for cookies
   timeout: 30000 // 30 second timeout
 })
 
-// Add token to requests
+// ✅ Add token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
@@ -43,50 +61,60 @@ api.interceptors.request.use(
   }
 )
 
-// Handle response errors
+// ✅ Handle response errors with detailed logging
 api.interceptors.response.use(
   (response) => {
     console.log('✅ API Response:', {
       status: response.status,
       url: response.config.url,
-      dataPreview: response.data?.success ? 'Success' : 'Check data'
+      success: response.data?.success
     })
     return response
   },
   (error) => {
     // Detailed error logging
-    console.error('❌ API Error Details:', {
+    const errorDetails = {
       url: error.config?.url,
-      method: error.config?.method,
+      method: error.config?.method?.toUpperCase(),
       status: error.response?.status,
       statusText: error.response?.statusText,
       message: error.response?.data?.message || error.message,
       code: error.code,
       isTimeout: error.code === 'ECONNABORTED',
       isNetworkError: !error.response,
-      fullError: error
-    })
+      isCorsError: error.message?.includes('Network Error') || error.message?.includes('CORS'),
+      timestamp: new Date().toISOString()
+    };
+    
+    console.error('❌ API Error Details:', errorDetails);
     
     // Add user-friendly error messages
     if (error.code === 'ECONNABORTED') {
-      error.userMessage = 'Request timeout - the server took too long to respond'
+      error.userMessage = 'Request timeout - the server took too long to respond. Please try again.';
     } else if (!error.response) {
-      error.userMessage = 'Network error - cannot reach the server'
+      error.userMessage = 'Cannot connect to server. Please check your internet connection or try again later.';
+      console.error('💡 Possible causes:');
+      console.error('   - Backend server is down');
+      console.error('   - CORS misconfiguration');
+      console.error('   - Network firewall blocking request');
+      console.error('   - API_URL is incorrect:', API_URL);
     } else if (error.response.status >= 500) {
-      error.userMessage = 'Server error - please try again later'
+      error.userMessage = 'Server error - please try again later';
     } else if (error.response.status === 401) {
-      error.userMessage = 'Unauthorized - please login again'
-      console.warn('⚠️ Unauthorized - clearing token')
-      localStorage.removeItem('token')
+      error.userMessage = 'Unauthorized - please login again';
+      console.warn('⚠️ Unauthorized - clearing token');
+      localStorage.removeItem('token');
       
       // Only redirect if not already on login page
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login'
+      if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+        window.location.href = '/login';
       }
     } else if (error.response.status === 404) {
-      error.userMessage = 'Resource not found'
+      error.userMessage = 'Resource not found';
+    } else if (error.response.status === 403) {
+      error.userMessage = 'Access denied - you do not have permission';
     } else {
-      error.userMessage = error.response?.data?.message || 'An error occurred'
+      error.userMessage = error.response?.data?.message || 'An error occurred';
     }
     
     return Promise.reject(error)
