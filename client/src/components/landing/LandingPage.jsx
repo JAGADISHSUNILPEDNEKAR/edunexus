@@ -13,15 +13,16 @@ const LandingPage = () => {
       <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50 py-20 px-4">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
         </div>
 
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold">
-              <span className="gradient-text">Empower Your</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#1E1E1E]">
+              Unlock Your Potential
               <br />
-              <span className="text-slate-800">Learning Journey</span>
+              Learn, Teach, and Grow with Us
+              Learning Journey
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto">
@@ -40,10 +41,10 @@ const LandingPage = () => {
                 </>
               ) : (
                 <>
-                  <Link to="/register" className="btn btn-primary btn-lg px-12">
+                  <Link to="/register" className="px-8 py-3 rounded-2xl font-semibold bg-[#8B5CF6] text-white hover:bg-[#7C3AED] transition-colors">
                     Get Started
                   </Link>
-                  <Link to="/courses" className="btn btn-secondary btn-lg px-12">
+                  <Link to="/courses" className="px-8 py-3 rounded-2xl font-semibold border border-slate-200 text-[#1E1E1E] bg-white hover:bg-slate-50 transition-colors">
                     Explore Courses
                   </Link>
                 </>

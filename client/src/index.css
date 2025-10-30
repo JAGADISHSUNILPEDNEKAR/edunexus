@@ -50,13 +50,13 @@
   }
   
   body {
-    @apply bg-gradient-to-br from-slate-50 via-purple-50/30 to-blue-50/30 text-slate-900 antialiased;
+    @apply bg-gradient-to-b from-[#EDE9FE] to-[#C7B8EA] text-[#444] antialiased;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
     min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    @apply font-bold tracking-tight text-[#1E1E1E];
   }
 
   h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
