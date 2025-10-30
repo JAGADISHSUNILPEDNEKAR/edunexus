@@ -21,107 +21,73 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <nav className="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
               <span className="text-2xl font-bold text-white">E</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                 EduNexus
               </span>
-              <span className="text-xs text-gray-500 font-medium -mt-1">Learn & Grow</span>
+              <span className="text-xs text-gray-500 font-medium">Learn & Grow</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-8">
             <Link 
               to="/courses" 
-              className={`px-5 py-2 rounded-xl font-semibold transition-all ${
-                isActive('/courses')
-                  ? 'bg-indigo-50 text-indigo-600'
-                  : 'text-gray-700 hover:bg-gray-50'
-              }`}
+              className={`nav-link ${isActive('/courses') ? 'text-purple-600' : ''}`}
             >
-              Courses
+              📚 Courses
             </Link>
 
-            {isAuthenticated && (
+            {isAuthenticated ? (
               <>
                 <Link 
                   to={getDashboardLink()} 
-                  className={`px-5 py-2 rounded-xl font-semibold transition-all ${
-                    isActive(getDashboardLink())
-                      ? 'bg-indigo-50 text-indigo-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+                  className={`nav-link ${isActive(getDashboardLink()) ? 'text-purple-600' : ''}`}
                 >
-                  Dashboard
+                  🎯 Dashboard
                 </Link>
                 
                 {user?.role === 'instructor' && (
                   <Link 
                     to="/courses/create" 
-                    className={`px-5 py-2 rounded-xl font-semibold transition-all ${
-                      isActive('/courses/create')
-                        ? 'bg-indigo-50 text-indigo-600'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
+                    className={`nav-link ${isActive('/courses/create') ? 'text-purple-600' : ''}`}
                   >
-                    Create Course
+                    ➕ Create Course
                   </Link>
                 )}
-              </>
-            )}
-          </div>
 
-          {/* User Section / Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
-              <>
-                <div className="flex items-center space-x-3 px-4 py-2 bg-gray-50 rounded-xl">
-                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold">
-                      {user?.name?.charAt(0) || 'U'}
-                    </span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold text-gray-900">
+                <div className="flex items-center space-x-4 pl-4 border-l-2 border-gray-200">
+                  <div className="flex flex-col items-end">
+                    <span className="text-sm font-semibold text-gray-700">
                       {user?.name}
                     </span>
-                    <span className={`text-xs font-semibold ${
-                      user?.role === 'admin' ? 'text-purple-600' :
-                      user?.role === 'instructor' ? 'text-blue-600' :
-                      'text-green-600'
-                    }`}>
+                    <span className={`badge badge-${user?.role} text-xs mt-1`}>
                       {user?.role}
                     </span>
                   </div>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-secondary text-sm py-2"
+                  >
+                    🚪 Logout
+                  </button>
                 </div>
-                <button
-                  onClick={handleLogout}
-                  className="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-all"
-                >
-                  Logout
-                </button>
               </>
             ) : (
               <div className="flex items-center space-x-3">
-                <Link 
-                  to="/login" 
-                  className="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-all"
-                >
-                  Sign In
+                <Link to="/login" className="btn btn-secondary text-sm py-2">
+                  🔐 Login
                 </Link>
-                <Link 
-                  to="/register" 
-                  className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all"
-                >
-                  Get Started
+                <Link to="/register" className="btn btn-primary text-sm py-2">
+                  ✨ Register
                 </Link>
               </div>
             )}
@@ -159,74 +125,69 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100 bg-white">
-            <div className="flex flex-col space-y-2">
+          <div className="md:hidden py-4 border-t border-gray-100">
+            <div className="flex flex-col space-y-3">
               <Link
                 to="/courses"
-                className="px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 font-semibold"
+                className="px-4 py-2 rounded-lg hover:bg-purple-50 text-gray-700 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Courses
+                📚 Courses
               </Link>
 
               {isAuthenticated ? (
                 <>
                   <Link
                     to={getDashboardLink()}
-                    className="px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 font-semibold"
+                    className="px-4 py-2 rounded-lg hover:bg-purple-50 text-gray-700 font-medium"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Dashboard
+                    🎯 Dashboard
                   </Link>
 
                   {user?.role === 'instructor' && (
                     <Link
                       to="/courses/create"
-                      className="px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 font-semibold"
+                      className="px-4 py-2 rounded-lg hover:bg-purple-50 text-gray-700 font-medium"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      Create Course
+                      ➕ Create Course
                     </Link>
                   )}
 
-                  <div className="px-4 py-3 border-t border-gray-100 mt-2">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">
-                          {user?.name?.charAt(0) || 'U'}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="font-bold text-gray-900">{user?.name}</p>
-                        <p className="text-sm text-gray-600 capitalize">{user?.role}</p>
-                      </div>
+                  <div className="px-4 py-2 border-t border-gray-100 mt-2">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="font-semibold text-gray-700">{user?.name}</span>
+                      <span className={`badge badge-${user?.role} text-xs`}>
+                        {user?.role}
+                      </span>
                     </div>
                     <button
                       onClick={() => {
                         handleLogout()
                         setMobileMenuOpen(false)
                       }}
-                      className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold"
+                      className="btn btn-secondary w-full text-sm"
                     >
-                      Logout
+                      🚪 Logout
                     </button>
                   </div>
                 </>
               ) : (
-                <div className="px-4 space-y-2 pt-2 border-t border-gray-100">
+                <div className="px-4 space-y-2">
                   <Link
                     to="/login"
-                    className="block w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold text-center"
+                    className="btn btn-secondary w-full text-sm"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Sign In
+                    🔐 Login
                   </Link>
                   <Link
                     to="/register"
-                    className="block w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold text-center"
+                    className="btn btn-primary w-full text-sm"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Get Started
+                    ✨ Register
                   </Link>
                 </div>
               )}
