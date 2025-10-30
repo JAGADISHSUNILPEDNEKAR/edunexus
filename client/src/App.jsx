@@ -5,16 +5,17 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
 import ProtectedRoute from './components/layout/ProtectedRoute'
-import LandingPage from './components/landing/LandingPage'
+import Landing from './components/landing/Landing'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import StudentDashboard from './components/dashboard/StudentDashboard'
 import InstructorDashboard from './components/dashboard/InstructorDashboard'
 import AdminDashboard from './components/dashboard/AdminDashboard'
-import CourseList from './components/courses/CourseList'
+import Courses from './components/courses/Courses'
 import CourseDetail from './components/courses/CourseDetail'
 import CreateCourse from './components/courses/CreateCourse'
 import ChatRoom from './components/chat/ChatRoom'
+import Footer from './components/layout/Footer'
 
 function App() {
   return (
@@ -25,10 +26,10 @@ function App() {
           <main>
             <Routes>
               {/* Public routes */}
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/courses" element={<CourseList />} />
+              <Route path="/courses" element={<Courses />} />
               
               {/* Protected routes - Student */}
               <Route path="/dashboard/student" element={
@@ -72,6 +73,7 @@ function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
+          <Footer />
         </div>
       </Router>
     </AuthProvider>
