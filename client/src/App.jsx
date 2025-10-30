@@ -1,10 +1,11 @@
-// Main App component with routing
-// spec: see FullStackProject-Sem3_33099103.pdf
+// Updated App.jsx with Landing Page
+// Replace: client/src/App.jsx
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
 import ProtectedRoute from './components/layout/ProtectedRoute'
+import LandingPage from './components/landing/LandingPage'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import StudentDashboard from './components/dashboard/StudentDashboard'
@@ -21,9 +22,10 @@ function App() {
       <Router>
         <div className="min-h-screen bg-gray-50">
           <Navbar />
-          <main className="container mx-auto px-4 py-8">
+          <main>
             <Routes>
               {/* Public routes */}
+              <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/courses" element={<CourseList />} />
@@ -66,9 +68,8 @@ function App() {
                 </ProtectedRoute>
               } />
               
-              {/* Default redirect */}
-              <Route path="/" element={<Navigate to="/courses" replace />} />
-              <Route path="*" element={<Navigate to="/courses" replace />} />
+              {/* Catch all - redirect to home */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
         </div>
