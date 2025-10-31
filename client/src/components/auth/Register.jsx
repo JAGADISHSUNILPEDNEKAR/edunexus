@@ -77,9 +77,9 @@ const Register = () => {
   }
 
   const getPasswordStrengthColor = () => {
-    if (passwordStrength <= 1) return 'bg-red-500'
-    if (passwordStrength <= 3) return 'bg-yellow-500'
-    return 'bg-green-500'
+    if (passwordStrength <= 1) return 'var(--error)'
+    if (passwordStrength <= 3) return 'var(--warning)'
+    return 'var(--success)'
   }
 
   const getPasswordStrengthText = () => {
@@ -90,45 +90,118 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Animated Background Blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style={{ animationDelay: '4s' }}></div>
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      padding: '3rem 1rem',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Animated Background Elements */}
+      <div style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        pointerEvents: 'none'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-5%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 6s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-5%',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite',
+          animationDelay: '2s'
+        }}></div>
       </div>
 
-      <div className="max-w-md w-full space-y-8 relative z-10 animate-fadeIn">
-        <div className="card-glass p-8">
+      <div style={{ 
+        maxWidth: '480px', 
+        width: '100%', 
+        position: 'relative',
+        zIndex: 10
+      }} className="animate-fadeIn">
+        <div className="card-glass" style={{ 
+          padding: '3rem',
+          borderRadius: '2rem',
+          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
+        }}>
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-700 rounded-2xl flex items-center justify-center shadow-2xl mb-4 transform hover:scale-110 transition-transform duration-300 hover:rotate-3">
-              <span className="text-4xl font-bold text-white">E</span>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <div style={{
+              margin: '0 auto 1.5rem',
+              width: '80px',
+              height: '80px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
+              transform: 'rotate(-5deg)',
+              transition: 'transform 0.3s ease'
+            }} 
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'rotate(-5deg) scale(1)'}>
+              <span style={{ 
+                fontSize: '2.5rem', 
+                fontWeight: '800', 
+                color: 'white' 
+              }}>E</span>
             </div>
-            <h2 className="text-4xl font-bold mb-2">
+            <h2 style={{ 
+              fontSize: '2.5rem', 
+              fontWeight: '800', 
+              marginBottom: '0.5rem'
+            }}>
               <span className="gradient-text">Join EduNexus</span>
             </h2>
-            <p className="text-slate-600 text-lg">Create your account and start learning today</p>
+            <p style={{ 
+              color: 'var(--gray-600)', 
+              fontSize: '1.125rem' 
+            }}>Create your account and start learning today</p>
           </div>
           
           {/* Error Alert */}
           {error && (
-            <div className="alert alert-error mb-6 animate-slideIn">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">⚠️</span>
+            <div className="alert alert-error animate-slideIn" style={{ marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ fontSize: '1.5rem' }}>⚠️</span>
                 <div>
-                  <p className="font-semibold">Error</p>
-                  <p className="text-sm">{error}</p>
+                  <p style={{ fontWeight: '600', marginBottom: '0.25rem', color: 'var(--error)' }}>Error</p>
+                  <p style={{ fontSize: '0.875rem', margin: 0, color: 'var(--error)' }}>{error}</p>
                 </div>
               </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} style={{ marginBottom: '1.5rem' }}>
             {/* Name Field */}
-            <div className="space-y-2">
-              <label htmlFor="name" className="block text-sm font-semibold text-slate-700">
-                <span className="flex items-center gap-2">
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="name" style={{ 
+                display: 'block',
+                fontSize: '0.9375rem',
+                fontWeight: '600',
+                color: 'var(--gray-700)',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>👤</span>
                   <span>Full Name</span>
                 </span>
@@ -146,9 +219,15 @@ const Register = () => {
             </div>
 
             {/* Email Field */}
-            <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-semibold text-slate-700">
-                <span className="flex items-center gap-2">
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="email" style={{ 
+                display: 'block',
+                fontSize: '0.9375rem',
+                fontWeight: '600',
+                color: 'var(--gray-700)',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>📧</span>
                   <span>Email Address</span>
                 </span>
@@ -166,71 +245,90 @@ const Register = () => {
             </div>
 
             {/* Password Field */}
-            <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-700">
-                <span className="flex items-center gap-2">
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="password" style={{ 
+                display: 'block',
+                fontSize: '0.9375rem',
+                fontWeight: '600',
+                color: 'var(--gray-700)',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>🔒</span>
                   <span>Password</span>
                 </span>
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="input pr-12"
+                  className="input"
                   placeholder="••••••••"
                   required
+                  style={{ paddingRight: '3rem' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
+                  style={{
+                    position: 'absolute',
+                    right: '1rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--gray-500)',
+                    padding: '0.5rem'
+                  }}
                   tabIndex="-1"
                 >
-                  {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
+                  {showPassword ? '👁️' : '👁️‍🗨️'}
                 </button>
               </div>
               
               {/* Password Strength Indicator */}
               {formData.password && (
-                <div className="mt-2">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs text-slate-600">Password Strength:</span>
-                    <span className={`text-xs font-semibold ${
-                      passwordStrength <= 1 ? 'text-red-600' :
-                      passwordStrength <= 3 ? 'text-yellow-600' :
-                      'text-green-600'
-                    }`}>
+                <div style={{ marginTop: '0.75rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--gray-600)' }}>Password Strength:</span>
+                    <span style={{ 
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      color: getPasswordStrengthColor()
+                    }}>
                       {getPasswordStrengthText()}
                     </span>
                   </div>
                   <div className="progress-bar">
                     <div 
-                      className={`progress-bar-fill ${getPasswordStrengthColor()}`}
-                      style={{ width: `${(passwordStrength / 5) * 100}%` }}
+                      className="progress-bar-fill"
+                      style={{ 
+                        width: `${(passwordStrength / 5) * 100}%`,
+                        background: getPasswordStrengthColor()
+                      }}
                     ></div>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">At least 6 characters recommended</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', marginTop: '0.5rem', marginBottom: 0 }}>
+                    At least 6 characters recommended
+                  </p>
                 </div>
               )}
             </div>
 
             {/* Confirm Password Field */}
-            <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-slate-700">
-                <span className="flex items-center gap-2">
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="confirmPassword" style={{ 
+                display: 'block',
+                fontSize: '0.9375rem',
+                fontWeight: '600',
+                color: 'var(--gray-700)',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>🔐</span>
                   <span>Confirm Password</span>
                 </span>
@@ -248,9 +346,15 @@ const Register = () => {
             </div>
 
             {/* Role Selection */}
-            <div className="space-y-2">
-              <label htmlFor="role" className="block text-sm font-semibold text-slate-700">
-                <span className="flex items-center gap-2">
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label htmlFor="role" style={{ 
+                display: 'block',
+                fontSize: '0.9375rem',
+                fontWeight: '600',
+                color: 'var(--gray-700)',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>🎭</span>
                   <span>I am a</span>
                 </span>
@@ -260,7 +364,8 @@ const Register = () => {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="input cursor-pointer"
+                className="input"
+                style={{ cursor: 'pointer' }}
               >
                 <option value="student">🎓 Student - I want to learn</option>
                 <option value="instructor">👨‍🏫 Instructor - I want to teach</option>
@@ -271,69 +376,151 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-primary w-full text-lg py-4 relative overflow-hidden group"
+              className="btn btn-primary btn-large"
+              style={{ width: '100%' }}
             >
               {loading ? (
-                <span className="flex items-center justify-center gap-3">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+                  <div className="spinner" style={{ width: '20px', height: '20px', borderWidth: '2px' }}></div>
                   <span>Creating Account...</span>
                 </span>
               ) : (
-                <span className="flex items-center justify-center gap-2">
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
                   <span>✨</span>
                   <span>Create Account</span>
                 </span>
               )}
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
             </button>
           </form>
 
           {/* Divider */}
-          <div className="divider my-8"></div>
+          <div className="divider"></div>
 
           {/* Login Link */}
-          <div className="text-center">
-            <p className="text-slate-600">
+          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+            <p style={{ color: 'var(--gray-600)' }}>
               Already have an account?{' '}
-              <Link to="/login" className="text-purple-600 hover:text-purple-700 font-bold hover:underline">
+              <Link to="/login" style={{ 
+                color: 'var(--primary-600)', 
+                fontWeight: '700',
+                textDecoration: 'none'
+              }}>
                 Sign in instead →
               </Link>
             </p>
           </div>
 
           {/* Features */}
-          <div className="mt-8 pt-6 border-t-2 border-slate-100">
-            <p className="text-sm font-semibold text-slate-700 mb-4 text-center">
+          <div style={{ 
+            paddingTop: '1.5rem',
+            borderTop: '2px solid var(--gray-100)'
+          }}>
+            <p style={{ 
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: 'var(--gray-700)',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>
               ✨ What you'll get
             </p>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 group cursor-pointer">
-                <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.75rem',
+                padding: '0.75rem',
+                background: 'var(--gray-50)',
+                borderRadius: 'var(--radius-lg)',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(8px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
+              >
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.2))',
+                  borderRadius: 'var(--radius-lg)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.25rem'
+                }}>
                   📚
                 </div>
-                <span className="text-sm text-slate-600">Access to thousands of courses</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>Access to thousands of courses</span>
               </div>
-              <div className="flex items-center gap-3 group cursor-pointer">
-                <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.75rem',
+                padding: '0.75rem',
+                background: 'var(--gray-50)',
+                borderRadius: 'var(--radius-lg)',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(8px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
+              >
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.2))',
+                  borderRadius: 'var(--radius-lg)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.25rem'
+                }}>
                   💬
                 </div>
-                <span className="text-sm text-slate-600">Real-time chat with instructors</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>Real-time chat with instructors</span>
               </div>
-              <div className="flex items-center gap-3 group cursor-pointer">
-                <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.75rem',
+                padding: '0.75rem',
+                background: 'var(--gray-50)',
+                borderRadius: 'var(--radius-lg)',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(8px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
+              >
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2))',
+                  borderRadius: 'var(--radius-lg)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.25rem'
+                }}>
                   🏆
                 </div>
-                <span className="text-sm text-slate-600">Track your learning progress</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>Track your learning progress</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-slate-500 flex items-center justify-center gap-2">
+        <p style={{ 
+          textAlign: 'center',
+          fontSize: '0.875rem',
+          color: 'rgba(255, 255, 255, 0.8)',
+          marginTop: '1.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.5rem'
+        }}>
           <span>📜</span>
           <span>By registering, you agree to our Terms & Privacy Policy</span>
         </p>
