@@ -25,7 +25,7 @@ const Login = () => {
       ...formData,
       [e.target.name]: e.target.value
     })
-    setError('') // Clear error on input change
+    setError('')
   }
 
   const handleSubmit = async (e) => {
@@ -52,50 +52,123 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Animated Background Blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style={{ animationDelay: '4s' }}></div>
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      padding: '3rem 1rem',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Animated Background Elements */}
+      <div style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        pointerEvents: 'none'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-5%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 6s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-5%',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite',
+          animationDelay: '2s'
+        }}></div>
       </div>
 
-      <div className="max-w-md w-full space-y-8 relative z-10 animate-fadeIn">
+      <div style={{ 
+        maxWidth: '480px', 
+        width: '100%', 
+        position: 'relative',
+        zIndex: 10
+      }} className="animate-fadeIn">
         {/* Card Container */}
-        <div className="card-glass p-8">
+        <div className="card-glass" style={{ 
+          padding: '3rem',
+          borderRadius: '2rem',
+          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
+        }}>
           {/* Header */}
-          <div className="text-center mb-8">
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             {/* Logo */}
-            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-700 rounded-2xl flex items-center justify-center shadow-2xl mb-4 transform hover:scale-110 transition-transform duration-300 hover:rotate-3">
-              <span className="text-4xl font-bold text-white">E</span>
+            <div style={{
+              margin: '0 auto 1.5rem',
+              width: '80px',
+              height: '80px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
+              transform: 'rotate(-5deg)',
+              transition: 'transform 0.3s ease'
+            }} 
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'rotate(-5deg) scale(1)'}>
+              <span style={{ 
+                fontSize: '2.5rem', 
+                fontWeight: '800', 
+                color: 'white' 
+              }}>E</span>
             </div>
             
             {/* Title */}
-            <h2 className="text-4xl font-bold mb-2">
+            <h2 style={{ 
+              fontSize: '2.5rem', 
+              fontWeight: '800', 
+              marginBottom: '0.5rem'
+            }}>
               <span className="gradient-text">Welcome Back</span>
             </h2>
-            <p className="text-slate-600 text-lg">Sign in to continue your learning journey</p>
+            <p style={{ 
+              color: 'var(--gray-600)', 
+              fontSize: '1.125rem' 
+            }}>Sign in to continue your learning journey</p>
           </div>
           
           {/* Error Alert */}
           {error && (
-            <div className="alert alert-error mb-6 animate-slideIn">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">⚠️</span>
+            <div className="alert alert-error animate-slideIn" style={{ marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ fontSize: '1.5rem' }}>⚠️</span>
                 <div>
-                  <p className="font-semibold">Error</p>
-                  <p className="text-sm">{error}</p>
+                  <p style={{ fontWeight: '600', marginBottom: '0.25rem', color: 'var(--error)' }}>Error</p>
+                  <p style={{ fontSize: '0.875rem', margin: 0, color: 'var(--error)' }}>{error}</p>
                 </div>
               </div>
             </div>
           )}
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
             {/* Email Field */}
-            <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-semibold text-slate-700">
-                <span className="flex items-center gap-2">
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label htmlFor="email" style={{ 
+                display: 'block',
+                fontSize: '0.9375rem',
+                fontWeight: '600',
+                color: 'var(--gray-700)',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>📧</span>
                   <span>Email Address</span>
                 </span>
@@ -110,56 +183,87 @@ const Login = () => {
                 placeholder="you@example.com"
                 required
                 autoComplete="email"
+                style={{ fontSize: '1rem' }}
               />
             </div>
 
             {/* Password Field */}
-            <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-700">
-                <span className="flex items-center gap-2">
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label htmlFor="password" style={{ 
+                display: 'block',
+                fontSize: '0.9375rem',
+                fontWeight: '600',
+                color: 'var(--gray-700)',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>🔒</span>
                   <span>Password</span>
                 </span>
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`input pr-12 ${error ? 'input-error' : ''}`}
+                  className={`input ${error ? 'input-error' : ''}`}
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
+                  style={{ paddingRight: '3rem', fontSize: '1rem' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
+                  style={{
+                    position: 'absolute',
+                    right: '1rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--gray-500)',
+                    padding: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                   tabIndex="-1"
                 >
-                  {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
+                  {showPassword ? '👁️' : '👁️‍🗨️'}
                 </button>
               </div>
             </div>
 
             {/* Remember & Forgot Password */}
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500" />
-                <span className="text-slate-600 group-hover:text-slate-900">Remember me</span>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              fontSize: '0.875rem',
+              marginBottom: '1.5rem'
+            }}>
+              <label style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.5rem',
+                cursor: 'pointer'
+              }}>
+                <input type="checkbox" style={{ 
+                  width: '1rem', 
+                  height: '1rem',
+                  cursor: 'pointer'
+                }} />
+                <span style={{ color: 'var(--gray-600)' }}>Remember me</span>
               </label>
-              <a href="#" className="text-purple-600 hover:text-purple-700 font-semibold hover:underline">
+              <a href="#" style={{ 
+                color: 'var(--primary-600)', 
+                fontWeight: '600',
+                textDecoration: 'none'
+              }}>
                 Forgot password?
               </a>
             </div>
@@ -168,86 +272,184 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-primary w-full text-lg py-4 relative overflow-hidden group"
+              className="btn btn-primary btn-large"
+              style={{ width: '100%' }}
             >
               {loading ? (
-                <span className="flex items-center justify-center gap-3">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+                  <div className="spinner" style={{ width: '20px', height: '20px', borderWidth: '2px' }}></div>
                   <span>Signing In...</span>
                 </span>
               ) : (
-                <span className="flex items-center justify-center gap-2">
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
                   <span>🚀</span>
                   <span>Sign In</span>
                 </span>
               )}
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
             </button>
           </form>
 
           {/* Divider */}
-          <div className="divider my-8"></div>
+          <div className="divider"></div>
 
           {/* Register Link */}
-          <div className="text-center">
-            <p className="text-slate-600">
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <p style={{ color: 'var(--gray-600)' }}>
               Don't have an account?{' '}
-              <Link to="/register" className="text-purple-600 hover:text-purple-700 font-bold hover:underline">
+              <Link to="/register" style={{ 
+                color: 'var(--primary-600)', 
+                fontWeight: '700',
+                textDecoration: 'none'
+              }}>
                 Create one now →
               </Link>
             </p>
           </div>
 
           {/* Demo Credentials */}
-          <div className="mt-8 pt-6 border-t-2 border-slate-100">
-            <p className="text-sm font-semibold text-slate-700 mb-4 text-center flex items-center justify-center gap-2">
+          <div style={{ 
+            paddingTop: '1.5rem',
+            borderTop: '2px solid var(--gray-100)'
+          }}>
+            <p style={{ 
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              color: 'var(--gray-700)',
+              marginBottom: '1rem',
+              textAlign: 'center',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem'
+            }}>
               <span>🎭</span>
               <span>Try Demo Accounts</span>
             </p>
-            <div className="grid grid-cols-3 gap-3">
+            <div style={{ 
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '0.75rem'
+            }}>
               <button
                 type="button"
                 onClick={() => fillDemoCredentials('admin')}
-                className="group relative px-4 py-3 bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 border-2 border-purple-200 rounded-xl transition-all text-sm font-medium text-purple-700 hover:shadow-lg transform hover:-translate-y-0.5"
+                style={{
+                  padding: '1rem 0.5rem',
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.2))',
+                  border: '2px solid rgba(139, 92, 246, 0.3)',
+                  borderRadius: '1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontWeight: '600',
+                  fontSize: '0.875rem',
+                  color: '#7c3aed'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
               >
-                <span className="text-xl mb-1 block group-hover:scale-110 transition-transform">👑</span>
-                <span className="block text-xs">Admin</span>
+                <span style={{ display: 'block', fontSize: '1.5rem', marginBottom: '0.25rem' }}>👑</span>
+                <span style={{ display: 'block', fontSize: '0.75rem' }}>Admin</span>
               </button>
               <button
                 type="button"
                 onClick={() => fillDemoCredentials('instructor')}
-                className="group relative px-4 py-3 bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 border-2 border-blue-200 rounded-xl transition-all text-sm font-medium text-blue-700 hover:shadow-lg transform hover:-translate-y-0.5"
+                style={{
+                  padding: '1rem 0.5rem',
+                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.2))',
+                  border: '2px solid rgba(59, 130, 246, 0.3)',
+                  borderRadius: '1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontWeight: '600',
+                  fontSize: '0.875rem',
+                  color: '#2563eb'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
               >
-                <span className="text-xl mb-1 block group-hover:scale-110 transition-transform">👨‍🏫</span>
-                <span className="block text-xs">Teacher</span>
+                <span style={{ display: 'block', fontSize: '1.5rem', marginBottom: '0.25rem' }}>👨‍🏫</span>
+                <span style={{ display: 'block', fontSize: '0.75rem' }}>Teacher</span>
               </button>
               <button
                 type="button"
                 onClick={() => fillDemoCredentials('student')}
-                className="group relative px-4 py-3 bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 border-2 border-green-200 rounded-xl transition-all text-sm font-medium text-green-700 hover:shadow-lg transform hover:-translate-y-0.5"
+                style={{
+                  padding: '1rem 0.5rem',
+                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2))',
+                  border: '2px solid rgba(16, 185, 129, 0.3)',
+                  borderRadius: '1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontWeight: '600',
+                  fontSize: '0.875rem',
+                  color: '#059669'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
               >
-                <span className="text-xl mb-1 block group-hover:scale-110 transition-transform">🎓</span>
-                <span className="block text-xs">Student</span>
+                <span style={{ display: 'block', fontSize: '1.5rem', marginBottom: '0.25rem' }}>🎓</span>
+                <span style={{ display: 'block', fontSize: '0.75rem' }}>Student</span>
               </button>
             </div>
             
             {/* Demo Credentials Info */}
-            <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <p className="text-xs text-slate-600 font-medium mb-2">📝 Demo Credentials:</p>
-              <div className="space-y-1 text-xs text-slate-500">
-                <p><strong className="text-purple-600">Admin:</strong> admin@edunexus.com / Admin@123</p>
-                <p><strong className="text-blue-600">Instructor:</strong> instructor@edunexus.com / Instructor@123</p>
-                <p><strong className="text-green-600">Student:</strong> student1@edunexus.com / Student@123</p>
+            <div style={{ 
+              marginTop: '1rem',
+              padding: '1rem',
+              background: 'var(--gray-50)',
+              borderRadius: '1rem',
+              border: '1px solid var(--gray-200)'
+            }}>
+              <p style={{ 
+                fontSize: '0.75rem',
+                color: 'var(--gray-600)',
+                fontWeight: '600',
+                marginBottom: '0.5rem'
+              }}>📝 Demo Credentials:</p>
+              <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>
+                <p style={{ margin: '0.25rem 0' }}>
+                  <strong style={{ color: '#7c3aed' }}>Admin:</strong> admin@edunexus.com / Admin@123
+                </p>
+                <p style={{ margin: '0.25rem 0' }}>
+                  <strong style={{ color: '#2563eb' }}>Instructor:</strong> instructor@edunexus.com / Instructor@123
+                </p>
+                <p style={{ margin: '0.25rem 0' }}>
+                  <strong style={{ color: '#059669' }}>Student:</strong> student1@edunexus.com / Student@123
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-slate-500 flex items-center justify-center gap-2">
+        <p style={{ 
+          textAlign: 'center',
+          fontSize: '0.875rem',
+          color: 'rgba(255, 255, 255, 0.8)',
+          marginTop: '1.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.5rem'
+        }}>
           <span>🔐</span>
           <span>Protected by enterprise-grade security</span>
         </p>
