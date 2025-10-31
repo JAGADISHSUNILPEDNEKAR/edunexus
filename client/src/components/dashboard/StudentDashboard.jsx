@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { courseAPI, assignmentAPI } from '../../services/api'
 import { useAuth } from '../../hooks/useAuth'
 
-export const StudentDashboard = () => {
+const StudentDashboard = () => {
   const { user } = useAuth()
   const [enrolledCourses, setEnrolledCourses] = useState([])
   const [submissions, setSubmissions] = useState([])
@@ -164,3 +164,5 @@ export const StudentDashboard = () => {
     </div>
   )
 }
+
+export default StudentDashboard
