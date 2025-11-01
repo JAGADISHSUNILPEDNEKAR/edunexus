@@ -10,6 +10,7 @@ const Login = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState({})
 
   const { login, user } = useAuth()
   const navigate = useNavigate()
@@ -20,16 +21,49 @@ const Login = () => {
     return null
   }
 
+  const validateField = (name, value) => {
+    const errors = {}
+    if (name === 'email') {
+      if (!value) errors.email = 'Email is required'
+      else if (!/\S+@\S+\.\S+/.test(value)) errors.email = 'Email is invalid'
+    }
+    if (name === 'password') {
+      if (!value) errors.password = 'Password is required'
+      else if (value.length < 6) errors.password = 'Password must be at least 6 characters'
+    }
+    return errors
+  }
+
   const handleChange = (e) => {
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     })
     setError('')
+    
+    // Real-time validation
+    const errors = validateField(name, value)
+    setFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+      ...(Object.keys(errors).length === 0 && { [name]: undefined })
+    }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Validate all fields
+    const emailErrors = validateField('email', formData.email)
+    const passwordErrors = validateField('password', formData.password)
+    const allErrors = { ...emailErrors, ...passwordErrors }
+    
+    if (Object.keys(allErrors).length > 0) {
+      setFieldErrors(allErrors)
+      return
+    }
+
     setError('')
     setLoading(true)
 
@@ -49,15 +83,11 @@ const Login = () => {
     }
     setFormData(credentials[role])
     setError('')
+    setFieldErrors({})
   }
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      padding: '3rem 1rem',
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ 
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       position: 'relative',
       overflow: 'hidden'
@@ -101,12 +131,12 @@ const Login = () => {
       }} className="animate-fadeIn">
         {/* Card Container */}
         <div className="card-glass" style={{ 
-          padding: '3rem',
+          padding: 'clamp(2rem, 5vw, 3rem)',
           borderRadius: '2rem',
           boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
         }}>
           {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             {/* Logo */}
             <div style={{
               margin: '0 auto 1.5rem',
@@ -117,7 +147,7 @@ const Login = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
+              boxShadow: '0 20px 25px -5px rgba(0,0,0,0.2)',
               transform: 'rotate(-5deg)',
               transition: 'transform 0.3s ease'
             }} 
@@ -131,16 +161,16 @@ const Login = () => {
             </div>
             
             {/* Title */}
-            <h2 style={{ 
-              fontSize: '2.5rem', 
+            <h1 style={{ 
+              fontSize: 'clamp(2rem, 5vw, 2.5rem)', 
               fontWeight: '800', 
               marginBottom: '0.5rem'
             }}>
               <span className="gradient-text">Welcome Back</span>
-            </h2>
+            </h1>
             <p style={{ 
-              color: 'var(--gray-600)', 
-              fontSize: '1.125rem' 
+              color: 'var(--neutral-600)', 
+              fontSize: 'clamp(0.875rem, 2vw, 1.125rem)' 
             }}>Sign in to continue your learning journey</p>
           </div>
           
@@ -148,7 +178,7 @@ const Login = () => {
           {error && (
             <div className="alert alert-error animate-slideIn" style={{ marginBottom: '1.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ fontSize: '1.5rem' }}>⚠️</span>
+                <span style={{ fontSize: '1.5rem' }} role="img" aria-label="warning">⚠️</span>
                 <div>
                   <p style={{ fontWeight: '600', marginBottom: '0.25rem', color: 'var(--error)' }}>Error</p>
                   <p style={{ fontSize: '0.875rem', margin: 0, color: 'var(--error)' }}>{error}</p>
@@ -158,18 +188,18 @@ const Login = () => {
           )}
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
+          <div onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
             {/* Email Field */}
             <div style={{ marginBottom: '1.25rem' }}>
               <label htmlFor="email" style={{ 
                 display: 'block',
                 fontSize: '0.9375rem',
                 fontWeight: '600',
-                color: 'var(--gray-700)',
+                color: 'var(--neutral-700)',
                 marginBottom: '0.5rem'
               }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>📧</span>
+                  <span role="img" aria-label="email">📧</span>
                   <span>Email Address</span>
                 </span>
               </label>
@@ -179,12 +209,19 @@ const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`input ${error ? 'input-error' : ''}`}
+                className={`input ${fieldErrors.email ? 'error' : formData.email ? 'success' : ''}`}
                 placeholder="you@example.com"
                 required
                 autoComplete="email"
+                aria-invalid={fieldErrors.email ? 'true' : 'false'}
+                aria-describedby={fieldErrors.email ? 'email-error' : undefined}
                 style={{ fontSize: '1rem' }}
               />
+              {fieldErrors.email && (
+                <p id="email-error" style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <span>⚠️</span>{fieldErrors.email}
+                </p>
+              )}
             </div>
 
             {/* Password Field */}
@@ -193,11 +230,11 @@ const Login = () => {
                 display: 'block',
                 fontSize: '0.9375rem',
                 fontWeight: '600',
-                color: 'var(--gray-700)',
+                color: 'var(--neutral-700)',
                 marginBottom: '0.5rem'
               }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>🔒</span>
+                  <span role="img" aria-label="lock">🔒</span>
                   <span>Password</span>
                 </span>
               </label>
@@ -208,15 +245,18 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`input ${error ? 'input-error' : ''}`}
+                  className={`input ${fieldErrors.password ? 'error' : formData.password ? 'success' : ''}`}
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
+                  aria-invalid={fieldErrors.password ? 'true' : 'false'}
+                  aria-describedby={fieldErrors.password ? 'password-error' : undefined}
                   style={{ paddingRight: '3rem', fontSize: '1rem' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   style={{
                     position: 'absolute',
                     right: '1rem',
@@ -225,7 +265,7 @@ const Login = () => {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    color: 'var(--gray-500)',
+                    color: 'var(--neutral-500)',
                     padding: '0.5rem',
                     display: 'flex',
                     alignItems: 'center',
@@ -236,6 +276,11 @@ const Login = () => {
                   {showPassword ? '👁️' : '👁️‍🗨️'}
                 </button>
               </div>
+              {fieldErrors.password && (
+                <p id="password-error" style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <span>⚠️</span>{fieldErrors.password}
+                </p>
+              )}
             </div>
 
             {/* Remember & Forgot Password */}
@@ -257,9 +302,9 @@ const Login = () => {
                   height: '1rem',
                   cursor: 'pointer'
                 }} />
-                <span style={{ color: 'var(--gray-600)' }}>Remember me</span>
+                <span style={{ color: 'var(--neutral-600)' }}>Remember me</span>
               </label>
-              <a href="#" style={{ 
+              <a href="#forgot" style={{ 
                 color: 'var(--primary-600)', 
                 fontWeight: '600',
                 textDecoration: 'none'
@@ -270,31 +315,33 @@ const Login = () => {
 
             {/* Submit Button */}
             <button
-              type="submit"
+              type="button"
+              onClick={handleSubmit}
               disabled={loading}
               className="btn btn-primary btn-large"
               style={{ width: '100%' }}
+              aria-busy={loading}
             >
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
-                  <div className="spinner" style={{ width: '20px', height: '20px', borderWidth: '2px' }}></div>
+                  <div className="spinner-sm" style={{ borderWidth: '2px' }}></div>
                   <span>Signing In...</span>
                 </span>
               ) : (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                  <span>🚀</span>
+                  <span role="img" aria-label="rocket">🚀</span>
                   <span>Sign In</span>
                 </span>
               )}
             </button>
-          </form>
+          </div>
 
           {/* Divider */}
-          <div className="divider"></div>
+          <div className="divider" style={{ margin: '2rem 0' }}></div>
 
           {/* Register Link */}
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <p style={{ color: 'var(--gray-600)' }}>
+            <p style={{ color: 'var(--neutral-600)' }}>
               Don't have an account?{' '}
               <Link to="/register" style={{ 
                 color: 'var(--primary-600)', 
@@ -309,12 +356,12 @@ const Login = () => {
           {/* Demo Credentials */}
           <div style={{ 
             paddingTop: '1.5rem',
-            borderTop: '2px solid var(--gray-100)'
+            borderTop: '2px solid var(--neutral-100)'
           }}>
             <p style={{ 
               fontSize: '0.875rem',
               fontWeight: '600',
-              color: 'var(--gray-700)',
+              color: 'var(--neutral-700)',
               marginBottom: '1rem',
               textAlign: 'center',
               display: 'flex',
@@ -322,7 +369,7 @@ const Login = () => {
               justifyContent: 'center',
               gap: '0.5rem'
             }}>
-              <span>🎭</span>
+              <span role="img" aria-label="masks">🎭</span>
               <span>Try Demo Accounts</span>
             </p>
             <div style={{ 
@@ -330,101 +377,59 @@ const Login = () => {
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '0.75rem'
             }}>
-              <button
-                type="button"
-                onClick={() => fillDemoCredentials('admin')}
-                style={{
-                  padding: '1rem 0.5rem',
-                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.2))',
-                  border: '2px solid rgba(139, 92, 246, 0.3)',
-                  borderRadius: '1rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  fontWeight: '600',
-                  fontSize: '0.875rem',
-                  color: '#7c3aed'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                <span style={{ display: 'block', fontSize: '1.5rem', marginBottom: '0.25rem' }}>👑</span>
-                <span style={{ display: 'block', fontSize: '0.75rem' }}>Admin</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => fillDemoCredentials('instructor')}
-                style={{
-                  padding: '1rem 0.5rem',
-                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.2))',
-                  border: '2px solid rgba(59, 130, 246, 0.3)',
-                  borderRadius: '1rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  fontWeight: '600',
-                  fontSize: '0.875rem',
-                  color: '#2563eb'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                <span style={{ display: 'block', fontSize: '1.5rem', marginBottom: '0.25rem' }}>👨‍🏫</span>
-                <span style={{ display: 'block', fontSize: '0.75rem' }}>Teacher</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => fillDemoCredentials('student')}
-                style={{
-                  padding: '1rem 0.5rem',
-                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2))',
-                  border: '2px solid rgba(16, 185, 129, 0.3)',
-                  borderRadius: '1rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  fontWeight: '600',
-                  fontSize: '0.875rem',
-                  color: '#059669'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                <span style={{ display: 'block', fontSize: '1.5rem', marginBottom: '0.25rem' }}>🎓</span>
-                <span style={{ display: 'block', fontSize: '0.75rem' }}>Student</span>
-              </button>
+              {[
+                { role: 'admin', emoji: '👑', label: 'Admin', color: '#7c3aed' },
+                { role: 'instructor', emoji: '👨‍🏫', label: 'Teacher', color: '#2563eb' },
+                { role: 'student', emoji: '🎓', label: 'Student', color: '#059669' }
+              ].map(({ role, emoji, label, color }) => (
+                <button
+                  key={role}
+                  type="button"
+                  onClick={() => fillDemoCredentials(role)}
+                  aria-label={`Fill ${label} demo credentials`}
+                  style={{
+                    padding: '1rem 0.5rem',
+                    background: `${color}15`,
+                    border: `2px solid ${color}30`,
+                    borderRadius: '1rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    fontWeight: '600',
+                    fontSize: '0.875rem',
+                    color: color
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)'
+                    e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.3)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
+                >
+                  <span style={{ display: 'block', fontSize: '1.5rem', marginBottom: '0.25rem' }}>{emoji}</span>
+                  <span style={{ display: 'block', fontSize: '0.75rem' }}>{label}</span>
+                </button>
+              ))}
             </div>
             
             {/* Demo Credentials Info */}
             <div style={{ 
               marginTop: '1rem',
               padding: '1rem',
-              background: 'var(--gray-50)',
+              background: 'var(--neutral-50)',
               borderRadius: '1rem',
-              border: '1px solid var(--gray-200)'
+              border: '1px solid var(--neutral-200)'
             }}>
               <p style={{ 
                 fontSize: '0.75rem',
-                color: 'var(--gray-600)',
+                color: 'var(--neutral-600)',
                 fontWeight: '600',
                 marginBottom: '0.5rem'
-              }}>📝 Demo Credentials:</p>
-              <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>
+              }}>
+                <span role="img" aria-label="memo">📝</span> Demo Credentials:
+              </p>
+              <div style={{ fontSize: '0.75rem', color: 'var(--neutral-500)' }}>
                 <p style={{ margin: '0.25rem 0' }}>
                   <strong style={{ color: '#7c3aed' }}>Admin:</strong> admin@edunexus.com / Admin@123
                 </p>
@@ -443,14 +448,14 @@ const Login = () => {
         <p style={{ 
           textAlign: 'center',
           fontSize: '0.875rem',
-          color: 'rgba(255, 255, 255, 0.8)',
+          color: 'rgba(255, 255, 255, 0.9)',
           marginTop: '1.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '0.5rem'
         }}>
-          <span>🔐</span>
+          <span role="img" aria-label="shield">🔐</span>
           <span>Protected by enterprise-grade security</span>
         </p>
       </div>
