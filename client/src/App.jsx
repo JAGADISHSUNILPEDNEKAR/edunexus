@@ -20,7 +20,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen text-slate-50">
+        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
           <Navbar />
           <main>
             <Routes>
@@ -29,14 +29,14 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/courses" element={<CourseList />} />
-              
+
               {/* Protected routes - Student */}
               <Route path="/dashboard/student" element={
                 <ProtectedRoute allowedRoles={['student']}>
                   <StudentDashboard />
                 </ProtectedRoute>
               } />
-              
+
               {/* Protected routes - Instructor */}
               <Route path="/dashboard/instructor" element={
                 <ProtectedRoute allowedRoles={['instructor']}>
@@ -48,14 +48,14 @@ function App() {
                   <CreateCourse />
                 </ProtectedRoute>
               } />
-              
+
               {/* Protected routes - Admin */}
               <Route path="/dashboard/admin" element={
                 <ProtectedRoute allowedRoles={['admin']}>
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-              
+
               {/* Protected routes - All authenticated users */}
               <Route path="/courses/:id" element={
                 <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
@@ -67,7 +67,7 @@ function App() {
                   <ChatRoom />
                 </ProtectedRoute>
               } />
-              
+
               {/* Catch all - redirect to home */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
