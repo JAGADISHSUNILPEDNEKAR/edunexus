@@ -30,7 +30,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200 group-hover:scale-105 transition-transform duration-300">
+            <div className="w-10 h-10 rounded-xl bg-brand-primary flex items-center justify-center shadow-lg shadow-brand-primary/30 group-hover:scale-105 transition-transform duration-300">
               <span className="text-xl">🎓</span>
             </div>
             <div className="flex flex-col">
@@ -67,7 +67,7 @@ const Navbar = () => {
                 <ThemeToggle className="ml-2" />
 
                 <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-border-light">                  <div className="flex flex-col items-end">
-                  <Link to="/profile" className="text-sm font-semibold text-text-primary hover:text-indigo-600 transition-colors">
+                  <Link to="/profile" className="text-sm font-semibold text-text-primary hover:text-brand-primary transition-colors">
                     {user?.name}
                   </Link>
                   <span className={`badge badge-${user?.role === 'student' ? 'primary' : user?.role === 'instructor' ? 'secondary' : 'admin'} text-[10px] mt-0.5 capitalize`}>
@@ -164,7 +164,7 @@ const Navbar = () => {
                   <div className="flex items-center justify-between px-4 mb-3">
                     <Link
                       to="/profile"
-                      className="font-semibold text-text-primary hover:text-indigo-600 transition-colors"
+                      className="font-semibold text-text-primary hover:text-brand-primary transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {user?.name}
