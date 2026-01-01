@@ -32,8 +32,8 @@ const StudentDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center pt-20">
-        <div className="w-12 h-12 border-4 border-slate-200 border-t-indigo-600 rounded-full animate-spin"></div>
-        <p className="text-slate-500 mt-4 text-lg">Loading your dashboard...</p>
+        <div className="w-12 h-12 border-4 border-border-light border-t-indigo-600 rounded-full animate-spin"></div>
+        <p className="text-text-muted mt-4 text-lg">Loading your dashboard...</p>
       </div>
     )
   }
@@ -43,17 +43,17 @@ const StudentDashboard = () => {
   return (
     <div className="min-h-screen pb-20">
       {/* Header Section */}
-      <section className="bg-white border-b border-slate-200 py-12 mb-8">
+      <section className="bg-bg-primary border-b border-border-light py-12 mb-8">
         <div className="container-custom">
           <div className="flex items-center gap-6">
             <div className="w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center text-4xl shadow-sm text-indigo-600">
               🎓
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-text-primary mb-2">
                 Welcome back, {user?.name}!
               </h1>
-              <p className="text-slate-500 text-lg">
+              <p className="text-text-secondary text-lg">
                 Continue your learning journey
               </p>
             </div>
@@ -71,8 +71,8 @@ const StudentDashboard = () => {
               </div>
               <span className="badge badge-primary">Active</span>
             </div>
-            <div className="text-3xl font-bold text-slate-900 mb-1">{enrolledCourses.length}</div>
-            <div className="text-slate-500 text-sm font-medium">Enrolled Courses</div>
+            <div className="text-3xl font-bold text-text-primary mb-1">{enrolledCourses.length}</div>
+            <div className="text-text-muted text-sm font-medium">Enrolled Courses</div>
           </div>
 
           <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-emerald-500">
@@ -82,8 +82,8 @@ const StudentDashboard = () => {
               </div>
               <span className="badge badge-success">Completed</span>
             </div>
-            <div className="text-3xl font-bold text-slate-900 mb-1">{submissions.length}</div>
-            <div className="text-slate-500 text-sm font-medium">Assignments Done</div>
+            <div className="text-3xl font-bold text-text-primary mb-1">{submissions.length}</div>
+            <div className="text-text-muted text-sm font-medium">Assignments Done</div>
           </div>
 
           <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-purple-500">
@@ -93,8 +93,8 @@ const StudentDashboard = () => {
               </div>
               <span className="badge badge-secondary">Watch Time</span>
             </div>
-            <div className="text-3xl font-bold text-slate-900 mb-1">{totalLectures}</div>
-            <div className="text-slate-500 text-sm font-medium">Total Lectures</div>
+            <div className="text-3xl font-bold text-text-primary mb-1">{totalLectures}</div>
+            <div className="text-text-muted text-sm font-medium">Total Lectures</div>
           </div>
 
           <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-amber-500">
@@ -104,8 +104,8 @@ const StudentDashboard = () => {
               </div>
               <span className="badge badge-warning">Streak</span>
             </div>
-            <div className="text-3xl font-bold text-slate-900 mb-1">7</div>
-            <div className="text-slate-500 text-sm font-medium">Day Streak</div>
+            <div className="text-3xl font-bold text-text-primary mb-1">7</div>
+            <div className="text-text-muted text-sm font-medium">Day Streak</div>
           </div>
         </div>
 
@@ -113,8 +113,8 @@ const StudentDashboard = () => {
         <div className="mb-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-1">My Courses</h2>
-              <p className="text-slate-500">Continue where you left off</p>
+              <h2 className="text-2xl font-bold text-text-primary mb-1">My Courses</h2>
+              <p className="text-text-muted">Continue where you left off</p>
             </div>
             <Link to="/courses" className="btn btn-primary">
               Browse More Courses
@@ -122,12 +122,12 @@ const StudentDashboard = () => {
           </div>
 
           {enrolledCourses.length === 0 ? (
-            <div className="card flex flex-col items-center justify-center py-16 text-center border-dashed border-2 border-slate-200 bg-slate-50/50 shadow-none">
+            <div className="card flex flex-col items-center justify-center py-16 text-center border-dashed border-2 border-border-light bg-bg-secondary shadow-none">
               <div className="text-6xl mb-6 opacity-50 grayscale">📚</div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
+              <h3 className="text-xl font-bold text-text-primary mb-2">
                 Start Your Learning Journey
               </h3>
-              <p className="text-slate-500 mb-8 max-w-md">
+              <p className="text-text-secondary mb-8 max-w-md">
                 You haven't enrolled in any courses yet. Explore our catalog and find the perfect course for you!
               </p>
               <Link to="/courses" className="btn btn-primary btn-large">
@@ -143,7 +143,7 @@ const StudentDashboard = () => {
                   className="group"
                 >
                   <div className="card h-full flex flex-col p-0 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div className="h-48 relative overflow-hidden bg-slate-100">
+                    <div className="h-48 relative overflow-hidden bg-bg-tertiary">
                       {/* Generative placeholder pattern */}
                       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 group-hover:scale-105 transition-transform duration-500"></div>
                       <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
@@ -154,21 +154,21 @@ const StudentDashboard = () => {
                     </div>
 
                     <div className="p-5 flex-1 flex flex-col">
-                      <p className="text-slate-600 text-sm line-clamp-2 mb-4 flex-1">
+                      <p className="text-text-secondary text-sm line-clamp-2 mb-4 flex-1">
                         {course.description}
                       </p>
 
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">
+                        <div className="w-8 h-8 rounded-full bg-bg-tertiary flex items-center justify-center text-xs font-bold text-text-secondary">
                           {course.instructor?.name?.charAt(0) || 'I'}
                         </div>
-                        <div className="text-sm text-slate-600">
-                          <span className="font-medium text-slate-900">{course.instructor?.name}</span>
+                        <div className="text-sm text-text-muted">
+                          <span className="font-medium text-text-primary">{course.instructor?.name}</span>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                        <div className="flex items-center text-slate-500 text-xs font-medium gap-1.5">
+                      <div className="flex items-center justify-between pt-4 border-t border-border-light">
+                        <div className="flex items-center text-text-muted text-xs font-medium gap-1.5">
                           <span>📹</span>
                           <span>{course.lectures?.length || 0} lectures</span>
                         </div>
@@ -187,17 +187,17 @@ const StudentDashboard = () => {
         {/* Recent Submissions */}
         <div>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 mb-1">Recent Submissions</h2>
-            <p className="text-slate-500">Track your assignment progress</p>
+            <h2 className="text-2xl font-bold text-text-primary mb-1">Recent Submissions</h2>
+            <p className="text-text-muted">Track your assignment progress</p>
           </div>
 
           {submissions.length === 0 ? (
-            <div className="card p-12 text-center border-dashed border-slate-200 bg-slate-50/50 shadow-none">
+            <div className="card p-12 text-center border-dashed border-border-light bg-bg-secondary shadow-none">
               <div className="text-4xl mb-4 opacity-50 grayscale">📝</div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">
+              <h3 className="text-lg font-semibold text-text-primary mb-2">
                 No submissions yet
               </h3>
-              <p className="text-slate-500">
+              <p className="text-text-muted">
                 Start completing assignments to see your progress here
               </p>
             </div>
@@ -206,31 +206,31 @@ const StudentDashboard = () => {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-slate-50 border-b border-slate-200">
-                      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Assignment</th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Course</th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Date</th>
-                      <th className="px-6 py-4 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Score</th>
+                    <tr className="bg-bg-tertiary border-b border-border-light">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Assignment</th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Course</th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Date</th>
+                      <th className="px-6 py-4 text-right text-xs font-semibold text-text-muted uppercase tracking-wider">Score</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-border-light">
                     {submissions.slice(0, 5).map((submission) => (
                       <tr
                         key={submission._id}
-                        className="hover:bg-slate-50 transition-colors"
+                        className="hover:bg-bg-tertiary transition-colors"
                       >
                         <td className="px-6 py-4">
-                          <div className="font-medium text-slate-900">
+                          <div className="font-medium text-text-primary">
                             {submission.assignment?.title}
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-slate-500">
+                          <div className="text-sm text-text-muted">
                             {submission.assignment?.course?.title}
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-slate-500">
+                          <div className="text-sm text-text-muted">
                             {new Date(submission.submittedAt).toLocaleDateString()}
                           </div>
                         </td>

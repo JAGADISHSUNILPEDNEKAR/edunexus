@@ -37,8 +37,8 @@ const CourseList = () => {
   if (loading && courses.length === 0) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center pt-20">
-        <div className="w-16 h-16 border-4 border-slate-200 border-t-indigo-600 rounded-full animate-spin"></div>
-        <p className="text-slate-500 mt-4 text-lg">Loading courses...</p>
+        <div className="w-16 h-16 border-4 border-border-light border-t-indigo-600 rounded-full animate-spin"></div>
+        <p className="text-text-muted mt-4 text-lg">Loading courses...</p>
       </div>
     )
   }
@@ -46,13 +46,13 @@ const CourseList = () => {
   return (
     <div className="min-h-screen pb-20">
       {/* Header */}
-      <section className="bg-white border-b border-slate-200 py-16">
+      <section className="bg-bg-primary border-b border-border-light py-16">
         <div className="container-custom text-center">
           <div className="max-w-3xl mx-auto mb-10">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
               Explore Our <span className="text-indigo-600">Courses</span>
             </h1>
-            <p className="text-xl text-slate-500">
+            <p className="text-xl text-text-secondary">
               Discover thousands of courses taught by expert instructors and advance your career today.
             </p>
           </div>
@@ -61,7 +61,7 @@ const CourseList = () => {
           <div className="max-w-2xl mx-auto">
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg className="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-6 w-6 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
@@ -70,7 +70,7 @@ const CourseList = () => {
                 placeholder="Search for courses, skills, or topics..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-12 pr-4 py-4 bg-white text-slate-900 placeholder-slate-400 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
+                className="block w-full pl-12 pr-4 py-4 bg-bg-primary text-text-primary placeholder-text-muted border border-border-light rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
               />
             </div>
           </div>
@@ -85,7 +85,7 @@ const CourseList = () => {
               <span className="text-xl">⚠️</span>
               <p><strong>Error:</strong> {error}</p>
             </div>
-            <button onClick={fetchCourses} className="btn btn-secondary text-sm bg-white text-red-700 border-red-200 hover:bg-red-50">
+            <button onClick={fetchCourses} className="btn btn-secondary text-sm bg-bg-primary text-rose-700 border-rose-200 hover:bg-rose-50">
               Try Again
             </button>
           </div>
@@ -93,12 +93,12 @@ const CourseList = () => {
 
         {/* Empty State */}
         {!loading && filteredCourses.length === 0 && (
-          <div className="text-center py-20 bg-slate-50 rounded-3xl border-dashed border-2 border-slate-200">
+          <div className="text-center py-20 bg-bg-secondary rounded-3xl border-dashed border-2 border-border-light">
             <div className="text-6xl mb-6 opacity-50 grayscale">🔍</div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">
+            <h3 className="text-2xl font-bold text-text-primary mb-2">
               No courses found
             </h3>
-            <p className="text-slate-500">
+            <p className="text-text-secondary">
               {searchTerm ? `No results found for "${searchTerm}"` : 'Check back later for new courses!'}
             </p>
           </div>
@@ -112,12 +112,12 @@ const CourseList = () => {
               to={`/courses/${course._id}`}
               className="group"
             >
-              <div className="card h-full p-0 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col border border-slate-100">
-                <div className="h-56 relative overflow-hidden bg-slate-100">
+              <div className="card h-full p-0 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col border border-border-light">
+                <div className="h-56 relative overflow-hidden bg-bg-tertiary">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 group-hover:scale-105 transition-transform duration-500"></div>
                   {/* Decorative Elements */}
                   <div className="absolute top-4 right-4 z-10">
-                    <span className="badge badge-success bg-white/90 backdrop-blur text-emerald-700 shadow-sm">
+                    <span className="badge badge-success bg-bg-primary/90 backdrop-blur text-emerald-700 shadow-sm">
                       New
                     </span>
                   </div>
@@ -131,29 +131,29 @@ const CourseList = () => {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="badge badge-primary">Course</span>
-                    <span className="text-xs text-slate-300">•</span>
-                    <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Development</span>
+                    <span className="text-xs text-text-muted">•</span>
+                    <span className="text-xs text-text-muted font-medium uppercase tracking-wider">Development</span>
                   </div>
 
-                  <p className="text-slate-600 text-sm line-clamp-3 mb-6 flex-1 leading-relaxed">
+                  <p className="text-text-secondary text-sm line-clamp-3 mb-6 flex-1 leading-relaxed">
                     {course.description}
                   </p>
 
-                  <div className="flex items-center gap-3 mb-4 pt-4 border-t border-slate-100">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-sm">
+                  <div className="flex items-center gap-3 mb-4 pt-4 border-t border-border-light">
+                    <div className="w-10 h-10 rounded-full bg-bg-tertiary flex items-center justify-center text-text-secondary font-bold text-sm">
                       {course.instructor?.name?.charAt(0) || 'I'}
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-slate-900">
+                      <div className="text-sm font-semibold text-text-primary">
                         {course.instructor?.name || 'Unknown'}
                       </div>
-                      <div className="text-xs text-slate-500">
+                      <div className="text-xs text-text-muted">
                         Instructor
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs font-medium text-slate-500 bg-slate-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between text-xs font-medium text-text-secondary bg-bg-secondary rounded-lg p-3">
                     <span className="flex items-center gap-1.5">
                       <span>📚</span> {course.lectures?.length || 0} lectures
                     </span>

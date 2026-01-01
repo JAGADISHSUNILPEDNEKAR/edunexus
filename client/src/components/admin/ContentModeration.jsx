@@ -40,35 +40,35 @@ const ContentModeration = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="spinner"></div>
+        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
 
   return (
     <div>
-      <h3 className="text-xl font-semibold mb-4">Course Moderation</h3>
+      <h3 className="text-xl font-semibold mb-4 text-text-primary">Course Moderation</h3>
 
       <div className="card overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-gray-200">
-              <th className="text-left py-3 px-4">Course Title</th>
-              <th className="text-left py-3 px-4">Instructor</th>
-              <th className="text-left py-3 px-4">Lectures</th>
-              <th className="text-left py-3 px-4">Students</th>
-              <th className="text-left py-3 px-4">Created</th>
-              <th className="text-right py-3 px-4">Actions</th>
+            <tr className="border-b border-border-light bg-bg-tertiary">
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Course Title</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Instructor</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Lectures</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Students</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Created</th>
+              <th className="text-right py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody>
             {courses.map((course) => (
-              <tr key={course._id} className="border-b border-gray-100">
-                <td className="py-3 px-4 font-medium">{course.title}</td>
-                <td className="py-3 px-4">{course.instructor?.name}</td>
-                <td className="py-3 px-4">{course.lectures?.length || 0}</td>
-                <td className="py-3 px-4">{course.enrolledStudents?.length || 0}</td>
-                <td className="py-3 px-4 text-sm text-gray-600">
+              <tr key={course._id} className="border-b border-border-light hover:bg-bg-secondary transition-colors">
+                <td className="py-3 px-4 font-medium text-text-primary">{course.title}</td>
+                <td className="py-3 px-4 text-text-secondary">{course.instructor?.name}</td>
+                <td className="py-3 px-4 text-text-secondary">{course.lectures?.length || 0}</td>
+                <td className="py-3 px-4 text-text-secondary">{course.enrolledStudents?.length || 0}</td>
+                <td className="py-3 px-4 text-sm text-text-secondary">
                   {new Date(course.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-3 px-4 text-right">
@@ -77,13 +77,13 @@ const ContentModeration = () => {
                       href={`/courses/${course._id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-primary-600 hover:underline"
+                      className="text-sm text-indigo-600 hover:underline"
                     >
                       View
                     </a>
                     <button
                       onClick={() => handleDeleteCourse(course._id)}
-                      className="text-sm text-red-600 hover:underline"
+                      className="text-sm text-rose-600 hover:underline"
                     >
                       Delete
                     </button>
@@ -95,7 +95,7 @@ const ContentModeration = () => {
         </table>
 
         {courses.length === 0 && (
-          <p className="text-center text-gray-600 py-8">No courses found.</p>
+          <p className="text-center text-text-muted py-8">No courses found.</p>
         )}
       </div>
     </div>

@@ -41,14 +41,14 @@ const CourseDetail = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="spinner"></div>
+        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+      <div className="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded">
         {error}
       </div>
     )
@@ -65,9 +65,9 @@ const CourseDetail = () => {
       <div className="card mb-6">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2">{course.title}</h1>
-            <p className="text-gray-600 mb-4">{course.description}</p>
-            <div className="flex items-center space-x-4 text-sm text-gray-500">
+            <h1 className="text-3xl font-bold mb-2 text-text-primary">{course.title}</h1>
+            <p className="text-text-secondary mb-4">{course.description}</p>
+            <div className="flex items-center space-x-4 text-sm text-text-muted">
               <span>👨‍🏫 {course.instructor.name}</span>
               <span>📚 {course.lectures.length} lectures</span>
               <span>👥 {course.enrolledStudents.length} students</span>
@@ -96,25 +96,23 @@ const CourseDetail = () => {
 
       {/* Tabs */}
       <div className="card">
-        <div className="border-b border-gray-200 mb-4">
+        <div className="border-b border-border-light mb-4">
           <nav className="flex space-x-4">
             <button
               onClick={() => setActiveTab('lectures')}
-              className={`pb-2 px-1 ${
-                activeTab === 'lectures'
-                  ? 'border-b-2 border-primary-600 text-primary-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`pb-2 px-1 ${activeTab === 'lectures'
+                  ? 'border-b-2 border-indigo-600 text-indigo-600'
+                  : 'text-text-muted hover:text-text-primary'
+                }`}
             >
               Lectures
             </button>
             <button
               onClick={() => setActiveTab('assignments')}
-              className={`pb-2 px-1 ${
-                activeTab === 'assignments'
-                  ? 'border-b-2 border-primary-600 text-primary-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`pb-2 px-1 ${activeTab === 'assignments'
+                  ? 'border-b-2 border-indigo-600 text-indigo-600'
+                  : 'text-text-muted hover:text-text-primary'
+                }`}
             >
               Assignments ({assignments.length})
             </button>
@@ -125,22 +123,22 @@ const CourseDetail = () => {
         {activeTab === 'lectures' && (
           <div className="space-y-3">
             {course.lectures.length === 0 ? (
-              <p className="text-gray-600 text-center py-8">
+              <p className="text-text-muted text-center py-8">
                 No lectures available yet.
               </p>
             ) : (
               course.lectures.map((lecture, index) => (
                 <div
                   key={lecture._id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                  className="flex items-center justify-between p-4 bg-bg-secondary rounded-lg hover:bg-bg-tertiary transition"
                 >
                   <div className="flex items-center space-x-4">
-                    <span className="text-gray-400 font-medium">
+                    <span className="text-text-muted font-medium">
                       {index + 1}
                     </span>
                     <div>
-                      <h4 className="font-medium">{lecture.title}</h4>
-                      <p className="text-sm text-gray-500">
+                      <h4 className="font-medium text-text-primary">{lecture.title}</h4>
+                      <p className="text-sm text-text-secondary">
                         Duration: {Math.floor(lecture.duration / 60)} min
                       </p>
                     </div>

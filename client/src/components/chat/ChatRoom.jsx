@@ -13,7 +13,7 @@ const ChatRoom = () => {
   const { id: courseId } = useParams()
   const { user } = useAuth()
   const navigate = useNavigate()
-  
+
   const [course, setCourse] = useState(null)
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
@@ -21,7 +21,7 @@ const ChatRoom = () => {
   const [socket, setSocket] = useState(null)
   const [isTyping, setIsTyping] = useState(false)
   const [typingUsers, setTypingUsers] = useState(new Set())
-  
+
   const messagesEndRef = useRef(null)
   const typingTimeoutRef = useRef(null)
 
@@ -60,7 +60,7 @@ const ChatRoom = () => {
 
   const initializeSocket = () => {
     const token = localStorage.getItem('token')
-    
+
     const newSocket = io(SOCKET_URL, {
       auth: { token }
     })
@@ -128,7 +128,7 @@ const ChatRoom = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault()
-    
+
     if (!newMessage.trim() || !socket) return
 
     const messageText = newMessage.trim()
@@ -137,7 +137,7 @@ const ChatRoom = () => {
     try {
       // Send via REST API for persistence
       await chatAPI.sendMessage(courseId, { content: messageText })
-      
+
       // Broadcast via Socket.io
       socket.emit('send-message', {
         courseId,
@@ -157,7 +157,7 @@ const ChatRoom = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="spinner"></div>
+        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -168,8 +168,8 @@ const ChatRoom = () => {
       <div className="card mb-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">{course?.title}</h1>
-            <p className="text-gray-600 text-sm">Course Discussion</p>
+            <h1 className="text-2xl font-bold text-text-primary">{course?.title}</h1>
+            <p className="text-text-muted text-sm">Course Discussion</p>
           </div>
           <button
             onClick={() => navigate(`/courses/${courseId}`)}
@@ -186,50 +186,49 @@ const ChatRoom = () => {
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => {
             const isOwnMessage = message.sender._id === user?.id
-            
+
             return (
               <div
                 key={message._id}
                 className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                    isOwnMessage
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-200 text-gray-900'
-                  }`}
+                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${isOwnMessage
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-bg-tertiary text-text-primary'
+                    }`}
                 >
                   <div className="flex items-center space-x-2 mb-1">
                     <span className="font-semibold text-sm">
                       {isOwnMessage ? 'You' : message.sender.name}
                     </span>
-                    <span className={`text-xs ${isOwnMessage ? 'text-primary-200' : 'text-gray-500'}`}>
+                    <span className={`text-xs ${isOwnMessage ? 'text-indigo-200' : 'text-text-muted'}`}>
                       {message.sender.role}
                     </span>
                   </div>
                   <p className="break-words">{message.content}</p>
-                  <p className={`text-xs mt-1 ${isOwnMessage ? 'text-primary-200' : 'text-gray-500'}`}>
+                  <p className={`text-xs mt-1 ${isOwnMessage ? 'text-indigo-200' : 'text-text-muted'}`}>
                     {new Date(message.createdAt).toLocaleTimeString()}
                   </p>
                 </div>
               </div>
             )
           })}
-          
+
           {/* Typing Indicator */}
           {typingUsers.size > 0 && (
             <div className="flex justify-start">
-              <div className="bg-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm">
+              <div className="bg-bg-tertiary text-text-muted px-4 py-2 rounded-lg text-sm">
                 Someone is typing...
               </div>
             </div>
           )}
-          
+
           <div ref={messagesEndRef} />
         </div>
 
         {/* Input Form */}
-        <div className="border-t border-gray-200 p-4">
+        <div className="border-t border-border-light p-4">
           <form onSubmit={handleSendMessage} className="flex space-x-2">
             <input
               type="text"
