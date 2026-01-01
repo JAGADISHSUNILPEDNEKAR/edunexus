@@ -156,3 +156,43 @@ exports.getMe = async (req, res) => {
     });
   }
 };
+
+// @desc    Update user details
+// @route   PUT /api/auth/updatedetails
+// @access  Private
+exports.updateDetails = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+
+    // Find user by ID
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Update fields
+    if (name) user.name = name;
+    if (email) user.email = email;
+
+    await user.save();
+
+    logger.success(`User updated details: ${user.email}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: user.toPublicJSON()
+    });
+  } catch (error) {
+    logger.error('Update details error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating profile',
+      error: error.message
+    });
+  }
+};

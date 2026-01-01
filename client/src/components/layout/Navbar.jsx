@@ -67,9 +67,9 @@ const Navbar = () => {
                 <ThemeToggle className="ml-2" />
 
                 <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-border-light">                  <div className="flex flex-col items-end">
-                  <span className="text-sm font-semibold text-text-primary">
+                  <Link to="/profile" className="text-sm font-semibold text-text-primary hover:text-indigo-600 transition-colors">
                     {user?.name}
-                  </span>
+                  </Link>
                   <span className={`badge badge-${user?.role === 'student' ? 'primary' : user?.role === 'instructor' ? 'secondary' : 'admin'} text-[10px] mt-0.5 capitalize`}>
                     {user?.role}
                   </span>
@@ -162,9 +162,13 @@ const Navbar = () => {
 
                 <div className="border-t border-border-light pt-4 mt-2">
                   <div className="flex items-center justify-between px-4 mb-3">
-                    <span className="font-semibold text-text-primary">
+                    <Link
+                      to="/profile"
+                      className="font-semibold text-text-primary hover:text-indigo-600 transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
                       {user?.name}
-                    </span>
+                    </Link>
                     <span className={`badge badge-${user?.role === 'student' ? 'primary' : user?.role === 'instructor' ? 'secondary' : 'admin'} capitalize`}>
                       {user?.role}
                     </span>
