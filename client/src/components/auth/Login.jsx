@@ -52,19 +52,19 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex bg-white">
+    <div className="min-h-screen flex bg-bg-primary transition-colors duration-200">
       {/* Left Side - Form */}
-      <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 z-10 bg-white">
+      <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 z-10 bg-bg-primary">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div className="mb-10">
             {/* Logo placeholder - replace with actual logo if available */}
             <div className="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl mb-6 shadow-indigo-200 shadow-lg">
               E
             </div>
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+            <h2 className="text-3xl font-bold tracking-tight text-text-primary">
               Welcome back
             </h2>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-text-secondary">
               Please enter your details to sign in.
             </p>
           </div>
@@ -80,7 +80,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-1">
                 Email address
               </label>
               <input
@@ -97,7 +97,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-text-secondary mb-1">
                 Password
               </label>
               <div className="relative">
@@ -115,7 +115,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-text-muted hover:text-text-primary"
                 >
                   {showPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -138,9 +138,9 @@ const Login = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-border-light text-indigo-600 focus:ring-indigo-500"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-700">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-text-secondary">
                   Remember me
                 </label>
               </div>
@@ -176,10 +176,10 @@ const Login = () => {
           <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
+                <div className="w-full border-t border-border-light" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="bg-white px-2 text-slate-500">Or continue with demo accounts</span>
+                <span className="bg-bg-primary px-2 text-text-muted">Or continue with demo accounts</span>
               </div>
             </div>
 
@@ -214,7 +214,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="mt-8 text-center text-sm text-slate-600">
+          <div className="mt-8 text-center text-sm text-text-secondary">
             Don't have an account?{' '}
             <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
               Create an account

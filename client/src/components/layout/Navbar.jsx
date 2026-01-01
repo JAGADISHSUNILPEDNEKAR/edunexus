@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { useState } from 'react'
+import ThemeToggle from '../common/ThemeToggle'
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth()
@@ -24,7 +25,7 @@ const Navbar = () => {
     `nav-link ${isActive(path) ? 'active' : ''}`
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
+    <nav className="sticky top-0 z-50 bg-bg-primary/80 dark:bg-bg-secondary/80 backdrop-blur-md border-b border-border-light dark:border-border-light transition-all duration-300">
       <div className="container-custom">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -33,10 +34,10 @@ const Navbar = () => {
               <span className="text-xl">🎓</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-slate-900 leading-tight">
+              <span className="text-xl font-bold text-text-primary leading-tight">
                 Edunexus
               </span>
-              <span className="text-[10px] text-slate-500 font-medium tracking-wider uppercase">
+              <span className="text-[10px] text-text-muted font-medium tracking-wider uppercase">
                 Learn & Grow
               </span>
             </div>
@@ -60,15 +61,19 @@ const Navbar = () => {
                   </Link>
                 )}
 
-                <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-slate-200">
-                  <div className="flex flex-col items-end">
-                    <span className="text-sm font-semibold text-slate-700">
-                      {user?.name}
-                    </span>
-                    <span className={`badge badge-${user?.role === 'student' ? 'primary' : user?.role === 'instructor' ? 'secondary' : 'admin'} text-[10px] mt-0.5 capitalize`}>
-                      {user?.role}
-                    </span>
-                  </div>
+
+
+                {/* Theme Toggle in Desktop */}
+                <ThemeToggle className="ml-2" />
+
+                <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-border-light">                  <div className="flex flex-col items-end">
+                  <span className="text-sm font-semibold text-text-primary">
+                    {user?.name}
+                  </span>
+                  <span className={`badge badge-${user?.role === 'student' ? 'primary' : user?.role === 'instructor' ? 'secondary' : 'admin'} text-[10px] mt-0.5 capitalize`}>
+                    {user?.role}
+                  </span>
+                </div>
                   <button
                     onClick={handleLogout}
                     className="btn btn-secondary py-2 px-4 text-sm"
@@ -79,6 +84,7 @@ const Navbar = () => {
               </>
             ) : (
               <div className="flex items-center space-x-3 ml-4">
+                <ThemeToggle />
                 <Link to="/login" className="btn btn-ghost py-2 px-4">
                   Login
                 </Link>
@@ -92,7 +98,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-bg-tertiary text-text-secondary transition-colors"
           >
             <svg
               className="w-6 h-6"
@@ -120,11 +126,15 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-96 opacity-100 mb-4' : 'max-h-0 opacity-0'}`}>
-          <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-2 shadow-lg">
+        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-[30rem] opacity-100 mb-4' : 'max-h-0 opacity-0'}`}>
+          <div className="bg-bg-primary rounded-xl border border-border-light p-4 space-y-2 shadow-lg dark:bg-bg-secondary dark:border-border-medium">
+            <div className="flex items-center justify-between px-4 mb-2">
+              <span className="text-sm font-medium text-text-secondary">Theme</span>
+              <ThemeToggle />
+            </div>
             <Link
               to="/courses"
-              className="block px-4 py-3 rounded-lg hover:bg-slate-50 text-slate-600 font-medium transition-colors"
+              className="block px-4 py-3 rounded-lg hover:bg-bg-tertiary text-text-secondary font-medium transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               📚 Courses
@@ -134,7 +144,7 @@ const Navbar = () => {
               <>
                 <Link
                   to={getDashboardLink()}
-                  className="block px-4 py-3 rounded-lg hover:bg-slate-50 text-slate-600 font-medium transition-colors"
+                  className="block px-4 py-3 rounded-lg hover:bg-bg-tertiary text-text-secondary font-medium transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   🎯 Dashboard
@@ -143,16 +153,16 @@ const Navbar = () => {
                 {user?.role === 'instructor' && (
                   <Link
                     to="/courses/create"
-                    className="block px-4 py-3 rounded-lg hover:bg-slate-50 text-slate-600 font-medium transition-colors"
+                    className="block px-4 py-3 rounded-lg hover:bg-bg-tertiary text-text-secondary font-medium transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     ➕ Create Course
                   </Link>
                 )}
 
-                <div className="border-t border-slate-100 pt-4 mt-2">
+                <div className="border-t border-border-light pt-4 mt-2">
                   <div className="flex items-center justify-between px-4 mb-3">
-                    <span className="font-semibold text-slate-700">
+                    <span className="font-semibold text-text-primary">
                       {user?.name}
                     </span>
                     <span className={`badge badge-${user?.role === 'student' ? 'primary' : user?.role === 'instructor' ? 'secondary' : 'admin'} capitalize`}>

@@ -24,7 +24,7 @@ const EnrollButton = ({ courseId, onEnroll }) => {
   return (
     <div>
       {error && (
-        <div className="text-red-600 text-sm mb-2">{error}</div>
+        <div className="text-rose-600 text-sm mb-2">{error}</div>
       )}
       <button
         onClick={handleEnroll}

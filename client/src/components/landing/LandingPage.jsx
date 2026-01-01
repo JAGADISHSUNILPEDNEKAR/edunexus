@@ -41,7 +41,7 @@ const LandingPage = () => {
   ]
 
   return (
-    <div className="overflow-hidden bg-white">
+    <div className="overflow-hidden bg-bg-primary transition-colors duration-200">
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 overflow-hidden">
         {/* Background Elements */}
@@ -52,14 +52,14 @@ const LandingPage = () => {
 
         <div className="container-custom relative z-10 text-center">
           <div className="max-w-4xl mx-auto space-y-8">
-            <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-text-primary tracking-tight leading-tight">
               Transform Your Future with <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
                 EduNexus
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
               Join thousands of students learning from world-class instructors in our interactive online platform.
             </p>
 
@@ -99,13 +99,13 @@ const LandingPage = () => {
               ].map((stat, index) => (
                 <div
                   key={index}
-                  className="p-6 rounded-2xl bg-white border border-slate-100 shadow-lg shadow-slate-200/50 hover:-translate-y-1 transition-transform duration-300"
+                  className="p-6 rounded-2xl bg-bg-primary border border-border-light shadow-lg shadow-indigo-100/20 hover:-translate-y-1 transition-transform duration-300"
                 >
                   <div className="text-3xl mb-3 inline-block">{stat.icon}</div>
-                  <div className="text-3xl font-bold text-slate-900 mb-1">
+                  <div className="text-3xl font-bold text-text-primary mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
+                  <div className="text-sm font-semibold text-text-muted uppercase tracking-wider">
                     {stat.label}
                   </div>
                 </div>
@@ -116,11 +116,11 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-24 bg-bg-secondary">
         <div className="container-custom">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">Why Choose EduNexus?</h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-bold text-text-primary mb-6">Why Choose EduNexus?</h2>
+            <p className="text-text-secondary text-lg max-w-2xl mx-auto">
               Everything you need to succeed in your learning journey, built for modern students.
             </p>
           </div>
@@ -129,13 +129,13 @@ const LandingPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100"
+                className="bg-bg-primary rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border-light"
               >
                 <div className={`w-14 h-14 mb-6 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-3xl text-white shadow-lg shadow-indigo-100`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-600 leading-relaxed">
+                <h3 className="text-xl font-bold text-text-primary mb-3">{feature.title}</h3>
+                <p className="text-text-secondary leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -145,14 +145,14 @@ const LandingPage = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-24 bg-white overflow-hidden">
+      <section className="py-24 bg-bg-primary overflow-hidden">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row items-center gap-16">
             <div className="flex-1 space-y-8">
-              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
+              <h2 className="text-3xl md:text-5xl font-bold text-text-primary leading-tight">
                 Unlock Your Potential with <span className="text-indigo-600">Premium Benefits</span>
               </h2>
-              <p className="text-slate-600 text-lg">
+              <p className="text-text-secondary text-lg">
                 We provide the tools and resources you need to master new skills and advance your career.
               </p>
 
@@ -160,12 +160,12 @@ const LandingPage = () => {
                 {benefits.map((benefit, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-bg-secondary border border-border-light"
                   >
                     <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center text-xl text-indigo-600">
                       {benefit.icon}
                     </div>
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-text-primary">
                       {benefit.text}
                     </span>
                   </div>
@@ -175,18 +175,18 @@ const LandingPage = () => {
 
             <div className="flex-1 relative">
               <div className="absolute inset-0 bg-indigo-50 blur-3xl rounded-full opacity-60"></div>
-              <div className="relative bg-white rounded-3xl p-8 border border-slate-100 shadow-2xl shadow-indigo-100/50 skew-y-3 hover:skew-y-0 transition-transform duration-500">
+              <div className="relative bg-bg-primary rounded-3xl p-8 border border-border-light shadow-2xl shadow-indigo-100/50 skew-y-3 hover:skew-y-0 transition-transform duration-500">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-slate-200"></div>
+                  <div className="w-12 h-12 rounded-full bg-bg-tertiary"></div>
                   <div>
-                    <div className="h-4 w-32 bg-slate-200 rounded mb-2"></div>
-                    <div className="h-3 w-24 bg-slate-100 rounded"></div>
+                    <div className="h-4 w-32 bg-bg-tertiary rounded mb-2"></div>
+                    <div className="h-3 w-24 bg-bg-secondary rounded"></div>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="h-32 bg-slate-100 rounded-xl"></div>
-                  <div className="h-4 w-full bg-slate-100 rounded"></div>
-                  <div className="h-4 w-3/4 bg-slate-100 rounded"></div>
+                  <div className="h-32 bg-bg-secondary rounded-xl"></div>
+                  <div className="h-4 w-full bg-bg-secondary rounded"></div>
+                  <div className="h-4 w-3/4 bg-bg-secondary rounded"></div>
                 </div>
               </div>
             </div>
@@ -195,11 +195,11 @@ const LandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-24 bg-bg-secondary">
         <div className="container-custom">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">What Students Say</h2>
-            <p className="text-slate-600 text-lg">
+            <h2 className="text-3xl md:text-5xl font-bold text-text-primary mb-6">What Students Say</h2>
+            <p className="text-text-secondary text-lg">
               Join thousands of satisfied learners worldwide
             </p>
           </div>
@@ -230,14 +230,14 @@ const LandingPage = () => {
             ].map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow border border-slate-100"
+                className="bg-bg-primary rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow border border-border-light"
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-2xl border border-slate-200">
+                  <div className="w-12 h-12 rounded-full bg-bg-tertiary flex items-center justify-center text-2xl border border-border-light">
                     {testimonial.image}
                   </div>
                   <div>
-                    <div className="font-bold text-slate-900 text-lg">
+                    <div className="font-bold text-text-primary text-lg">
                       {testimonial.name}
                     </div>
                     <div className="text-indigo-600 text-sm font-medium">
@@ -245,7 +245,7 @@ const LandingPage = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-slate-600 italic mb-6 leading-relaxed">
+                <p className="text-text-secondary italic mb-6 leading-relaxed">
                   "{testimonial.text}"
                 </p>
                 <div className="flex gap-1">
@@ -260,37 +260,37 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 pt-16 pb-8">
+      <footer className="bg-bg-primary border-t border-border-light pt-16 pb-8">
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
-              <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-bold text-text-primary mb-4 flex items-center gap-2">
                 <span>🎓</span> Edunexus
               </h3>
-              <p className="text-slate-500 leading-relaxed">
+              <p className="text-text-secondary leading-relaxed">
                 Transform your future with quality education from world-class instructors.
               </p>
             </div>
 
             <div>
-              <h4 className="text-slate-900 font-bold mb-4 text-lg">Learn</h4>
-              <ul className="space-y-3 text-slate-500">
+              <h4 className="text-text-primary font-bold mb-4 text-lg">Learn</h4>
+              <ul className="space-y-3 text-text-secondary">
                 <li><Link to="/courses" className="hover:text-indigo-600 transition-colors">Browse Courses</Link></li>
                 <li><Link to="/paths" className="hover:text-indigo-600 transition-colors">Learning Paths</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-slate-900 font-bold mb-4 text-lg">Community</h4>
-              <ul className="space-y-3 text-slate-500">
+              <h4 className="text-text-primary font-bold mb-4 text-lg">Community</h4>
+              <ul className="space-y-3 text-text-secondary">
                 <li><Link to="/register" className="hover:text-indigo-600 transition-colors">Join for Free</Link></li>
                 <li><Link to="/mentors" className="hover:text-indigo-600 transition-colors">Find Mentors</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-slate-900 font-bold mb-4 text-lg">Contact</h4>
-              <ul className="space-y-3 text-slate-500">
+              <h4 className="text-text-primary font-bold mb-4 text-lg">Contact</h4>
+              <ul className="space-y-3 text-text-secondary">
                 <li className="flex items-center gap-2">
                   <span>📧</span> support@edunexus.com
                 </li>
@@ -298,7 +298,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="border-t border-slate-100 pt-8 text-center text-slate-400 text-sm">
+          <div className="border-t border-border-light pt-8 text-center text-text-muted text-sm">
             <p>© 2025 EduNexus. All rights reserved. Built with ❤️ for learners worldwide.</p>
           </div>
         </div>

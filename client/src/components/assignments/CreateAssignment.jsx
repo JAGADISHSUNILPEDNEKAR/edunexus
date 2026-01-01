@@ -46,12 +46,12 @@ const CreateAssignment = ({ courseId, onCreated }) => {
       }
 
       await assignmentAPI.create(formDataToSend)
-      
+
       // Reset form
       setFormData({ title: '', description: '', dueDate: '', maxScore: 100 })
       setFile(null)
       setShowForm(false)
-      
+
       if (onCreated) onCreated()
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create assignment')
@@ -72,11 +72,11 @@ const CreateAssignment = ({ courseId, onCreated }) => {
   }
 
   return (
-    <div className="border border-gray-300 rounded-lg p-4 mb-4 bg-gray-50">
+    <div className="border border-border-light rounded-lg p-4 mb-4 bg-bg-secondary">
       <h3 className="font-semibold text-lg mb-4">Create New Assignment</h3>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded mb-4">
           {error}
         </div>
       )}

@@ -18,7 +18,7 @@ const SubmitAssignment = ({ assignmentId, onSubmitted }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     if (!file) {
       setError('Please select a file to submit')
       return
@@ -34,12 +34,12 @@ const SubmitAssignment = ({ assignmentId, onSubmitted }) => {
       formData.append('comments', comments)
 
       await assignmentAPI.submit(assignmentId, formData)
-      
+
       setSuccess('Assignment submitted successfully!')
       setFile(null)
       setComments('')
       setShowForm(false)
-      
+
       if (onSubmitted) onSubmitted()
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit assignment')
@@ -60,18 +60,18 @@ const SubmitAssignment = ({ assignmentId, onSubmitted }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        <h3 className="font-semibold text-lg mb-4">Submit Assignment</h3>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-bg-primary rounded-lg p-6 max-w-md w-full mx-4 border border-border-light shadow-xl">
+        <h3 className="font-semibold text-lg mb-4 text-text-primary">Submit Assignment</h3>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
+          <div className="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded mb-4 text-sm">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-sm">
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded mb-4 text-sm">
             {success}
           </div>
         )}
@@ -88,7 +88,7 @@ const SubmitAssignment = ({ assignmentId, onSubmitted }) => {
               accept=".pdf,.doc,.docx,.txt,.zip"
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-text-muted mt-1">
               Accepted formats: PDF, DOC, DOCX, TXT, ZIP (Max 10MB)
             </p>
           </div>

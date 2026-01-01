@@ -20,7 +20,7 @@ const AssignmentList = ({ assignments, courseId, isInstructor, onUpdate }) => {
 
   if (assignments.length === 0 && !isInstructor) {
     return (
-      <p className="text-gray-600 text-center py-8">
+      <p className="text-text-muted text-center py-8">
         No assignments available yet.
       </p>
     )
@@ -35,22 +35,21 @@ const AssignmentList = ({ assignments, courseId, isInstructor, onUpdate }) => {
       {assignments.map((assignment) => (
         <div
           key={assignment._id}
-          className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
+          className="border border-border-light rounded-lg p-4 hover:shadow-md transition bg-bg-primary"
         >
           <div className="flex justify-between items-start mb-2">
             <div>
-              <h4 className="font-semibold text-lg">{assignment.title}</h4>
-              <p className="text-gray-600 text-sm mt-1">
+              <h4 className="font-semibold text-lg text-text-primary">{assignment.title}</h4>
+              <p className="text-text-secondary text-sm mt-1">
                 {assignment.description}
               </p>
             </div>
             {assignment.dueDate && (
               <span
-                className={`text-sm px-3 py-1 rounded-full ${
-                  isOverdue(assignment.dueDate)
-                    ? 'bg-red-100 text-red-800'
-                    : 'bg-green-100 text-green-800'
-                }`}
+                className={`text-sm px-3 py-1 rounded-full ${isOverdue(assignment.dueDate)
+                    ? 'bg-rose-100 text-rose-800'
+                    : 'bg-emerald-100 text-emerald-800'
+                  }`}
               >
                 Due: {formatDate(assignment.dueDate)}
               </span>
@@ -58,7 +57,7 @@ const AssignmentList = ({ assignments, courseId, isInstructor, onUpdate }) => {
           </div>
 
           <div className="flex items-center justify-between mt-4">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-text-muted">
               Max Score: {assignment.maxScore} points
             </div>
 
@@ -76,14 +75,14 @@ const AssignmentList = ({ assignments, courseId, isInstructor, onUpdate }) => {
 
           {assignment.fileUrl && (
             <a
-                href={assignment.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-600 hover:underline text-sm mt-2 inline-block"
+              href={assignment.fileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-600 hover:underline text-sm mt-2 inline-block"
             >
-                📎 Download Assignment File
+              📎 Download Assignment File
             </a>
-            )}
+          )}
 
         </div>
       ))}

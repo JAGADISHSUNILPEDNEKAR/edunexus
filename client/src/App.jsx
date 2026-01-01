@@ -3,6 +3,7 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/layout/Navbar'
 import ProtectedRoute from './components/layout/ProtectedRoute'
 import LandingPage from './components/landing/LandingPage'
@@ -19,61 +20,63 @@ import ChatRoom from './components/chat/ChatRoom'
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-          <Navbar />
-          <main>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/courses" element={<CourseList />} />
+      <ThemeProvider>
+        <Router>
+          <div className="min-h-screen bg-bg-secondary text-text-primary font-sans transition-colors duration-200">
+            <Navbar />
+            <main>
+              <Routes>
+                {/* Public routes */}
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/courses" element={<CourseList />} />
 
-              {/* Protected routes - Student */}
-              <Route path="/dashboard/student" element={
-                <ProtectedRoute allowedRoles={['student']}>
-                  <StudentDashboard />
-                </ProtectedRoute>
-              } />
+                {/* Protected routes - Student */}
+                <Route path="/dashboard/student" element={
+                  <ProtectedRoute allowedRoles={['student']}>
+                    <StudentDashboard />
+                  </ProtectedRoute>
+                } />
 
-              {/* Protected routes - Instructor */}
-              <Route path="/dashboard/instructor" element={
-                <ProtectedRoute allowedRoles={['instructor']}>
-                  <InstructorDashboard />
-                </ProtectedRoute>
-              } />
-              <Route path="/courses/create" element={
-                <ProtectedRoute allowedRoles={['instructor', 'admin']}>
-                  <CreateCourse />
-                </ProtectedRoute>
-              } />
+                {/* Protected routes - Instructor */}
+                <Route path="/dashboard/instructor" element={
+                  <ProtectedRoute allowedRoles={['instructor']}>
+                    <InstructorDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/courses/create" element={
+                  <ProtectedRoute allowedRoles={['instructor', 'admin']}>
+                    <CreateCourse />
+                  </ProtectedRoute>
+                } />
 
-              {/* Protected routes - Admin */}
-              <Route path="/dashboard/admin" element={
-                <ProtectedRoute allowedRoles={['admin']}>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } />
+                {/* Protected routes - Admin */}
+                <Route path="/dashboard/admin" element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } />
 
-              {/* Protected routes - All authenticated users */}
-              <Route path="/courses/:id" element={
-                <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
-                  <CourseDetail />
-                </ProtectedRoute>
-              } />
-              <Route path="/courses/:id/chat" element={
-                <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
-                  <ChatRoom />
-                </ProtectedRoute>
-              } />
+                {/* Protected routes - All authenticated users */}
+                <Route path="/courses/:id" element={
+                  <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
+                    <CourseDetail />
+                  </ProtectedRoute>
+                } />
+                <Route path="/courses/:id/chat" element={
+                  <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
+                    <ChatRoom />
+                  </ProtectedRoute>
+                } />
 
-              {/* Catch all - redirect to home */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </main>
-        </div>
-      </Router>
+                {/* Catch all - redirect to home */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </main>
+          </div>
+        </Router>
+      </ThemeProvider>
     </AuthProvider>
   )
 }

@@ -64,7 +64,7 @@ const UserManagement = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="spinner"></div>
+        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -89,20 +89,20 @@ const UserManagement = () => {
       <div className="card overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-gray-200">
-              <th className="text-left py-3 px-4">Name</th>
-              <th className="text-left py-3 px-4">Email</th>
-              <th className="text-left py-3 px-4">Role</th>
-              <th className="text-left py-3 px-4">Status</th>
-              <th className="text-left py-3 px-4">Joined</th>
-              <th className="text-right py-3 px-4">Actions</th>
+            <tr className="border-b border-border-light bg-bg-tertiary">
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Name</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Email</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Role</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Status</th>
+              <th className="text-left py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Joined</th>
+              <th className="text-right py-3 px-4 text-text-muted font-semibold text-sm uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user._id} className="border-b border-gray-100">
-                <td className="py-3 px-4">{user.name}</td>
-                <td className="py-3 px-4">{user.email}</td>
+              <tr key={user._id} className="border-b border-border-light hover:bg-bg-secondary transition-colors">
+                <td className="py-3 px-4 text-text-primary">{user.name}</td>
+                <td className="py-3 px-4 text-text-secondary">{user.email}</td>
                 <td className="py-3 px-4">
                   <span className={`badge badge-${user.role}`}>
                     {user.role}
@@ -110,16 +110,15 @@ const UserManagement = () => {
                 </td>
                 <td className="py-3 px-4">
                   <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      user.isActive
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}
+                    className={`px-2 py-1 text-xs rounded-full ${user.isActive
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-rose-100 text-rose-800'
+                      }`}
                   >
                     {user.isActive ? 'Active' : 'Inactive'}
                   </span>
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-600">
+                <td className="py-3 px-4 text-sm text-text-secondary">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-3 px-4 text-right">
@@ -153,7 +152,7 @@ const UserManagement = () => {
         </table>
 
         {users.length === 0 && (
-          <p className="text-center text-gray-600 py-8">No users found.</p>
+          <p className="text-center text-text-muted py-8">No users found.</p>
         )}
       </div>
     </div>
