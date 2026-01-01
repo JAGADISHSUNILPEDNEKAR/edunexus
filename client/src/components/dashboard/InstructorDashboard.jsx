@@ -39,9 +39,9 @@ const InstructorDashboard = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="spinner"></div>
-        <p style={{ color: 'var(--gray-600)', marginTop: '1rem', fontSize: '1.0625rem' }}>Loading your dashboard...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center pt-20">
+        <div className="w-16 h-16 border-4 border-slate-700 border-t-purple-500 rounded-full animate-spin"></div>
+        <p className="text-slate-400 mt-4 text-lg">Loading your dashboard...</p>
       </div>
     )
   }
@@ -50,162 +50,85 @@ const InstructorDashboard = () => {
   const totalLectures = courses.reduce((sum, course) => sum + (course.lectures?.length || 0), 0)
 
   return (
-    <div style={{ background: 'var(--gray-50)', minHeight: '100vh', paddingBottom: '4rem' }}>
+    <div className="min-h-screen pb-20 pt-20">
       {/* Header */}
-      <section style={{ 
-        background: 'var(--gradient-primary)', 
-        padding: '3rem 0', 
-        marginBottom: '2rem',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <div style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          top: 0,
-          left: 0,
-          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-          animation: 'float 10s ease-in-out infinite'
-        }}></div>
-        
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
-              borderRadius: '50%',
-              background: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2.5rem',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
-            }}>
+      <section className="relative py-12 mb-8 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/20 to-purple-900/20 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 p-12 opacity-30 animate-pulse">
+          <div className="w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-4xl shadow-lg shadow-indigo-500/30 animate-float">
               👨‍🏫
             </div>
             <div>
-              <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', color: 'white', marginBottom: '0.5rem' }}>
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
                 Instructor Dashboard
               </h1>
-              <p style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '1.0625rem', margin: 0 }}>
-                Welcome, {user?.name}
+              <p className="text-slate-300 text-lg">
+                Welcome back, {user?.name}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="container">
-        {/* Stats */}
-        <div className="stats-grid" style={{ marginBottom: '3rem' }}>
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'var(--gradient-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
+      <div className="container mx-auto px-4">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="card hover:-translate-y-1 transition-transform">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl text-purple-400">
                 📚
               </div>
-              <span className="badge badge-instructor">Teaching</span>
+              <span className="badge badge-secondary">Teaching</span>
             </div>
-            <div className="stat-card-value">{courses.length}</div>
-            <div className="stat-card-label">My Courses</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Active courses you're teaching
-              </p>
-            </div>
+            <div className="text-3xl font-bold text-white mb-1">{courses.length}</div>
+            <div className="text-slate-400 text-sm font-medium">My Courses</div>
           </div>
-          
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0.1s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'var(--gradient-success)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
+
+          <div className="card hover:-translate-y-1 transition-transform">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-2xl text-emerald-400">
                 👥
               </div>
               <span className="badge badge-success">Enrolled</span>
             </div>
-            <div className="stat-card-value" style={{ color: 'var(--success)' }}>{totalStudents}</div>
-            <div className="stat-card-label">Total Students</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Students learning from you
-              </p>
-            </div>
+            <div className="text-3xl font-bold text-white mb-1">{totalStudents}</div>
+            <div className="text-slate-400 text-sm font-medium">Total Students</div>
           </div>
-          
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0.2s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
+
+          <div className="card hover:-translate-y-1 transition-transform">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-2xl text-blue-400">
                 📹
               </div>
-              <span className="badge badge-info">Published</span>
+              <span className="badge badge-primary">Published</span>
             </div>
-            <div className="stat-card-value" style={{ color: 'var(--info)' }}>{totalLectures}</div>
-            <div className="stat-card-label">Total Lectures</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Content available to students
-              </p>
-            </div>
+            <div className="text-3xl font-bold text-white mb-1">{totalLectures}</div>
+            <div className="text-slate-400 text-sm font-medium">Total Lectures</div>
           </div>
-          
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0.3s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
+
+          <div className="card hover:-translate-y-1 transition-transform">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-2xl text-amber-400">
                 ⭐
               </div>
               <span className="badge badge-warning">Rating</span>
             </div>
-            <div className="stat-card-value" style={{ color: 'var(--warning)' }}>4.9</div>
-            <div className="stat-card-label">Avg. Rating</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Student satisfaction score
-              </p>
-            </div>
+            <div className="text-3xl font-bold text-white mb-1">4.9</div>
+            <div className="text-slate-400 text-sm font-medium">Avg. Rating</div>
           </div>
         </div>
 
         {/* My Courses */}
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
             <div>
-              <h2 style={{ fontSize: '2rem', color: 'var(--gray-900)', marginBottom: '0.5rem' }}>My Courses</h2>
-              <p style={{ color: 'var(--gray-600)', margin: 0 }}>Manage and track your courses</p>
+              <h2 className="text-2xl font-bold text-white mb-1">My Courses</h2>
+              <p className="text-slate-400">Manage and track your courses</p>
             </div>
             <Link to="/courses/create" className="btn btn-primary">
               <span>➕</span>
@@ -214,12 +137,12 @@ const InstructorDashboard = () => {
           </div>
 
           {courses.length === 0 ? (
-            <div className="card text-center" style={{ padding: '4rem 2rem' }}>
-              <div style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>🎓</div>
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--gray-900)', marginBottom: '1rem' }}>
+            <div className="card flex flex-col items-center justify-center py-16 text-center border-dashed border-2 border-slate-700 bg-transparent">
+              <div className="text-6xl mb-6 opacity-50">🎓</div>
+              <h3 className="text-xl font-bold text-white mb-2">
                 Start Teaching Today
               </h3>
-              <p style={{ color: 'var(--gray-600)', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
+              <p className="text-slate-400 mb-8 max-w-md">
                 You haven't created any courses yet. Share your knowledge and start teaching students worldwide!
               </p>
               <Link to="/courses/create" className="btn btn-primary btn-large">
@@ -228,34 +151,28 @@ const InstructorDashboard = () => {
               </Link>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-6">
               {courses.map((course, index) => (
-                <div 
-                  key={course._id} 
-                  className="card animate-fadeIn"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                <div
+                  key={course._id}
+                  className="card p-0 overflow-hidden flex flex-col md:flex-row card-hover border-slate-700/50"
                 >
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start' }}>
+                  <div className="w-full md:w-64 h-48 md:h-auto relative bg-slate-800 shrink-0">
+                    {/* Placeholder gradient/pattern if no image */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-4xl">📚</span>
+                    </div>
+                  </div>
+
+                  <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                        <div style={{
-                          width: '60px',
-                          height: '60px',
-                          borderRadius: 'var(--radius-lg)',
-                          background: 'var(--gradient-primary)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '1.75rem',
-                          flexShrink: 0
-                        }}>
-                          📚
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'var(--gray-900)' }}>
+                      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                        <div>
+                          <h3 className="text-xl font-bold text-white mb-2">
                             {course.title}
                           </h3>
-                          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                          <div className="flex gap-2 flex-wrap">
                             <span className="badge badge-primary">
                               📹 {course.lectures?.length || 0} lectures
                             </span>
@@ -263,32 +180,36 @@ const InstructorDashboard = () => {
                               👥 {course.enrolledStudents?.length || 0} students
                             </span>
                             <span className="badge badge-info">
-                              📅 Created {new Date(course.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                              📅 {new Date(course.createdAt).toLocaleDateString()}
                             </span>
                           </div>
                         </div>
+                        <div className="flex gap-3">
+                          <Link
+                            to={`/courses/${course._id}`}
+                            className="btn btn-secondary btn-sm"
+                          >
+                            <span>👁️</span>
+                            <span>View</span>
+                          </Link>
+                          <button
+                            onClick={() => handleDeleteCourse(course._id)}
+                            className="btn btn-ghost hover:text-red-400 btn-sm"
+                          >
+                            <span>🗑️</span>
+                            <span>Delete</span>
+                          </button>
+                        </div>
                       </div>
-                      
-                      <p style={{ color: 'var(--gray-600)', fontSize: '0.9375rem', lineHeight: '1.6', marginBottom: '0' }}>
+
+                      <p className="text-slate-400 leading-relaxed line-clamp-2">
                         {course.description}
                       </p>
                     </div>
-                    
-                    <div style={{ display: 'flex', gap: '0.75rem', flexShrink: 0 }}>
-                      <Link
-                        to={`/courses/${course._id}`}
-                        className="btn btn-secondary"
-                      >
-                        <span>👁️</span>
-                        <span>View</span>
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteCourse(course._id)}
-                        className="btn btn-danger"
-                      >
-                        <span>🗑️</span>
-                        <span>Delete</span>
-                      </button>
+
+                    <div className="mt-6 pt-4 border-t border-slate-700/50 flex items-center justify-between text-sm text-slate-500">
+                      <span>Last updated: {new Date(course.updatedAt || course.createdAt).toLocaleDateString()}</span>
+                      <span className="text-purple-400 font-medium cursor-pointer hover:underline">Manage Content →</span>
                     </div>
                   </div>
                 </div>
