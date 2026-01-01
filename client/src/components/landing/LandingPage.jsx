@@ -9,13 +9,13 @@ const LandingPage = () => {
       icon: '🎓',
       title: 'Expert Instructors',
       description: 'Learn from industry professionals with years of real-world experience',
-      gradient: 'from-purple-500 to-indigo-600'
+      gradient: 'from-indigo-500 to-indigo-600'
     },
     {
       icon: '📹',
       title: 'HD Video Lectures',
       description: 'High-quality video content accessible anytime, anywhere on any device',
-      gradient: 'from-blue-500 to-cyan-600'
+      gradient: 'from-sky-500 to-blue-600'
     },
     {
       icon: '💬',
@@ -27,7 +27,7 @@ const LandingPage = () => {
       icon: '📝',
       title: 'Practical Assignments',
       description: 'Apply what you learn with real-world projects and hands-on exercises',
-      gradient: 'from-orange-500 to-amber-600'
+      gradient: 'from-amber-500 to-orange-600'
     },
   ]
 
@@ -41,37 +41,47 @@ const LandingPage = () => {
   ]
 
   return (
-    <div className="landing-page">
+    <div className="overflow-hidden bg-white">
       {/* Hero Section */}
-      <section className="hero">
-        <div className="container">
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <h1 className="animate-fadeIn">
-              Transform Your Future with <br />EduNexus
+      <section className="relative pt-32 pb-24 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-indigo-50 rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute top-1/2 -left-24 w-72 h-72 bg-purple-50 rounded-full blur-3xl opacity-60"></div>
+        </div>
+
+        <div className="container-custom relative z-10 text-center">
+          <div className="max-w-4xl mx-auto space-y-8">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Transform Your Future with <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                EduNexus
+              </span>
             </h1>
-            <p className="animate-fadeIn" style={{ animationDelay: '0.1s' }}>
-              Join thousands of students learning from world-class instructors in our interactive online platform
+
+            <p className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Join thousands of students learning from world-class instructors in our interactive online platform.
             </p>
-            
-            <div className="flex gap-4 justify-center mt-4 animate-fadeIn" style={{ animationDelay: '0.2s' }}>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               {isAuthenticated ? (
                 <>
-                  <Link to={`/dashboard/${user?.role}`} className="btn btn-large" style={{ background: 'white', color: 'var(--accent-purple)' }}>
+                  <Link to={`/dashboard/${user?.role}`} className="btn btn-primary btn-large shadow-xl shadow-indigo-200 hover:shadow-2xl hover:shadow-indigo-300 transform hover:-translate-y-1 transition-all">
                     <span>🎯</span>
                     <span>Go to Dashboard</span>
                   </Link>
-                  <Link to="/courses" className="btn btn-large" style={{ background: 'rgba(255, 255, 255, 0.2)', color: 'white', backdropFilter: 'blur(10px)', border: '2px solid rgba(255, 255, 255, 0.3)' }}>
+                  <Link to="/courses" className="btn btn-secondary btn-large">
                     <span>📚</span>
                     <span>Explore Courses</span>
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link to="/register" className="btn btn-large" style={{ background: 'white', color: 'var(--accent-purple)' }}>
+                  <Link to="/register" className="btn btn-primary btn-large shadow-xl shadow-indigo-200 hover:shadow-2xl hover:shadow-indigo-300 transform hover:-translate-y-1 transition-all">
                     <span>✨</span>
                     <span>Get Started Free</span>
                   </Link>
-                  <Link to="/login" className="btn btn-large" style={{ background: 'rgba(255, 255, 255, 0.2)', color: 'white', backdropFilter: 'blur(10px)', border: '2px solid rgba(255, 255, 255, 0.3)' }}>
+                  <Link to="/login" className="btn btn-secondary btn-large">
                     <span>🔐</span>
                     <span>Sign In</span>
                   </Link>
@@ -80,35 +90,22 @@ const LandingPage = () => {
             </div>
 
             {/* Stats */}
-            <div className="stats-grid" style={{ maxWidth: '900px', margin: '5rem auto 0', position: 'relative' }}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-16">
               {[
                 { value: '10,000+', label: 'Students', icon: '👨‍🎓' },
                 { value: '500+', label: 'Courses', icon: '📚' },
                 { value: '50+', label: 'Instructors', icon: '👨‍🏫' },
                 { value: '4.9/5', label: 'Rating', icon: '⭐' },
               ].map((stat, index) => (
-                <div 
-                  key={index} 
-                  className="animate-scaleIn"
-                  style={{ 
-                    animationDelay: `${0.3 + index * 0.1}s`,
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '2rem',
-                    borderRadius: 'var(--radius-2xl)',
-                    textAlign: 'center',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
-                    transition: 'transform 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-8px)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                <div
+                  key={index}
+                  className="p-6 rounded-2xl bg-white border border-slate-100 shadow-lg shadow-slate-200/50 hover:-translate-y-1 transition-transform duration-300"
                 >
-                  <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: '800', background: 'var(--gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '0.5rem' }}>
+                  <div className="text-3xl mb-3 inline-block">{stat.icon}</div>
+                  <div className="text-3xl font-bold text-slate-900 mb-1">
                     {stat.value}
                   </div>
-                  <div style={{ fontSize: '0.9375rem', color: 'var(--gray-600)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
                     {stat.label}
                   </div>
                 </div>
@@ -119,46 +116,26 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section style={{ background: 'var(--gray-50)', padding: '6rem 0' }}>
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Why Choose EduNexus?</h2>
-            <p className="section-subtitle">
-              Everything you need to succeed in your learning journey
+      <section className="py-24 bg-slate-50">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">Why Choose EduNexus?</h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+              Everything you need to succeed in your learning journey, built for modern students.
             </p>
           </div>
 
-          <div className="grid-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <div 
-                key={index} 
-                className="card animate-fadeIn"
-                style={{ 
-                  animationDelay: `${index * 0.1}s`,
-                  textAlign: 'center',
-                  padding: '2.5rem 2rem'
-                }}
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100"
               >
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  margin: '0 auto 1.5rem',
-                  background: `linear-gradient(135deg, var(--${feature.gradient}))`,
-                  borderRadius: 'var(--radius-2xl)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '2.5rem',
-                  boxShadow: '0 10px 30px rgba(139, 92, 246, 0.2)',
-                  transition: 'transform 0.3s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1) rotate(5deg)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1) rotate(0deg)'}
-                >
+                <div className={`w-14 h-14 mb-6 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-3xl text-white shadow-lg shadow-indigo-100`}>
                   {feature.icon}
                 </div>
-                <h3 style={{ fontSize: '1.375rem', marginBottom: '0.75rem' }}>{feature.title}</h3>
-                <p style={{ color: 'var(--gray-600)', fontSize: '0.9375rem', margin: '0', lineHeight: '1.6' }}>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
+                <p className="text-slate-600 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -168,78 +145,66 @@ const LandingPage = () => {
       </section>
 
       {/* Benefits Section */}
-      <section style={{ background: 'white', padding: '6rem 0' }}>
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">What You'll Get</h2>
-            <p className="section-subtitle">
-              Premium features designed for your success
-            </p>
-          </div>
+      <section className="py-24 bg-white overflow-hidden">
+        <div className="container-custom">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+            <div className="flex-1 space-y-8">
+              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
+                Unlock Your Potential with <span className="text-indigo-600">Premium Benefits</span>
+              </h2>
+              <p className="text-slate-600 text-lg">
+                We provide the tools and resources you need to master new skills and advance your career.
+              </p>
 
-          <div className="grid-3" style={{ maxWidth: '900px', margin: '0 auto' }}>
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index}
-                className="animate-scaleIn"
-                style={{ 
-                  animationDelay: `${index * 0.05}s`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  padding: '1.5rem',
-                  background: 'var(--gray-50)',
-                  borderRadius: 'var(--radius-xl)',
-                  border: '2px solid var(--gray-200)',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateX(10px)'
-                  e.currentTarget.style.borderColor = 'var(--accent-purple)'
-                  e.currentTarget.style.background = 'white'
-                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateX(0)'
-                  e.currentTarget.style.borderColor = 'var(--gray-200)'
-                  e.currentTarget.style.background = 'var(--gray-50)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-              >
-                <div style={{
-                  width: '50px',
-                  height: '50px',
-                  background: 'var(--gradient-primary)',
-                  borderRadius: 'var(--radius-lg)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem',
-                  flexShrink: 0
-                }}>
-                  {benefit.icon}
-                </div>
-                <span style={{ fontSize: '0.9375rem', color: 'var(--gray-700)', fontWeight: '500' }}>
-                  {benefit.text}
-                </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center text-xl text-indigo-600">
+                      {benefit.icon}
+                    </div>
+                    <span className="font-medium text-slate-700">
+                      {benefit.text}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div className="flex-1 relative">
+              <div className="absolute inset-0 bg-indigo-50 blur-3xl rounded-full opacity-60"></div>
+              <div className="relative bg-white rounded-3xl p-8 border border-slate-100 shadow-2xl shadow-indigo-100/50 skew-y-3 hover:skew-y-0 transition-transform duration-500">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-slate-200"></div>
+                  <div>
+                    <div className="h-4 w-32 bg-slate-200 rounded mb-2"></div>
+                    <div className="h-3 w-24 bg-slate-100 rounded"></div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="h-32 bg-slate-100 rounded-xl"></div>
+                  <div className="h-4 w-full bg-slate-100 rounded"></div>
+                  <div className="h-4 w-3/4 bg-slate-100 rounded"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section style={{ background: 'var(--gray-50)', padding: '6rem 0' }}>
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">What Students Say</h2>
-            <p className="section-subtitle">
-              Join thousands of satisfied learners
+      <section className="py-24 bg-slate-50">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">What Students Say</h2>
+            <p className="text-slate-600 text-lg">
+              Join thousands of satisfied learners worldwide
             </p>
           </div>
 
-          <div className="grid-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 name: 'Sarah Johnson',
@@ -263,42 +228,29 @@ const LandingPage = () => {
                 rating: 5
               },
             ].map((testimonial, index) => (
-              <div 
+              <div
                 key={index}
-                className="card animate-fadeIn"
-                style={{ 
-                  animationDelay: `${index * 0.1}s`,
-                  padding: '2rem'
-                }}
+                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow border border-slate-100"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <div style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background: 'var(--gradient-primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '2rem'
-                  }}>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-2xl border border-slate-200">
                     {testimonial.image}
                   </div>
                   <div>
-                    <div style={{ fontWeight: '600', fontSize: '1.0625rem', color: 'var(--gray-900)' }}>
+                    <div className="font-bold text-slate-900 text-lg">
                       {testimonial.name}
                     </div>
-                    <div style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>
+                    <div className="text-indigo-600 text-sm font-medium">
                       {testimonial.role}
                     </div>
                   </div>
                 </div>
-                <p style={{ color: 'var(--gray-600)', lineHeight: '1.6', marginBottom: '1rem' }}>
+                <p className="text-slate-600 italic mb-6 leading-relaxed">
                   "{testimonial.text}"
                 </p>
-                <div style={{ display: 'flex', gap: '0.25rem' }}>
+                <div className="flex gap-1">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <span key={i} style={{ color: '#fbbf24', fontSize: '1.25rem' }}>⭐</span>
+                    <span key={i} className="text-amber-400 text-lg">⭐</span>
                   ))}
                 </div>
               </div>
@@ -307,100 +259,46 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      {!isAuthenticated && (
-        <section style={{ 
-          background: 'var(--gradient-primary)', 
-          color: 'white', 
-          padding: '6rem 0',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <div style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            top: 0,
-            left: 0,
-            background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-            animation: 'float 10s ease-in-out infinite'
-          }}></div>
-          
-          <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
-            <h2 style={{ color: 'white', fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '1.5rem', fontWeight: '800' }}>
-              Ready to Start Learning?
-            </h2>
-            <p style={{ color: 'rgba(255, 255, 255, 0.95)', fontSize: 'clamp(1rem, 2vw, 1.25rem)', maxWidth: '600px', margin: '0 auto 3rem', lineHeight: '1.6' }}>
-              Join thousands of students and transform your career today. Get started with our free courses!
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/register" className="btn btn-large" style={{ background: 'white', color: 'var(--accent-purple)' }}>
-                <span>✨</span>
-                <span>Create Free Account</span>
-              </Link>
-              <Link to="/courses" className="btn btn-large" style={{ background: 'rgba(255, 255, 255, 0.2)', color: 'white', backdropFilter: 'blur(10px)', border: '2px solid rgba(255, 255, 255, 0.3)' }}>
-                <span>📚</span>
-                <span>Browse Courses</span>
-              </Link>
-            </div>
-            
-            <div style={{ marginTop: '3rem', display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap' }}>
-              {[
-                { icon: '✅', text: 'No credit card required' },
-                { icon: '🎓', text: 'Free courses available' },
-                { icon: '🔒', text: 'Secure & private' }
-              ].map((item, index) => (
-                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9375rem', color: 'rgba(255, 255, 255, 0.9)' }}>
-                  <span style={{ fontSize: '1.25rem' }}>{item.icon}</span>
-                  <span>{item.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Footer */}
-      <footer style={{ background: 'var(--gray-900)', color: 'white', padding: '3rem 0 2rem' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '3rem', marginBottom: '3rem' }}>
-            <div>
-              <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1rem', fontWeight: '700' }}>
-                Edunexus
+      <footer className="bg-white border-t border-slate-200 pt-16 pb-8">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div className="col-span-1 md:col-span-1">
+              <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span>🎓</span> Edunexus
               </h3>
-              <p style={{ color: 'var(--gray-400)', fontSize: '0.9375rem', lineHeight: '1.6' }}>
+              <p className="text-slate-500 leading-relaxed">
                 Transform your future with quality education from world-class instructors.
               </p>
             </div>
-            
+
             <div>
-              <h4 style={{ color: 'white', fontSize: '1.0625rem', marginBottom: '1rem', fontWeight: '600' }}>Quick Links</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <Link to="/courses" style={{ color: 'var(--gray-400)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.3s' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--gray-400)'}
-                >
-                  Browse Courses
-                </Link>
-                <Link to="/register" style={{ color: 'var(--gray-400)', textDecoration: 'none', fontSize: '0.9375rem', transition: 'color 0.3s' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--gray-400)'}
-                >
-                  Become a Student
-                </Link>
-              </div>
+              <h4 className="text-slate-900 font-bold mb-4 text-lg">Learn</h4>
+              <ul className="space-y-3 text-slate-500">
+                <li><Link to="/courses" className="hover:text-indigo-600 transition-colors">Browse Courses</Link></li>
+                <li><Link to="/paths" className="hover:text-indigo-600 transition-colors">Learning Paths</Link></li>
+              </ul>
             </div>
-            
+
             <div>
-              <h4 style={{ color: 'white', fontSize: '1.0625rem', marginBottom: '1rem', fontWeight: '600' }}>Contact</h4>
-              <p style={{ color: 'var(--gray-400)', fontSize: '0.9375rem', lineHeight: '1.6' }}>
-                📧 support@edunexus.com<br />
-                🌐 www.edunexus.com
-              </p>
+              <h4 className="text-slate-900 font-bold mb-4 text-lg">Community</h4>
+              <ul className="space-y-3 text-slate-500">
+                <li><Link to="/register" className="hover:text-indigo-600 transition-colors">Join for Free</Link></li>
+                <li><Link to="/mentors" className="hover:text-indigo-600 transition-colors">Find Mentors</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-slate-900 font-bold mb-4 text-lg">Contact</h4>
+              <ul className="space-y-3 text-slate-500">
+                <li className="flex items-center gap-2">
+                  <span>📧</span> support@edunexus.com
+                </li>
+              </ul>
             </div>
           </div>
-          
-          <div style={{ borderTop: '1px solid var(--gray-800)', paddingTop: '2rem', textAlign: 'center', color: 'var(--gray-400)', fontSize: '0.875rem' }}>
+
+          <div className="border-t border-slate-100 pt-8 text-center text-slate-400 text-sm">
             <p>© 2025 EduNexus. All rights reserved. Built with ❤️ for learners worldwide.</p>
           </div>
         </div>

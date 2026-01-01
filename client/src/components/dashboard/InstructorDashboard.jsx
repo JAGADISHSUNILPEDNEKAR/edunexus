@@ -9,286 +9,168 @@ const InstructorDashboard = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchCourses()
+    fetchInstructorCourses()
   }, [])
 
-  const fetchCourses = async () => {
+  const fetchInstructorCourses = async () => {
     try {
       setLoading(true)
       const response = await courseAPI.getInstructorCourses()
       setCourses(response.data.courses)
     } catch (err) {
-      console.error('Failed to fetch courses:', err)
+      console.error('Failed to fetch instructor courses:', err)
     } finally {
       setLoading(false)
     }
   }
 
   const handleDeleteCourse = async (courseId) => {
-    if (!window.confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
-      return
-    }
-
-    try {
-      await courseAPI.delete(courseId)
-      fetchCourses()
-    } catch (err) {
-      alert('Failed to delete course')
+    if (window.confirm('Are you sure you want to delete this course?')) {
+      try {
+        await courseAPI.delete(courseId)
+        setCourses(courses.filter(c => c._id !== courseId))
+      } catch (err) {
+        console.error('Failed to delete course:', err)
+      }
     }
   }
 
   if (loading) {
     return (
-      <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="spinner"></div>
-        <p style={{ color: 'var(--gray-600)', marginTop: '1rem', fontSize: '1.0625rem' }}>Loading your dashboard...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center pt-20">
+        <div className="w-12 h-12 border-4 border-slate-200 border-t-indigo-600 rounded-full animate-spin"></div>
+        <p className="text-slate-500 mt-4 text-lg">Loading dashboard...</p>
       </div>
     )
   }
 
   const totalStudents = courses.reduce((sum, course) => sum + (course.enrolledStudents?.length || 0), 0)
-  const totalLectures = courses.reduce((sum, course) => sum + (course.lectures?.length || 0), 0)
+
+  // Calculate average rating safely
+  const coursesWithRatings = courses.filter(c => c.rating)
+  const avgRating = coursesWithRatings.length > 0
+    ? (coursesWithRatings.reduce((sum, c) => sum + c.rating, 0) / coursesWithRatings.length).toFixed(1)
+    : 'New'
 
   return (
-    <div style={{ background: 'var(--gray-50)', minHeight: '100vh', paddingBottom: '4rem' }}>
-      {/* Header */}
-      <section style={{ 
-        background: 'var(--gradient-primary)', 
-        padding: '3rem 0', 
-        marginBottom: '2rem',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <div style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          top: 0,
-          left: 0,
-          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-          animation: 'float 10s ease-in-out infinite'
-        }}></div>
-        
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
-              borderRadius: '50%',
-              background: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2.5rem',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
-            }}>
+    <div className="min-h-screen pb-20">
+      {/* Header Section */}
+      <section className="bg-white border-b border-slate-200 py-12 mb-8">
+        <div className="container-custom">
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center text-4xl shadow-sm text-indigo-600">
               👨‍🏫
             </div>
             <div>
-              <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', color: 'white', marginBottom: '0.5rem' }}>
+              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
                 Instructor Dashboard
               </h1>
-              <p style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '1.0625rem', margin: 0 }}>
-                Welcome, {user?.name}
+              <p className="text-slate-500 text-lg">
+                Manage your courses and track student progress
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="container">
-        {/* Stats */}
-        <div className="stats-grid" style={{ marginBottom: '3rem' }}>
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'var(--gradient-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
+      <div className="container-custom">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-indigo-500">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl text-indigo-600">
                 📚
               </div>
-              <span className="badge badge-instructor">Teaching</span>
+              <span className="badge badge-primary">Total</span>
             </div>
-            <div className="stat-card-value">{courses.length}</div>
-            <div className="stat-card-label">My Courses</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Active courses you're teaching
-              </p>
-            </div>
+            <div className="text-3xl font-bold text-slate-900 mb-1">{courses.length}</div>
+            <div className="text-slate-500 text-sm font-medium">Active Courses</div>
           </div>
-          
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0.1s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'var(--gradient-success)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
+
+          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-emerald-500">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-2xl text-emerald-600">
                 👥
               </div>
               <span className="badge badge-success">Enrolled</span>
             </div>
-            <div className="stat-card-value" style={{ color: 'var(--success)' }}>{totalStudents}</div>
-            <div className="stat-card-label">Total Students</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Students learning from you
-              </p>
-            </div>
+            <div className="text-3xl font-bold text-slate-900 mb-1">{totalStudents}</div>
+            <div className="text-slate-500 text-sm font-medium">Total Students</div>
           </div>
-          
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0.2s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
-                📹
-              </div>
-              <span className="badge badge-info">Published</span>
-            </div>
-            <div className="stat-card-value" style={{ color: 'var(--info)' }}>{totalLectures}</div>
-            <div className="stat-card-label">Total Lectures</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Content available to students
-              </p>
-            </div>
-          </div>
-          
-          <div className="stat-card animate-scaleIn" style={{ animationDelay: '0.3s' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: 'var(--radius-xl)',
-                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem'
-              }}>
+
+          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-amber-500">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl text-amber-600">
                 ⭐
               </div>
               <span className="badge badge-warning">Rating</span>
             </div>
-            <div className="stat-card-value" style={{ color: 'var(--warning)' }}>4.9</div>
-            <div className="stat-card-label">Avg. Rating</div>
-            <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
-              <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', margin: 0 }}>
-                Student satisfaction score
-              </p>
-            </div>
+            <div className="text-3xl font-bold text-slate-900 mb-1">{avgRating}</div>
+            <div className="text-slate-500 text-sm font-medium">Average Rating</div>
           </div>
         </div>
 
-        {/* My Courses */}
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        {/* My Courses Section */}
+        <div className="mb-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             <div>
-              <h2 style={{ fontSize: '2rem', color: 'var(--gray-900)', marginBottom: '0.5rem' }}>My Courses</h2>
-              <p style={{ color: 'var(--gray-600)', margin: 0 }}>Manage and track your courses</p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-1">My Courses</h2>
+              <p className="text-slate-500">Create and manage your content</p>
             </div>
             <Link to="/courses/create" className="btn btn-primary">
-              <span>➕</span>
-              <span>Create New Course</span>
+              <span>➕</span> Create New Course
             </Link>
           </div>
 
           {courses.length === 0 ? (
-            <div className="card text-center" style={{ padding: '4rem 2rem' }}>
-              <div style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>🎓</div>
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--gray-900)', marginBottom: '1rem' }}>
+            <div className="card flex flex-col items-center justify-center py-16 text-center border-dashed border-2 border-slate-200 bg-slate-50/50 shadow-none">
+              <div className="text-6xl mb-6 opacity-50 grayscale">📝</div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">
                 Start Teaching Today
               </h3>
-              <p style={{ color: 'var(--gray-600)', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
-                You haven't created any courses yet. Share your knowledge and start teaching students worldwide!
+              <p className="text-slate-500 mb-8 max-w-md">
+                You haven't created any courses yet. Share your knowledge with the world!
               </p>
               <Link to="/courses/create" className="btn btn-primary btn-large">
-                <span>✨</span>
-                <span>Create Your First Course</span>
+                Create Your First Course
               </Link>
             </div>
           ) : (
-            <div className="space-y-4">
-              {courses.map((course, index) => (
-                <div 
-                  key={course._id} 
-                  className="card animate-fadeIn"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start' }}>
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                        <div style={{
-                          width: '60px',
-                          height: '60px',
-                          borderRadius: 'var(--radius-lg)',
-                          background: 'var(--gradient-primary)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '1.75rem',
-                          flexShrink: 0
-                        }}>
-                          📚
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'var(--gray-900)' }}>
-                            {course.title}
-                          </h3>
-                          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                            <span className="badge badge-primary">
-                              📹 {course.lectures?.length || 0} lectures
-                            </span>
-                            <span className="badge badge-success">
-                              👥 {course.enrolledStudents?.length || 0} students
-                            </span>
-                            <span className="badge badge-info">
-                              📅 Created {new Date(course.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <p style={{ color: 'var(--gray-600)', fontSize: '0.9375rem', lineHeight: '1.6', marginBottom: '0' }}>
-                        {course.description}
-                      </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {courses.map((course) => (
+                <div key={course._id} className="card group p-0 overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300">
+                  <div className="h-48 bg-slate-100 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 group-hover:scale-105 transition-transform duration-500 opacity-90"></div>
+                    <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/60 to-transparent">
+                      <h3 className="text-xl font-bold text-white mb-1 leading-tight">
+                        {course.title}
+                      </h3>
                     </div>
-                    
-                    <div style={{ display: 'flex', gap: '0.75rem', flexShrink: 0 }}>
-                      <Link
-                        to={`/courses/${course._id}`}
-                        className="btn btn-secondary"
-                      >
-                        <span>👁️</span>
-                        <span>View</span>
+                  </div>
+
+                  <div className="p-6 flex-1 flex flex-col">
+                    <p className="text-slate-600 text-sm line-clamp-2 mb-6 flex-1">
+                      {course.description}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-slate-100">
+                      <div className="text-center p-2 rounded-lg bg-slate-50">
+                        <div className="text-lg font-bold text-slate-900">{course.lectures?.length || 0}</div>
+                        <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Lectures</div>
+                      </div>
+                      <div className="text-center p-2 rounded-lg bg-slate-50">
+                        <div className="text-lg font-bold text-slate-900">{course.enrolledStudents?.length || 0}</div>
+                        <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Students</div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-auto">
+                      <Link to={`/courses/${course._id}/edit`} className="btn btn-secondary flex-1 text-sm justify-center">
+                        Edit
                       </Link>
-                      <button
-                        onClick={() => handleDeleteCourse(course._id)}
-                        className="btn btn-danger"
-                      >
-                        <span>🗑️</span>
-                        <span>Delete</span>
-                      </button>
+                      <Link to={`/courses/${course._id}`} className="btn btn-primary flex-1 text-sm justify-center">
+                        Manage
+                      </Link>
                     </div>
                   </div>
                 </div>
