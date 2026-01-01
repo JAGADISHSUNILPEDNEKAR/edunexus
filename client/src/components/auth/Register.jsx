@@ -41,7 +41,7 @@ const Register = () => {
       [name]: value
     })
     setError('')
-    
+
     if (name === 'password') {
       setPasswordStrength(calculatePasswordStrength(value))
     }
@@ -77,9 +77,9 @@ const Register = () => {
   }
 
   const getPasswordStrengthColor = () => {
-    if (passwordStrength <= 1) return 'var(--error)'
-    if (passwordStrength <= 3) return 'var(--warning)'
-    return 'var(--success)'
+    if (passwordStrength <= 1) return 'bg-rose-500' // var(--error)
+    if (passwordStrength <= 3) return 'bg-amber-500' // var(--warning)
+    return 'bg-emerald-500' // var(--success)
   }
 
   const getPasswordStrengthText = () => {
@@ -90,121 +90,35 @@ const Register = () => {
   }
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      padding: '3rem 1rem',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Animated Background Elements */}
-      <div style={{
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-        pointerEvents: 'none'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: '-10%',
-          right: '-5%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-          borderRadius: '50%',
-          animation: 'float 6s ease-in-out infinite'
-        }}></div>
-        <div style={{
-          position: 'absolute',
-          bottom: '-10%',
-          left: '-5%',
-          width: '400px',
-          height: '400px',
-          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-          borderRadius: '50%',
-          animation: 'float 8s ease-in-out infinite',
-          animationDelay: '2s'
-        }}></div>
-      </div>
-
-      <div style={{ 
-        maxWidth: '480px', 
-        width: '100%', 
-        position: 'relative',
-        zIndex: 10
-      }} className="animate-fadeIn">
-        <div className="card-glass" style={{ 
-          padding: '3rem',
-          borderRadius: '2rem',
-          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
-        }}>
-          {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <div style={{
-              margin: '0 auto 1.5rem',
-              width: '80px',
-              height: '80px',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              borderRadius: '1.5rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
-              transform: 'rotate(-5deg)',
-              transition: 'transform 0.3s ease'
-            }} 
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'rotate(-5deg) scale(1)'}>
-              <span style={{ 
-                fontSize: '2.5rem', 
-                fontWeight: '800', 
-                color: 'white' 
-              }}>E</span>
+    <div className="min-h-screen flex bg-white">
+      {/* Left Side - Form */}
+      <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 z-10 bg-white">
+        <div className="mx-auto w-full max-w-sm lg:w-96">
+          <div className="mb-8">
+            <div className="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl mb-6 shadow-indigo-200 shadow-lg">
+              E
             </div>
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: '800', 
-              marginBottom: '0.5rem'
-            }}>
-              <span className="gradient-text">Join EduNexus</span>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              Join EduNexus
             </h2>
-            <p style={{ 
-              color: 'var(--gray-600)', 
-              fontSize: '1.125rem' 
-            }}>Create your account and start learning today</p>
+            <p className="mt-2 text-sm text-slate-600">
+              Create your account and start your learning journey today.
+            </p>
           </div>
-          
-          {/* Error Alert */}
+
           {error && (
-            <div className="alert alert-error animate-slideIn" style={{ marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ fontSize: '1.5rem' }}>⚠️</span>
-                <div>
-                  <p style={{ fontWeight: '600', marginBottom: '0.25rem', color: 'var(--error)' }}>Error</p>
-                  <p style={{ fontSize: '0.875rem', margin: 0, color: 'var(--error)' }}>{error}</p>
-                </div>
-              </div>
+            <div className="mb-6 bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-lg text-sm flex items-center gap-2 animate-pulse">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} style={{ marginBottom: '1.5rem' }}>
-            {/* Name Field */}
-            <div style={{ marginBottom: '1rem' }}>
-              <label htmlFor="name" style={{ 
-                display: 'block',
-                fontSize: '0.9375rem',
-                fontWeight: '600',
-                color: 'var(--gray-700)',
-                marginBottom: '0.5rem'
-              }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>👤</span>
-                  <span>Full Name</span>
-                </span>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+                Full Name
               </label>
               <input
                 type="text"
@@ -218,19 +132,9 @@ const Register = () => {
               />
             </div>
 
-            {/* Email Field */}
-            <div style={{ marginBottom: '1rem' }}>
-              <label htmlFor="email" style={{ 
-                display: 'block',
-                fontSize: '0.9375rem',
-                fontWeight: '600',
-                color: 'var(--gray-700)',
-                marginBottom: '0.5rem'
-              }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>📧</span>
-                  <span>Email Address</span>
-                </span>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                Email Address
               </label>
               <input
                 type="email"
@@ -244,94 +148,67 @@ const Register = () => {
               />
             </div>
 
-            {/* Password Field */}
-            <div style={{ marginBottom: '1rem' }}>
-              <label htmlFor="password" style={{ 
-                display: 'block',
-                fontSize: '0.9375rem',
-                fontWeight: '600',
-                color: 'var(--gray-700)',
-                marginBottom: '0.5rem'
-              }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>🔒</span>
-                  <span>Password</span>
-                </span>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
+                Password
               </label>
-              <div style={{ position: 'relative' }}>
+              <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="input"
+                  className="input pr-10"
                   placeholder="••••••••"
                   required
-                  style={{ paddingRight: '3rem' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '1rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: 'var(--gray-500)',
-                    padding: '0.5rem'
-                  }}
-                  tabIndex="-1"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  {showPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26a6 6 0 018.336 9.975L8 5.485a6.002 6.002 0 00-1.115 1.074l-.089.071-.168-.168a6 6 0 01.127-.087c.362-.353.754-.672 1.168-.952z" clipRule="evenodd" />
+                      <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.742L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.064 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
+                    </svg>
+                  )}
                 </button>
               </div>
-              
+
               {/* Password Strength Indicator */}
               {formData.password && (
-                <div style={{ marginTop: '0.75rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--gray-600)' }}>Password Strength:</span>
-                    <span style={{ 
-                      fontSize: '0.75rem',
-                      fontWeight: '600',
-                      color: getPasswordStrengthColor()
-                    }}>
+                <div className="mt-2">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs text-slate-500">Strength</span>
+                    <span className={`text-xs font-semibold ${passwordStrength <= 1 ? 'text-rose-600' :
+                        passwordStrength <= 3 ? 'text-amber-600' : 'text-emerald-600'
+                      }`}>
                       {getPasswordStrengthText()}
                     </span>
                   </div>
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-bar-fill"
-                      style={{ 
-                        width: `${(passwordStrength / 5) * 100}%`,
-                        background: getPasswordStrengthColor()
-                      }}
+                  <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className={`h-1.5 rounded-full transition-all duration-300 ${getPasswordStrengthColor()}`}
+                      style={{ width: `${(passwordStrength / 5) * 100}%` }}
                     ></div>
                   </div>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--gray-500)', marginTop: '0.5rem', marginBottom: 0 }}>
-                    At least 6 characters recommended
+                  <p className="text-xs text-slate-500 mt-1">
+                    Use 8+ chars with mixed types
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Confirm Password Field */}
-            <div style={{ marginBottom: '1rem' }}>
-              <label htmlFor="confirmPassword" style={{ 
-                display: 'block',
-                fontSize: '0.9375rem',
-                fontWeight: '600',
-                color: 'var(--gray-700)',
-                marginBottom: '0.5rem'
-              }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>🔐</span>
-                  <span>Confirm Password</span>
-                </span>
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 mb-1">
+                Confirm Password
               </label>
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -345,185 +222,117 @@ const Register = () => {
               />
             </div>
 
-            {/* Role Selection */}
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label htmlFor="role" style={{ 
-                display: 'block',
-                fontSize: '0.9375rem',
-                fontWeight: '600',
-                color: 'var(--gray-700)',
-                marginBottom: '0.5rem'
-              }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>🎭</span>
-                  <span>I am a</span>
-                </span>
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-slate-700 mb-1">
+                I am a
               </label>
               <select
                 id="role"
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="input"
-                style={{ cursor: 'pointer' }}
+                className="input cursor-pointer"
               >
                 <option value="student">🎓 Student - I want to learn</option>
                 <option value="instructor">👨‍🏫 Instructor - I want to teach</option>
               </select>
             </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary btn-large"
-              style={{ width: '100%' }}
-            >
-              {loading ? (
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
-                  <div className="spinner" style={{ width: '20px', height: '20px', borderWidth: '2px' }}></div>
-                  <span>Creating Account...</span>
-                </span>
-              ) : (
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                  <span>✨</span>
-                  <span>Create Account</span>
-                </span>
-              )}
-            </button>
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full btn btn-primary flex justify-center py-3 mt-2"
+              >
+                {loading ? (
+                  <div className="flex items-center">
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Creating account...
+                  </div>
+                ) : (
+                  'Create Account'
+                )}
+              </button>
+            </div>
           </form>
 
-          {/* Divider */}
-          <div className="divider"></div>
-
-          {/* Login Link */}
-          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-            <p style={{ color: 'var(--gray-600)' }}>
-              Already have an account?{' '}
-              <Link to="/login" style={{ 
-                color: 'var(--primary-600)', 
-                fontWeight: '700',
-                textDecoration: 'none'
-              }}>
-                Sign in instead →
-              </Link>
-            </p>
+          <div className="mt-8 text-center text-sm text-slate-600">
+            Already have an account?{' '}
+            <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              Sign in instead
+            </Link>
           </div>
 
-          {/* Features */}
-          <div style={{ 
-            paddingTop: '1.5rem',
-            borderTop: '2px solid var(--gray-100)'
-          }}>
-            <p style={{ 
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              color: 'var(--gray-700)',
-              marginBottom: '1rem',
-              textAlign: 'center'
-            }}>
-              ✨ What you'll get
+          <div className="mt-8 border-t border-slate-200 pt-6">
+            <p className="text-center text-xs text-slate-500">
+              By registering, you agree to our Terms & Privacy Policy
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '0.75rem',
-                padding: '0.75rem',
-                background: 'var(--gray-50)',
-                borderRadius: 'var(--radius-lg)',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(8px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
-              >
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.2))',
-                  borderRadius: 'var(--radius-lg)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.25rem'
-                }}>
-                  📚
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Image/Decoration */}
+      <div className="hidden lg:block relative w-0 flex-1 bg-purple-600 overflow-hidden">
+        {/* Abstract Background */}
+        <div className="absolute inset-0 bg-gradient-to-bl from-purple-600 via-indigo-700 to-purple-800"></div>
+
+        {/* Decorative Shapes */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+        {/* Content Overlay */}
+        <div className="absolute inset-0 flex flex-col justify-center px-16 text-white z-10">
+          <h3 className="text-lg font-semibold text-purple-200 uppercase tracking-widest mb-4">
+            Why Join EduNexus?
+          </h3>
+
+          <div className="space-y-8">
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white/10 backdrop-blur-sm">
+                  <span className="text-2xl">📚</span>
                 </div>
-                <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>Access to thousands of courses</span>
               </div>
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '0.75rem',
-                padding: '0.75rem',
-                background: 'var(--gray-50)',
-                borderRadius: 'var(--radius-lg)',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(8px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
-              >
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.2))',
-                  borderRadius: 'var(--radius-lg)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.25rem'
-                }}>
-                  💬
-                </div>
-                <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>Real-time chat with instructors</span>
+              <div className="ml-5">
+                <h4 className="text-xl font-bold">Limitless Learning</h4>
+                <p className="mt-2 text-purple-100 leading-relaxed">
+                  Access thousands of top-rated courses from industry experts.
+                </p>
               </div>
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '0.75rem',
-                padding: '0.75rem',
-                background: 'var(--gray-50)',
-                borderRadius: 'var(--radius-lg)',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(8px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
-              >
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2))',
-                  borderRadius: 'var(--radius-lg)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.25rem'
-                }}>
-                  🏆
+            </div>
+
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white/10 backdrop-blur-sm">
+                  <span className="text-2xl">💬</span>
                 </div>
-                <span style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>Track your learning progress</span>
+              </div>
+              <div className="ml-5">
+                <h4 className="text-xl font-bold">Community & Support</h4>
+                <p className="mt-2 text-purple-100 leading-relaxed">
+                  Join a community of learners and get real-time feedback from instructors.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white/10 backdrop-blur-sm">
+                  <span className="text-2xl">🏆</span>
+                </div>
+              </div>
+              <div className="ml-5">
+                <h4 className="text-xl font-bold">Track Your Success</h4>
+                <p className="mt-2 text-purple-100 leading-relaxed">
+                  Earn certificates and track your progress as you master new skills.
+                </p>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <p style={{ 
-          textAlign: 'center',
-          fontSize: '0.875rem',
-          color: 'rgba(255, 255, 255, 0.8)',
-          marginTop: '1.5rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.5rem'
-        }}>
-          <span>📜</span>
-          <span>By registering, you agree to our Terms & Privacy Policy</span>
-        </p>
       </div>
     </div>
   )
