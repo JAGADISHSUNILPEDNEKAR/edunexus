@@ -16,6 +16,7 @@ import CourseList from './components/courses/CourseList'
 import CourseDetail from './components/courses/CourseDetail'
 import CreateCourse from './components/courses/CreateCourse'
 import ChatRoom from './components/chat/ChatRoom'
+import UserProfile from './components/user/UserProfile'
 
 function App() {
   return (
@@ -64,9 +65,10 @@ function App() {
                     <CourseDetail />
                   </ProtectedRoute>
                 } />
-                <Route path="/courses/:id/chat" element={
+                } />
+                <Route path="/profile" element={
                   <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
-                    <ChatRoom />
+                    <UserProfile />
                   </ProtectedRoute>
                 } />
 

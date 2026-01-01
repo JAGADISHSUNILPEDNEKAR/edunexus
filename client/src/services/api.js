@@ -9,12 +9,12 @@ const getApiUrl = () => {
   if (import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
   }
-  
+
   // Priority 2: Production default
   if (import.meta.env.MODE === 'production') {
     return 'https://edunexus-tix1.onrender.com/api';
   }
-  
+
   // Priority 3: Development default
   return 'http://localhost:5000/api';
 };
@@ -44,7 +44,7 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    
+
     console.log('📤 API Request:', {
       method: config.method?.toUpperCase(),
       url: config.url,
@@ -52,7 +52,7 @@ api.interceptors.request.use(
       hasAuth: !!token,
       timestamp: new Date().toISOString()
     })
-    
+
     return config
   },
   (error) => {
@@ -85,9 +85,9 @@ api.interceptors.response.use(
       isCorsError: error.message?.includes('Network Error') || error.message?.includes('CORS'),
       timestamp: new Date().toISOString()
     };
-    
+
     console.error('❌ API Error Details:', errorDetails);
-    
+
     // Add user-friendly error messages
     if (error.code === 'ECONNABORTED') {
       error.userMessage = 'Request timeout - the server took too long to respond. Please try again.';
@@ -104,7 +104,7 @@ api.interceptors.response.use(
       error.userMessage = 'Unauthorized - please login again';
       console.warn('⚠️ Unauthorized - clearing token');
       localStorage.removeItem('token');
-      
+
       // Only redirect if not already on login page
       if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
         window.location.href = '/login';
@@ -116,7 +116,7 @@ api.interceptors.response.use(
     } else {
       error.userMessage = error.response?.data?.message || 'An error occurred';
     }
-    
+
     return Promise.reject(error)
   }
 )
@@ -134,7 +134,8 @@ export const authAPI = {
     return api.post('/auth/register', data)
   },
   logout: () => api.post('/auth/logout'),
-  me: () => api.get('/auth/me')
+  me: () => api.get('/auth/me'),
+  updateProfile: (data) => api.put('/auth/updatedetails', data)
 }
 
 // Courses
