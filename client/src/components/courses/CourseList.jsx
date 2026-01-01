@@ -11,14 +11,18 @@ const CourseList = () => {
   const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
-    fetchCourses()
-  }, [page])
+    const delayDebounceFn = setTimeout(() => {
+      fetchCourses()
+    }, 500)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [page, searchTerm])
 
   const fetchCourses = async () => {
     try {
       setLoading(true)
       setError('')
-      const response = await courseAPI.getAll({ page, limit: 9 })
+      const response = await courseAPI.getAll({ page, limit: 9, search: searchTerm })
       setCourses(response.data.courses || [])
       setTotalPages(response.data.pages || 1)
     } catch (err) {
@@ -29,10 +33,7 @@ const CourseList = () => {
     }
   }
 
-  const filteredCourses = courses.filter(course =>
-    course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+
 
   if (loading && courses.length === 0) {
     return (
@@ -69,7 +70,10 @@ const CourseList = () => {
                 type="text"
                 placeholder="Search for courses, skills, or topics..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value)
+                  setPage(1)
+                }}
                 className="block w-full pl-12 pr-4 py-4 bg-bg-primary text-text-primary placeholder-text-muted border border-border-light rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
               />
             </div>
@@ -92,7 +96,7 @@ const CourseList = () => {
         )}
 
         {/* Empty State */}
-        {!loading && filteredCourses.length === 0 && (
+        {!loading && courses.length === 0 && (
           <div className="text-center py-20 bg-bg-secondary rounded-3xl border-dashed border-2 border-border-light">
             <div className="text-6xl mb-6 opacity-50 grayscale">🔍</div>
             <h3 className="text-2xl font-bold text-text-primary mb-2">
@@ -106,7 +110,7 @@ const CourseList = () => {
 
         {/* Courses Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredCourses.map((course, index) => (
+          {courses.map((course, index) => (
             <Link
               key={course._id}
               to={`/courses/${course._id}`}

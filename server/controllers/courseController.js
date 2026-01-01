@@ -12,15 +12,25 @@ exports.getCourses = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || '';
     const skip = (page - 1) * limit;
 
-    const courses = await Course.find({ isActive: true })
+    let query = { isActive: true };
+
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const courses = await Course.find(query)
       .populate('instructor', 'name email')
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
 
-    const total = await Course.countDocuments({ isActive: true });
+    const total = await Course.countDocuments(query);
 
     res.status(200).json({
       success: true,
