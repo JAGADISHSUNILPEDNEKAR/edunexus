@@ -4,58 +4,63 @@
 
 @layer base {
   :root {
-    /* Light Theme */
+    /* Light Theme (Ocean Breeze) */
     --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    /* Slate 50 */
-    --bg-tertiary: #f1f5f9;
-    /* Slate 100 */
+    --bg-secondary: #f0f9ff;
+    /* Sky 50 */
+    --bg-tertiary: #e0f2fe;
+    /* Sky 100 */
 
-    --text-primary: #0f172a;
-    /* Slate 900 */
-    --text-secondary: #475569;
-    /* Slate 600 */
-    --text-muted: #94a3b8;
-    /* Slate 400 */
-
-    --border-light: #e2e8f0;
-    /* Slate 200 */
-    --border-medium: #cbd5e1;
-    /* Slate 300 */
-
-    /* Brand Colors (Indigo/Violet) - Keeping these consistent but could be tweaked for dark mode ease */
-    --brand-primary: #6366f1;
-    /* Indigo 500 */
-    --brand-dark: #4f46e5;
-    /* Indigo 600 */
-    --brand-light: #818cf8;
-    /* Indigo 400 */
-  }
-
-  .dark {
-    /* Dark Theme */
-    --bg-primary: #1e293b;
-    /* Slate 800 (Cards/Elevated surfaces) */
-    --bg-secondary: #0f172a;
-    /* Slate 900 (Main background) */
-    --bg-tertiary: #020617;
-    /* Slate 950 */
-
-    --text-primary: #f8fafc;
-    /* Slate 50 */
-    --text-secondary: #cbd5e1;
-    /* Slate 300 */
+    --text-primary: #0c4a6e;
+    /* Sky 900 */
+    --text-secondary: #334155;
+    /* Slate 700 */
     --text-muted: #64748b;
     /* Slate 500 */
 
-    --border-light: #334155;
+    --border-light: #e0f2fe;
+    /* Sky 100 */
+    --border-medium: #bae6fd;
+    /* Sky 200 */
+
+    /* Brand Colors (Ocean Blue / Sky) */
+    --brand-primary: 14 165 233;
+    /* Sky 500 */
+    --brand-dark: 2 132 199;
+    /* Sky 600 */
+    --brand-light: 56 189 248;
+    /* Sky 400 */
+  }
+
+  .dark {
+    /* Dark Theme (Deep Ocean) */
+    --bg-primary: #0f172a;
+    /* Slate 900 */
+    --bg-secondary: #020617;
+    /* Slate 950 */
+    --bg-tertiary: #1e293b;
+    /* Slate 800 */
+
+    --text-primary: #f0f9ff;
+    /* Sky 50 */
+    --text-secondary: #cbd5e1;
+    /* Slate 300 */
+    --text-muted: #94a3b8;
+    /* Slate 400 */
+
+    --border-light: #1e293b;
+    /* Slate 800 */
+    --border-medium: #334155;
     /* Slate 700 */
-    --border-medium: #475569;
-    /* Slate 600 */
   }
 
   body {
-    @apply bg-bg-secondary text-text-primary antialiased font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-200;
+    @apply bg-bg-secondary text-text-primary antialiased font-sans transition-colors duration-200;
+  }
+
+  ::selection {
+    background-color: var(--brand-primary);
+    color: #ffffff;
   }
 
   h1,
@@ -76,15 +81,15 @@
   }
 
   .btn-primary {
-    @apply bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500 shadow-indigo-500/20 shadow-md border border-transparent;
+    @apply bg-brand-primary text-white hover:bg-brand-dark focus:ring-brand-primary shadow-brand-primary/20 shadow-md border border-transparent;
   }
 
   .btn-secondary {
-    @apply bg-bg-primary text-text-secondary border border-border-light hover:bg-bg-tertiary hover:border-border-medium focus:ring-slate-400;
+    @apply bg-bg-primary text-text-secondary border border-border-light hover:bg-bg-tertiary hover:border-border-medium focus:ring-text-muted;
   }
 
   .btn-outline {
-    @apply bg-transparent border border-indigo-600 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-400;
+    @apply bg-transparent border border-brand-primary text-brand-primary hover:bg-bg-secondary dark:hover:bg-brand-primary/10 dark:text-brand-light dark:border-brand-light;
   }
 
   .btn-danger {
@@ -105,12 +110,12 @@
   }
 
   .card-hover {
-    @apply hover:-translate-y-1 hover:shadow-lg hover:border-indigo-500/20 transition-all duration-300;
+    @apply hover:-translate-y-1 hover:shadow-lg hover:border-brand-primary/20 transition-all duration-300;
   }
 
   /* Inputs */
   .input {
-    @apply w-full px-4 py-2.5 bg-bg-primary border border-border-light rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200;
+    @apply w-full px-4 py-2.5 bg-bg-primary border border-border-light rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all duration-200;
   }
 
   .input-label {
@@ -124,12 +129,12 @@
 
   .badge-primary,
   .badge-student {
-    @apply bg-indigo-50 text-indigo-700 ring-indigo-600/20 dark:bg-indigo-900/30 dark:text-indigo-400 dark:ring-indigo-400/30;
+    @apply bg-brand-primary/10 text-brand-dark ring-brand-primary/20 dark:bg-brand-primary/20 dark:text-brand-light dark:ring-brand-light/30;
   }
 
   .badge-secondary,
   .badge-instructor {
-    @apply bg-purple-50 text-purple-700 ring-purple-600/20 dark:bg-purple-900/30 dark:text-purple-400 dark:ring-purple-400/30;
+    @apply bg-secondary-50 text-secondary-700 ring-secondary-600/20 dark:bg-secondary-900/30 dark:text-secondary-400 dark:ring-secondary-400/30;
   }
 
   .badge-success {
@@ -155,12 +160,12 @@
   }
 
   .nav-link.active {
-    @apply text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 dark:text-indigo-400;
+    @apply text-brand-primary bg-brand-primary/10 dark:bg-brand-primary/20 dark:text-brand-light;
   }
 
   /* Utilities */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-secondary-500;
   }
 
   /* Layout helpers */
