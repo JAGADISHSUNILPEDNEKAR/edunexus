@@ -157,7 +157,7 @@ const ChatRoom = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-t-primary-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -194,20 +194,20 @@ const ChatRoom = () => {
               >
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${isOwnMessage
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-bg-tertiary text-text-primary'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-bg-tertiary text-text-primary'
                     }`}
                 >
                   <div className="flex items-center space-x-2 mb-1">
                     <span className="font-semibold text-sm">
                       {isOwnMessage ? 'You' : message.sender.name}
                     </span>
-                    <span className={`text-xs ${isOwnMessage ? 'text-indigo-200' : 'text-text-muted'}`}>
+                    <span className={`text-xs ${isOwnMessage ? 'text-primary-200' : 'text-text-muted'}`}>
                       {message.sender.role}
                     </span>
                   </div>
                   <p className="break-words">{message.content}</p>
-                  <p className={`text-xs mt-1 ${isOwnMessage ? 'text-indigo-200' : 'text-text-muted'}`}>
+                  <p className={`text-xs mt-1 ${isOwnMessage ? 'text-primary-200' : 'text-text-muted'}`}>
                     {new Date(message.createdAt).toLocaleTimeString()}
                   </p>
                 </div>

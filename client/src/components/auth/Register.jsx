@@ -95,7 +95,7 @@ const Register = () => {
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 z-10 bg-bg-primary">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div className="mb-8">
-            <div className="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl mb-6 shadow-indigo-200 shadow-lg">
+            <div className="h-10 w-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl mb-6 shadow-primary-200 shadow-lg">
               E
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-text-primary">
@@ -261,7 +261,7 @@ const Register = () => {
 
           <div className="mt-8 text-center text-sm text-text-secondary">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+            <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-500">
               Sign in instead
             </Link>
           </div>
@@ -275,17 +275,17 @@ const Register = () => {
       </div>
 
       {/* Right Side - Image/Decoration */}
-      <div className="hidden lg:block relative w-0 flex-1 bg-purple-600 overflow-hidden">
+      <div className="hidden lg:block relative w-0 flex-1 bg-primary-600 overflow-hidden">
         {/* Abstract Background */}
-        <div className="absolute inset-0 bg-gradient-to-bl from-purple-600 via-indigo-700 to-purple-800"></div>
+        <div className="absolute inset-0 bg-gradient-to-bl from-primary-600 via-secondary-600 to-primary-800"></div>
 
         {/* Decorative Shapes */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-secondary-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 
         {/* Content Overlay */}
         <div className="absolute inset-0 flex flex-col justify-center px-16 text-white z-10">
-          <h3 className="text-lg font-semibold text-purple-200 uppercase tracking-widest mb-4">
+          <h3 className="text-lg font-semibold text-primary-200 uppercase tracking-widest mb-4">
             Why Join EduNexus?
           </h3>
 
@@ -298,7 +298,7 @@ const Register = () => {
               </div>
               <div className="ml-5">
                 <h4 className="text-xl font-bold">Limitless Learning</h4>
-                <p className="mt-2 text-purple-100 leading-relaxed">
+                <p className="mt-2 text-primary-100 leading-relaxed">
                   Access thousands of top-rated courses from industry experts.
                 </p>
               </div>
@@ -312,7 +312,7 @@ const Register = () => {
               </div>
               <div className="ml-5">
                 <h4 className="text-xl font-bold">Community & Support</h4>
-                <p className="mt-2 text-purple-100 leading-relaxed">
+                <p className="mt-2 text-primary-100 leading-relaxed">
                   Join a community of learners and get real-time feedback from instructors.
                 </p>
               </div>
@@ -326,7 +326,7 @@ const Register = () => {
               </div>
               <div className="ml-5">
                 <h4 className="text-xl font-bold">Track Your Success</h4>
-                <p className="mt-2 text-purple-100 leading-relaxed">
+                <p className="mt-2 text-primary-100 leading-relaxed">
                   Earn certificates and track your progress as you master new skills.
                 </p>
               </div>

@@ -40,7 +40,7 @@ const ContentModeration = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-t-primary-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -77,7 +77,7 @@ const ContentModeration = () => {
                       href={`/courses/${course._id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-indigo-600 hover:underline"
+                      className="text-sm text-primary-600 hover:underline"
                     >
                       View
                     </a>

@@ -38,7 +38,7 @@ const CourseList = () => {
   if (loading && courses.length === 0) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center pt-20">
-        <div className="w-16 h-16 border-4 border-border-light border-t-indigo-600 rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-border-light border-t-primary-600 rounded-full animate-spin"></div>
         <p className="text-text-muted mt-4 text-lg">Loading courses...</p>
       </div>
     )
@@ -51,7 +51,7 @@ const CourseList = () => {
         <div className="container-custom text-center">
           <div className="max-w-3xl mx-auto mb-10">
             <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
-              Explore Our <span className="text-indigo-600">Courses</span>
+              Explore Our <span className="text-primary-600">Courses</span>
             </h1>
             <p className="text-xl text-text-secondary">
               Discover thousands of courses taught by expert instructors and advance your career today.
@@ -74,7 +74,7 @@ const CourseList = () => {
                   setSearchTerm(e.target.value)
                   setPage(1)
                 }}
-                className="block w-full pl-12 pr-4 py-4 bg-bg-primary text-text-primary placeholder-text-muted border border-border-light rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
+                className="block w-full pl-12 pr-4 py-4 bg-bg-primary text-text-primary placeholder-text-muted border border-border-light rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
               />
             </div>
           </div>
@@ -118,7 +118,7 @@ const CourseList = () => {
             >
               <div className="card h-full p-0 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col border border-border-light">
                 <div className="h-56 relative overflow-hidden bg-bg-tertiary">
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 group-hover:scale-105 transition-transform duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-secondary-600 group-hover:scale-105 transition-transform duration-500"></div>
                   {/* Decorative Elements */}
                   <div className="absolute top-4 right-4 z-10">
                     <span className="badge badge-success bg-bg-primary/90 backdrop-blur text-emerald-700 shadow-sm">

@@ -41,7 +41,7 @@ const CourseDetail = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-t-primary-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -101,8 +101,8 @@ const CourseDetail = () => {
             <button
               onClick={() => setActiveTab('lectures')}
               className={`pb-2 px-1 ${activeTab === 'lectures'
-                  ? 'border-b-2 border-indigo-600 text-indigo-600'
-                  : 'text-text-muted hover:text-text-primary'
+                ? 'border-b-2 border-primary-600 text-primary-600'
+                : 'text-text-muted hover:text-text-primary'
                 }`}
             >
               Lectures
@@ -110,8 +110,8 @@ const CourseDetail = () => {
             <button
               onClick={() => setActiveTab('assignments')}
               className={`pb-2 px-1 ${activeTab === 'assignments'
-                  ? 'border-b-2 border-indigo-600 text-indigo-600'
-                  : 'text-text-muted hover:text-text-primary'
+                ? 'border-b-2 border-primary-600 text-primary-600'
+                : 'text-text-muted hover:text-text-primary'
                 }`}
             >
               Assignments ({assignments.length})

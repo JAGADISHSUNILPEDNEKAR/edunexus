@@ -47,8 +47,8 @@ const AssignmentList = ({ assignments, courseId, isInstructor, onUpdate }) => {
             {assignment.dueDate && (
               <span
                 className={`text-sm px-3 py-1 rounded-full ${isOverdue(assignment.dueDate)
-                    ? 'bg-rose-100 text-rose-800'
-                    : 'bg-emerald-100 text-emerald-800'
+                  ? 'bg-rose-100 text-rose-800'
+                  : 'bg-emerald-100 text-emerald-800'
                   }`}
               >
                 Due: {formatDate(assignment.dueDate)}
@@ -78,7 +78,7 @@ const AssignmentList = ({ assignments, courseId, isInstructor, onUpdate }) => {
               href={assignment.fileUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-indigo-600 hover:underline text-sm mt-2 inline-block"
+              className="text-primary-600 hover:underline text-sm mt-2 inline-block"
             >
               📎 Download Assignment File
             </a>

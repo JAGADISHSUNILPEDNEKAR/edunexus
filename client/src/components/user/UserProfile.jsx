@@ -81,8 +81,8 @@ const UserProfile = () => {
 
                     {message.text && (
                         <div className={`p-4 rounded-lg mb-6 ${message.type === 'success'
-                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                : 'bg-rose-50 text-rose-700 border border-rose-200'
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            : 'bg-rose-50 text-rose-700 border border-rose-200'
                             }`}>
                             {message.text}
                         </div>
@@ -90,7 +90,7 @@ const UserProfile = () => {
 
                     <div className="flex flex-col md:flex-row gap-8 mb-8">
                         <div className="flex-shrink-0 flex justify-center md:justify-start">
-                            <div className="w-32 h-32 rounded-full bg-indigo-100 flex items-center justify-center text-4xl shadow-md border-4 border-white dark:border-slate-800">
+                            <div className="w-32 h-32 rounded-full bg-primary-100 flex items-center justify-center text-4xl shadow-md border-4 border-white dark:border-slate-800">
                                 👤
                             </div>
                         </div>
