@@ -30,6 +30,30 @@
     /* Sky 600 */
     --brand-light: 56 189 248;
     /* Sky 400 */
+
+    --brand-50: 240 249 255;
+    --brand-100: 224 242 254;
+    --brand-200: 186 230 253;
+    --brand-300: 125 211 252;
+    --brand-400: 56 189 248;
+    --brand-500: 14 165 233;
+    --brand-600: 2 132 199;
+    --brand-700: 3 105 161;
+    --brand-800: 7 89 133;
+    --brand-900: 12 74 110;
+    --brand-950: 8 47 73;
+
+    /* Secondary Colors (Cyan) */
+    --secondary-50: 236 254 255;
+    --secondary-100: 207 250 254;
+    --secondary-200: 165 243 252;
+    --secondary-300: 103 232 249;
+    --secondary-400: 34 211 238;
+    --secondary-500: 6 182 212;
+    --secondary-600: 8 145 178;
+    --secondary-700: 14 116 144;
+    --secondary-800: 21 94 117;
+    --secondary-900: 22 78 99;
   }
 
   .dark {

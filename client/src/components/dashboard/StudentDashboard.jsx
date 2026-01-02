@@ -32,7 +32,7 @@ const StudentDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center pt-20">
-        <div className="w-12 h-12 border-4 border-border-light border-t-indigo-600 rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-border-light border-t-brand-primary rounded-full animate-spin"></div>
         <p className="text-text-muted mt-4 text-lg">Loading your dashboard...</p>
       </div>
     )
@@ -46,7 +46,7 @@ const StudentDashboard = () => {
       <section className="bg-bg-primary border-b border-border-light py-12 mb-8">
         <div className="container-custom">
           <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center text-4xl shadow-sm text-indigo-600">
+            <div className="w-20 h-20 rounded-2xl bg-brand-50 flex items-center justify-center text-4xl shadow-sm text-brand-600">
               🎓
             </div>
             <div>
@@ -64,9 +64,9 @@ const StudentDashboard = () => {
       <div className="container-custom">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-indigo-500">
+          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-brand-primary">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl text-indigo-600">
+              <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-2xl text-brand-600">
                 📚
               </div>
               <span className="badge badge-primary">Active</span>
@@ -86,9 +86,9 @@ const StudentDashboard = () => {
             <div className="text-text-muted text-sm font-medium">Assignments Done</div>
           </div>
 
-          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-purple-500">
+          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-secondary-500">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-2xl text-purple-600">
+              <div className="w-12 h-12 rounded-xl bg-secondary-50 flex items-center justify-center text-2xl text-secondary-600">
                 📹
               </div>
               <span className="badge badge-secondary">Watch Time</span>
@@ -145,7 +145,7 @@ const StudentDashboard = () => {
                   <div className="card h-full flex flex-col p-0 overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div className="h-48 relative overflow-hidden bg-bg-tertiary">
                       {/* Generative placeholder pattern */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 group-hover:scale-105 transition-transform duration-500"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-brand-500 to-secondary-600 group-hover:scale-105 transition-transform duration-500"></div>
                       <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
                         <h3 className="text-lg font-bold text-white leading-tight">
                           {course.title}
@@ -172,7 +172,7 @@ const StudentDashboard = () => {
                           <span>📹</span>
                           <span>{course.lectures?.length || 0} lectures</span>
                         </div>
-                        <span className="text-indigo-600 text-sm font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                        <span className="text-brand-600 text-sm font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
                           Continue →
                         </span>
                       </div>
