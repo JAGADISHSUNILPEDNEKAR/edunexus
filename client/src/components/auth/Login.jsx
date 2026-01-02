@@ -58,7 +58,7 @@ const Login = () => {
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div className="mb-10">
             {/* Logo placeholder - replace with actual logo if available */}
-            <div className="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl mb-6 shadow-indigo-200 shadow-lg">
+            <div className="h-10 w-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl mb-6 shadow-primary-200 shadow-lg">
               E
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-text-primary">
@@ -138,7 +138,7 @@ const Login = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 rounded border-border-light text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-border-light text-primary-600 focus:ring-primary-500"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-text-secondary">
                   Remember me
@@ -146,7 +146,7 @@ const Login = () => {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
                   Forgot password?
                 </a>
               </div>
@@ -187,11 +187,11 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => fillDemoCredentials('admin')}
-                className="inline-flex flex-col items-center justify-center p-3 border border-purple-200 rounded-xl bg-purple-50 hover:bg-purple-100 transition-colors"
+                className="inline-flex flex-col items-center justify-center p-3 border border-secondary-200 rounded-xl bg-secondary-50 hover:bg-secondary-100 transition-colors"
                 title="Admin Account"
               >
                 <span className="text-xl mb-1">👑</span>
-                <span className="text-xs font-semibold text-purple-700">Admin</span>
+                <span className="text-xs font-semibold text-secondary-700">Admin</span>
               </button>
               <button
                 type="button"
@@ -216,7 +216,7 @@ const Login = () => {
 
           <div className="mt-8 text-center text-sm text-text-secondary">
             Don't have an account?{' '}
-            <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
+            <Link to="/register" className="font-semibold text-primary-600 hover:text-primary-500">
               Create an account
             </Link>
           </div>
@@ -224,13 +224,13 @@ const Login = () => {
       </div>
 
       {/* Right Side - Image/Decoration */}
-      <div className="hidden lg:block relative w-0 flex-1 bg-indigo-600 overflow-hidden">
+      <div className="hidden lg:block relative w-0 flex-1 bg-primary-600 overflow-hidden">
         {/* Abstract Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-secondary-600 to-primary-800"></div>
 
         {/* Decorative Circles */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-indigo-500 opacity-20 blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-purple-500 opacity-20 blur-3xl"></div>
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-primary-500 opacity-20 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-secondary-500 opacity-20 blur-3xl"></div>
 
         {/* Content Overlay */}
         <div className="absolute inset-0 flex flex-col justify-center px-12 text-white z-10">
@@ -238,15 +238,15 @@ const Login = () => {
             <h2 className="text-4xl font-extrabold tracking-tight mb-6 leading-tight">
               Transform your learning journey today.
             </h2>
-            <p className="text-lg text-indigo-100 mb-8 leading-relaxed">
+            <p className="text-lg text-primary-100 mb-8 leading-relaxed">
               EduNexus provides the tools you need to succeed. Join thousands of students and instructors in a world-class learning environment.
             </p>
 
-            <div className="flex items-center gap-4 text-sm font-medium text-indigo-200">
+            <div className="flex items-center gap-4 text-sm font-medium text-primary-200">
               <div className="flex -space-x-2 overflow-hidden">
-                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-indigo-600 bg-white/20"></div>
-                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-indigo-600 bg-white/30"></div>
-                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-indigo-600 bg-white/40"></div>
+                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-primary-600 bg-white/20"></div>
+                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-primary-600 bg-white/30"></div>
+                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-primary-600 bg-white/40"></div>
               </div>
               <span>Joined by 10,000+ learners</span>
             </div>

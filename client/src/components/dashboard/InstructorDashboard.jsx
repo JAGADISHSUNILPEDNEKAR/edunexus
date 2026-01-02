@@ -38,7 +38,7 @@ const InstructorDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center pt-20">
-        <div className="w-12 h-12 border-4 border-border-light border-t-indigo-600 rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-border-light border-t-primary-600 rounded-full animate-spin"></div>
         <p className="text-text-muted mt-4 text-lg">Loading dashboard...</p>
       </div>
     )
@@ -58,7 +58,7 @@ const InstructorDashboard = () => {
       <section className="bg-bg-primary border-b border-border-light py-12 mb-8">
         <div className="container-custom">
           <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center text-4xl shadow-sm text-indigo-600">
+            <div className="w-20 h-20 rounded-2xl bg-primary-50 flex items-center justify-center text-4xl shadow-sm text-primary-600">
               👨‍🏫
             </div>
             <div>
@@ -76,9 +76,9 @@ const InstructorDashboard = () => {
       <div className="container-custom">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-indigo-500">
+          <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-primary-500">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl text-indigo-600">
+              <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center text-2xl text-primary-600">
                 📚
               </div>
               <span className="badge badge-primary">Total</span>
@@ -140,7 +140,7 @@ const InstructorDashboard = () => {
               {courses.map((course) => (
                 <div key={course._id} className="card group p-0 overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300">
                   <div className="h-48 bg-bg-tertiary relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 group-hover:scale-105 transition-transform duration-500 opacity-90"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-secondary-600 group-hover:scale-105 transition-transform duration-500 opacity-90"></div>
                     <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/60 to-transparent">
                       <h3 className="text-xl font-bold text-white mb-1 leading-tight">
                         {course.title}

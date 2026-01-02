@@ -35,7 +35,7 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-text-primary leading-tight">
-                Edunexus
+                EduNexus
               </span>
               <span className="text-[10px] text-text-muted font-medium tracking-wider uppercase">
                 Learn & Grow

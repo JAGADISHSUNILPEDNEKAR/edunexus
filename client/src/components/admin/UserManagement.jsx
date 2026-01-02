@@ -64,7 +64,7 @@ const UserManagement = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-12 h-12 border-4 border-t-indigo-600 border-border-light rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-t-primary-600 border-border-light rounded-full animate-spin"></div>
       </div>
     )
   }
@@ -111,8 +111,8 @@ const UserManagement = () => {
                 <td className="py-3 px-4">
                   <span
                     className={`px-2 py-1 text-xs rounded-full ${user.isActive
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : 'bg-rose-100 text-rose-800'
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : 'bg-rose-100 text-rose-800'
                       }`}
                   >
                     {user.isActive ? 'Active' : 'Inactive'}

@@ -43,7 +43,7 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center pt-20">
-        <div className="w-12 h-12 border-4 border-border-light border-t-indigo-600 rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-border-light border-t-primary-600 rounded-full animate-spin"></div>
         <p className="text-text-muted mt-4 text-lg">Loading admin dashboard...</p>
       </div>
     )
@@ -55,7 +55,7 @@ const AdminDashboard = () => {
       <section className="bg-bg-primary border-b border-border-light py-12 mb-8">
         <div className="container-custom">
           <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center text-4xl shadow-sm text-indigo-600">
+            <div className="w-20 h-20 rounded-2xl bg-primary-50 flex items-center justify-center text-4xl shadow-sm text-primary-600">
               ⚡
             </div>
             <div>
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-200 capitalize ${activeTab === tab
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
+                ? 'bg-primary-600 text-white shadow-md shadow-primary-200'
                 : 'text-text-secondary hover:bg-bg-tertiary hover:text-text-primary'
                 }`}
             >
@@ -96,7 +96,7 @@ const AdminDashboard = () => {
                 <div className="text-4xl font-bold text-text-primary mb-2">{stats.totalUsers}</div>
                 <span className="badge badge-primary">Active</span>
               </div>
-              <div className="card border-l-4 border-l-indigo-500">
+              <div className="card border-l-4 border-l-primary-500">
                 <div className="text-sm font-medium text-text-muted uppercase tracking-wider mb-2">Total Courses</div>
                 <div className="text-4xl font-bold text-text-primary mb-2">{stats.totalCourses}</div>
                 <span className="badge badge-secondary">Published</span>
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
                       <span className="font-semibold text-text-primary">85%</span>
                     </div>
                     <div className="w-full bg-bg-tertiary rounded-full h-2">
-                      <div className="bg-indigo-500 h-2 rounded-full" style={{ width: '85%' }}></div>
+                      <div className="bg-primary-500 h-2 rounded-full" style={{ width: '85%' }}></div>
                     </div>
                   </div>
                   <div>
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
                       <span className="font-semibold text-text-primary">12%</span>
                     </div>
                     <div className="w-full bg-bg-tertiary rounded-full h-2">
-                      <div className="bg-purple-500 h-2 rounded-full" style={{ width: '12%' }}></div>
+                      <div className="bg-secondary-500 h-2 rounded-full" style={{ width: '12%' }}></div>
                     </div>
                   </div>
                   <div>
@@ -147,11 +147,11 @@ const AdminDashboard = () => {
               <div className="card">
                 <h3 className="text-lg font-bold text-text-primary mb-6">Quick Actions</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <button className="p-4 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-700 hover:bg-indigo-100 transition-colors text-left flex flex-col items-center justify-center text-center gap-2">
+                  <button className="p-4 rounded-xl bg-primary-50 border border-primary-100 text-primary-700 hover:bg-primary-100 transition-colors text-left flex flex-col items-center justify-center text-center gap-2">
                     <div className="text-2xl">👤</div>
                     <div className="font-semibold">Manage Users</div>
                   </button>
-                  <button className="p-4 rounded-xl bg-purple-50 border border-purple-100 text-purple-700 hover:bg-purple-100 transition-colors text-left flex flex-col items-center justify-center text-center gap-2">
+                  <button className="p-4 rounded-xl bg-secondary-50 border border-secondary-100 text-secondary-700 hover:bg-secondary-100 transition-colors text-left flex flex-col items-center justify-center text-center gap-2">
                     <div className="text-2xl">📚</div>
                     <div className="font-semibold">Review Content</div>
                   </button>
