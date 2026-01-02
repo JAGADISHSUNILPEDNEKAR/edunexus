@@ -24,11 +24,11 @@
     /* Sky 200 */
 
     /* Brand Colors (Ocean Blue / Sky) */
-    --brand-primary: #0ea5e9;
+    --brand-primary: 14 165 233;
     /* Sky 500 */
-    --brand-dark: #0284c7;
+    --brand-dark: 2 132 199;
     /* Sky 600 */
-    --brand-light: #38bdf8;
+    --brand-light: 56 189 248;
     /* Sky 400 */
   }
 
@@ -55,7 +55,12 @@
   }
 
   body {
-    @apply bg-bg-secondary text-text-primary antialiased font-sans selection:bg-brand-primary selection:text-white transition-colors duration-200;
+    @apply bg-bg-secondary text-text-primary antialiased font-sans transition-colors duration-200;
+  }
+
+  ::selection {
+    background-color: var(--brand-primary);
+    color: #ffffff;
   }
 
   h1,

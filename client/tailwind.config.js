@@ -20,6 +20,10 @@ export default {
         'border-light': 'var(--border-light)',
         'border-medium': 'var(--border-medium)',
 
+        'brand-primary': 'rgb(var(--brand-primary) / <alpha-value>)',
+        'brand-dark': 'rgb(var(--brand-dark) / <alpha-value>)',
+        'brand-light': 'rgb(var(--brand-light) / <alpha-value>)',
+
         primary: {
           50: '#f0f9ff',
           100: '#e0f2fe',
