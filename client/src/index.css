@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -175,5 +176,18 @@
 
   .section-padding {
     @apply py-12 md:py-16;
+  }
+
+  /* Glassmorphism Utilities */
+  .glass-panel {
+    @apply backdrop-blur-[12px] bg-white/5 border border-white/20 shadow-lg shadow-cyan-500/10;
+  }
+
+  .dark .glass-panel {
+    @apply bg-slate-900/40 border-slate-700/50 shadow-cyan-900/20;
+  }
+
+  .glass-button {
+    @apply backdrop-blur-md bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300;
   }
 }
