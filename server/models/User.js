@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Course'
   }],
+  wishlist: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course'
+  }],
   isActive: {
     type: Boolean,
     default: true
@@ -50,12 +54,12 @@ const userSchema = new mongoose.Schema({
 userSchema.index({ email: 1 });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   // Only hash if password is modified
   if (!this.isModified('password')) {
     return next();
   }
-  
+
   try {
     const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS) || 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
@@ -66,12 +70,12 @@ userSchema.pre('save', async function(next) {
 });
 
 // Method to compare passwords
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Method to get public profile (no sensitive data)
-userSchema.methods.toPublicJSON = function() {
+userSchema.methods.toPublicJSON = function () {
   return {
     id: this._id,
     name: this.name,

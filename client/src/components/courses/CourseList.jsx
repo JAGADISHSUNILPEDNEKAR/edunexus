@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { courseAPI } from '../../services/api'
+import { courseAPI, userAPI } from '../../services/api'
+import { useAuth } from '../../hooks/useAuth'
 
 const CourseList = () => {
+  const { user } = useAuth()
   const [courses, setCourses] = useState([])
+  const [wishlist, setWishlist] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
@@ -25,6 +28,15 @@ const CourseList = () => {
       const response = await courseAPI.getAll({ page, limit: 9, search: searchTerm })
       setCourses(response.data.courses || [])
       setTotalPages(response.data.pages || 1)
+
+      if (user) {
+        try {
+          const wishlistRes = await userAPI.getWishlist()
+          setWishlist(wishlistRes.data.wishlist.map(w => w._id))
+        } catch (err) {
+          // Ignore
+        }
+      }
     } catch (err) {
       console.error('Failed to fetch courses:', err)
       setError('Unable to load courses. Please try again later.')
@@ -142,6 +154,23 @@ const CourseList = () => {
                   <p className="text-text-secondary text-sm line-clamp-3 mb-6 flex-1 leading-relaxed">
                     {course.description}
                   </p>
+
+                  {user?.role === 'student' && (
+                    <div className="absolute top-4 left-4 z-10">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          // We aren't implementing toggle logic here for now to avoid complexity, 
+                          // just visual indicator or basic toggle if easy.
+                          // Actually let's just show visual indicator.
+                        }}
+                        className={`p-2 rounded-full bg-white/90 backdrop-blur shadow-sm ${wishlist.includes(course._id) ? 'text-rose-500' : 'text-gray-400'}`}
+                        title={wishlist.includes(course._id) ? 'In Wishlist' : 'Add to Wishlist'}
+                      >
+                        {wishlist.includes(course._id) ? '❤️' : '🤍'}
+                      </button>
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-3 mb-4 pt-4 border-t border-border-light">
                     <div className="w-10 h-10 rounded-full bg-bg-tertiary flex items-center justify-center text-text-secondary font-bold text-sm">

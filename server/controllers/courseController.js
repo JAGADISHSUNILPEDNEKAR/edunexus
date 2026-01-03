@@ -338,10 +338,96 @@ exports.getEnrolledCourses = async (req, res) => {
       courses: user.enrolledCourses
     });
   } catch (error) {
-    logger.error('Get enrolled courses error:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching enrolled courses',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Add review to course
+// @route   POST /api/courses/:id/reviews
+// @access  Private (Enrolled students only)
+exports.addReview = async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found'
+      });
+    }
+
+    // Check if enrolled
+    if (!course.enrolledStudents.includes(req.user.id)) {
+      return res.status(403).json({
+        success: false,
+        message: 'You must be enrolled to review this course'
+      });
+    }
+
+    const Review = require('../models/Review');
+
+    // Check for existing review
+    const alreadyReviewed = await Review.findOne({
+      user: req.user.id,
+      course: req.params.id
+    });
+
+    if (alreadyReviewed) {
+      return res.status(400).json({
+        success: false,
+        message: 'You have already reviewed this course'
+      });
+    }
+
+    const review = await Review.create({
+      user: req.user.id,
+      course: req.params.id,
+      rating,
+      comment
+    });
+
+    logger.success(`Review added for course ${course.title} by ${req.user.name}`);
+
+    res.status(201).json({
+      success: true,
+      message: 'Review added successfully',
+      review
+    });
+  } catch (error) {
+    logger.error('Add review error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error adding review',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Get reviews for a course
+// @route   GET /api/courses/:id/reviews
+// @access  Public
+exports.getCourseReviews = async (req, res) => {
+  try {
+    const Review = require('../models/Review');
+    const reviews = await Review.find({ course: req.params.id })
+      .populate('user', 'name')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: reviews.length,
+      reviews
+    });
+  } catch (error) {
+    logger.error('Get reviews error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching reviews',
       error: error.message
     });
   }

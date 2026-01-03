@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { courseAPI, assignmentAPI } from '../../services/api'
+import { courseAPI, assignmentAPI, userAPI } from '../../services/api'
 import { useAuth } from '../../hooks/useAuth'
 
 const StudentDashboard = () => {
   const { user } = useAuth()
   const [enrolledCourses, setEnrolledCourses] = useState([])
+  const [wishlist, setWishlist] = useState([])
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -16,12 +17,14 @@ const StudentDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true)
-      const [coursesRes, submissionsRes] = await Promise.all([
+      const [coursesRes, submissionsRes, wishlistRes] = await Promise.all([
         courseAPI.getEnrolledCourses(),
-        assignmentAPI.getMySubmissions()
+        assignmentAPI.getMySubmissions(),
+        userAPI.getWishlist()
       ])
       setEnrolledCourses(coursesRes.data.courses)
       setSubmissions(submissionsRes.data.submissions)
+      setWishlist(wishlistRes.data.wishlist)
     } catch (err) {
       console.error('Failed to fetch dashboard data:', err)
     } finally {
@@ -112,6 +115,38 @@ const StudentDashboard = () => {
             <div className="text-text-muted text-sm font-medium">Average Score</div>
           </div>
         </div>
+
+        {/* Wishlist Section */}
+        {wishlist.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-text-primary mb-1">My Wishlist</h2>
+            <p className="text-text-muted mb-6">Saved courses you want to take</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {wishlist.map((course) => (
+                <Link
+                  key={course._id}
+                  to={`/courses/${course._id}`}
+                  className="group block"
+                >
+                  <div className="card p-0 overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
+                    <div className="h-32 bg-bg-tertiary relative">
+                      <div className="absolute inset-0 bg-gradient-to-br from-rose-400 to-orange-500 opacity-80"></div>
+                      <div className="absolute bottom-2 left-4 font-bold text-white drop-shadow-md">
+                        {course.title}
+                      </div>
+                    </div>
+                    <div className="p-4 flex-1">
+                      <div className="flex justify-between items-center text-sm text-text-muted mb-2">
+                        <span>⭐ {course.rating?.toFixed(1) || 'New'}</span>
+                        <span className="text-rose-500">❤️ Saved</span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* My Courses Section */}
         <div className="mb-12">

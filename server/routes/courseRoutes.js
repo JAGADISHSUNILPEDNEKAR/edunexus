@@ -11,7 +11,10 @@ const {
   enrollCourse,
   addLecture,
   getInstructorCourses,
-  getEnrolledCourses
+  getInstructorCourses,
+  getEnrolledCourses,
+  addReview,
+  getCourseReviews
 } = require('../controllers/courseController');
 const { protect } = require('../middleware/auth');
 const { authorize } = require('../middleware/roleCheck');
@@ -26,6 +29,7 @@ const router = express.Router();
 // Public routes
 router.get('/', getCourses);
 router.get('/:id', objectIdValidation('id'), validate, getCourse);
+router.get('/:id/reviews', objectIdValidation('id'), validate, getCourseReviews);
 
 // 👇 Public for testing (was protected before)
 router.post('/', courseValidation, validate, createCourse);
@@ -33,6 +37,7 @@ router.post('/', courseValidation, validate, createCourse);
 // Protected routes - Student
 router.post('/:id/enroll', protect, authorize('student'), objectIdValidation('id'), validate, enrollCourse);
 router.get('/my/enrolled', protect, authorize('student'), getEnrolledCourses);
+router.post('/:id/reviews', protect, authorize('student'), objectIdValidation('id'), validate, addReview);
 
 // Protected routes - Instructor/Admin (other endpoints remain protected)
 router.put('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, updateCourse);
