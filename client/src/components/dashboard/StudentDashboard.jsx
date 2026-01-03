@@ -91,7 +91,7 @@ const StudentDashboard = () => {
               <div className="w-12 h-12 rounded-xl bg-secondary-50 flex items-center justify-center text-2xl text-secondary-600">
                 📹
               </div>
-              <span className="badge badge-secondary">Watch Time</span>
+              <span className="badge badge-secondary">Content</span>
             </div>
             <div className="text-3xl font-bold text-text-primary mb-1">{totalLectures}</div>
             <div className="text-text-muted text-sm font-medium">Total Lectures</div>
@@ -100,12 +100,16 @@ const StudentDashboard = () => {
           <div className="card hover:-translate-y-1 transition-transform border-l-4 border-l-amber-500">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl text-amber-600">
-                🔥
+                🎯
               </div>
-              <span className="badge badge-warning">Streak</span>
+              <span className="badge badge-warning">Score</span>
             </div>
-            <div className="text-3xl font-bold text-text-primary mb-1">7</div>
-            <div className="text-text-muted text-sm font-medium">Day Streak</div>
+            <div className="text-3xl font-bold text-text-primary mb-1">
+              {submissions.length > 0
+                ? Math.round(submissions.reduce((acc, curr) => acc + (curr.score || 0), 0) / submissions.length)
+                : '-'}
+            </div>
+            <div className="text-text-muted text-sm font-medium">Average Score</div>
           </div>
         </div>
 

@@ -7,6 +7,8 @@ const InstructorDashboard = () => {
   const { user } = useAuth()
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [sortBy, setSortBy] = useState('date') // date, students, rating
 
   useEffect(() => {
     fetchInstructorCourses()
@@ -51,6 +53,23 @@ const InstructorDashboard = () => {
   const avgRating = coursesWithRatings.length > 0
     ? (coursesWithRatings.reduce((sum, c) => sum + c.rating, 0) / coursesWithRatings.length).toFixed(1)
     : 'New'
+
+  // Filter and Sort Courses
+  const filteredCourses = courses
+    .filter(course =>
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === 'students') {
+        return (b.enrolledStudents?.length || 0) - (a.enrolledStudents?.length || 0)
+      }
+      if (sortBy === 'rating') {
+        return (b.rating || 0) - (a.rating || 0)
+      }
+      // default to date (newest first)
+      return new Date(b.createdAt) - new Date(a.createdAt)
+    })
 
   return (
     <div className="min-h-screen pb-20">
@@ -112,32 +131,53 @@ const InstructorDashboard = () => {
 
         {/* My Courses Section */}
         <div className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
             <div>
               <h2 className="text-2xl font-bold text-text-primary mb-1">My Courses</h2>
               <p className="text-text-muted">Create and manage your content</p>
             </div>
-            <Link to="/courses/create" className="btn btn-primary">
-              <span>➕</span> Create New Course
-            </Link>
+
+            <div className="flex gap-2 w-full md:w-auto">
+              <input
+                type="text"
+                placeholder="Search courses..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="input py-2 flex-grow md:w-64"
+              />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="input py-2 w-auto"
+              >
+                <option value="date">Newest</option>
+                <option value="students">Most Students</option>
+                <option value="rating">Top Rated</option>
+              </select>
+              <Link to="/courses/create" className="btn btn-primary whitespace-nowrap">
+                <span>➕</span> <span className="hidden sm:inline">New</span>
+              </Link>
+            </div>
           </div>
 
-          {courses.length === 0 ? (
+          {filteredCourses.length === 0 ? (
             <div className="card flex flex-col items-center justify-center py-16 text-center border-dashed border-2 border-border-light bg-bg-secondary shadow-none">
               <div className="text-6xl mb-6 opacity-50 grayscale">📝</div>
               <h3 className="text-xl font-bold text-text-primary mb-2">
-                Start Teaching Today
+                {searchTerm ? 'No courses found' : 'Start Teaching Today'}
               </h3>
               <p className="text-text-secondary mb-8 max-w-md">
-                You haven't created any courses yet. Share your knowledge with the world!
+                {searchTerm ? 'Try adjusting your search terms.' : "You haven't created any courses yet. Share your knowledge with the world!"}
               </p>
-              <Link to="/courses/create" className="btn btn-primary btn-large">
-                Create Your First Course
-              </Link>
+              {!searchTerm && (
+                <Link to="/courses/create" className="btn btn-primary btn-large">
+                  Create Your First Course
+                </Link>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courses.map((course) => (
+              {filteredCourses.map((course) => (
                 <div key={course._id} className="card group p-0 overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300">
                   <div className="h-48 bg-bg-tertiary relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-secondary-600 group-hover:scale-105 transition-transform duration-500 opacity-90"></div>
