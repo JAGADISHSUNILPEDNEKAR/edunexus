@@ -149,6 +149,98 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+// @desc    Get user wishlist
+// @route   GET /api/users/wishlist
+// @access  Private
+exports.getWishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate('wishlist', 'title thumbnail description instructor rating price');
+
+    res.status(200).json({
+      success: true,
+      count: user.wishlist.length,
+      wishlist: user.wishlist
+    });
+  } catch (error) {
+    logger.error('Get wishlist error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching wishlist',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Add course to wishlist
+// @route   POST /api/users/wishlist/:courseId
+// @access  Private
+exports.addToWishlist = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found'
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+
+    // Check if already in wishlist
+    if (user.wishlist.includes(course._id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Course already in wishlist'
+      });
+    }
+
+    user.wishlist.push(course._id);
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Course added to wishlist',
+      wishlist: user.wishlist
+    });
+  } catch (error) {
+    logger.error('Add to wishlist error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error adding to wishlist',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Remove course from wishlist
+// @route   DELETE /api/users/wishlist/:courseId
+// @access  Private
+exports.removeFromWishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    user.wishlist = user.wishlist.filter(
+      (courseId) => courseId.toString() !== req.params.courseId
+    );
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Course removed from wishlist',
+      wishlist: user.wishlist
+    });
+  } catch (error) {
+    logger.error('Remove from wishlist error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error removing from wishlist',
+      error: error.message
+    });
+  }
+};
+
 // @desc    Get platform statistics
 // @route   GET /api/users/admin/stats
 // @access  Private (Admin)

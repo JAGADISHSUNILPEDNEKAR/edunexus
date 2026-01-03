@@ -7,7 +7,11 @@ const {
   getUser,
   updateUser,
   deleteUser,
-  getStats
+  deleteUser,
+  getStats,
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist
 } = require('../controllers/userController');
 const { protect } = require('../middleware/auth');
 const { authorize } = require('../middleware/roleCheck');
@@ -16,7 +20,14 @@ const { objectIdValidation, validate } = require('../utils/validation');
 const router = express.Router();
 
 // All routes require admin role
+// Routes for any authenticated user
 router.use(protect);
+
+router.get('/wishlist', getWishlist);
+router.post('/wishlist/:courseId', addToWishlist);
+router.delete('/wishlist/:courseId', removeFromWishlist);
+
+// Admin only routes
 router.use(authorize('admin'));
 
 router.get('/', getAllUsers);

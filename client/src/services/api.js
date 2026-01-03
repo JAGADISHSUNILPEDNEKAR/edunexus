@@ -151,7 +151,30 @@ export const courseAPI = {
   enroll: (id) => api.post(`/courses/${id}/enroll`),
   addLecture: (id, data) => api.post(`/courses/${id}/lectures`, data),
   getInstructorCourses: () => api.get('/courses/my/instructor'),
-  getEnrolledCourses: () => api.get('/courses/my/enrolled')
+  getEnrolledCourses: () => api.get('/courses/my/enrolled'),
+  addReview: (id, data) => api.post(`/courses/${id}/reviews`, data),
+  getReviews: (id) => api.get(`/courses/${id}/reviews`),
+  getProgress: (id) => api.get(`/progress/${id}/progress`), // This might be wrong path based on route definition?
+  // backend route is /api/progress/:courseId/progress ?? No, wait.
+  // progressRoutes is mounted at /api/progress
+  // Inside progressRoutes: router.route('/').get(getProgress) <- this gets progress for what?
+  // Let me check progressController.js again.
+  // exports.getProgress = async (req, res) => { ... req.params.courseId ... }
+  // Route definition: router.route('/').get(getProgress)
+  // But router defined with { mergeParams: true } ??
+  // No, I defined progressRoutes as: router.use(protect); router.route('/').get()...
+  // But how does it get courseId?
+  // Ah, I probably need to mount it under courses or pass it in body/query?
+  // Re-checking progressController: req.params.courseId
+  // Re-checking progressRoutes: just router.route('/')
+  // If I mount it at /api/progress, then req.params.courseId will be undefined unless using query params.
+  // Better approach: Mount it in courseRoutes or fix the route path.
+  // Let's look at my implementation plan: "/api/courses/:courseId/progress"
+  // So in courseRoutes I should mount it? Or define it in progressRoutes as /:courseId?
+  // Let's fix progressRoutes first.
+  // Actually, I'll update api.js assuming I fix the route to be `/api/progress/:courseId`.
+  updateProgress: (id, data) => api.put(`/progress/${id}`, data),
+  getProgress: (id) => api.get(`/progress/${id}`)
 }
 
 // Assignments
@@ -176,7 +199,10 @@ export const userAPI = {
   getById: (id) => api.get(`/users/${id}`),
   update: (id, data) => api.put(`/users/${id}`, data),
   delete: (id) => api.delete(`/users/${id}`),
-  getStats: () => api.get('/users/admin/stats')
+  getStats: () => api.get('/users/admin/stats'),
+  getWishlist: () => api.get('/users/wishlist'),
+  addToWishlist: (courseId) => api.post(`/users/wishlist/${courseId}`),
+  removeFromWishlist: (courseId) => api.delete(`/users/wishlist/${courseId}`)
 }
 
 // Chat
