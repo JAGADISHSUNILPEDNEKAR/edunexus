@@ -44,7 +44,7 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 inset-x-0 z-50 h-20 glass-panel border-b-0 rounded-none"
+      className="absolute top-0 inset-x-0 z-50 h-20 glass-panel border-b-0 rounded-none"
     >
       <div className="container-custom h-full">
         <div className="flex justify-between items-center h-full">
@@ -97,7 +97,7 @@ const Navbar = () => {
                       {user?.name}
                     </Link>
                     <span className={`text-[10px] uppercase tracking-wider font-bold ${user?.role === 'student' ? 'text-emerald-500' :
-                        user?.role === 'instructor' ? 'text-purple-500' : 'text-rose-500'
+                      user?.role === 'instructor' ? 'text-purple-500' : 'text-rose-500'
                       }`}>
                       {user?.role}
                     </span>

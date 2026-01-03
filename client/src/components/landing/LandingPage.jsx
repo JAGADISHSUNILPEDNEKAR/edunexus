@@ -243,7 +243,7 @@ const LandingPage = () => {
                   </div>
                 </div>
 
-                <div className="absolute bottom-12 left-[-20px] animate-float" style={{ animationDelay: '2.5s' }}>
+                <div className="absolute bottom-12 left-8 animate-float" style={{ animationDelay: '2.5s' }}>
                   <div className="glass-panel p-4 rounded-2xl flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 flex items-center justify-center text-white">
                       <CheckCircle2 className="w-6 h-6" />
