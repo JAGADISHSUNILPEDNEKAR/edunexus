@@ -72,12 +72,12 @@ courseSchema.index({ instructor: 1 });
 courseSchema.index({ title: 'text', description: 'text' });
 
 // Virtual for enrolled count
-courseSchema.virtual('enrolledCount').get(function() {
+courseSchema.virtual('enrolledCount').get(function () {
   return this.enrolledStudents.length;
 });
 
 // Virtual for lecture count
-courseSchema.virtual('lectureCount').get(function() {
+courseSchema.virtual('lectureCount').get(function () {
   return this.lectures.length;
 });
 
