@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { courseAPI } from '../../services/api'
+import { courseAPI, default as api } from '../../services/api'
 
 const CourseList = () => {
   const [courses, setCourses] = useState([])
@@ -101,14 +101,30 @@ const CourseList = () => {
       </section>
 
       <div className="container-custom py-12">
-        {/* Error State */}
+        {/* Error State with Debug Info */}
         {error && (
-          <div className="mb-8 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="text-xl">⚠️</span>
-              <p><strong>Error:</strong> {error}</p>
+          <div className="mb-8 p-6 bg-red-50 border border-red-200 rounded-xl text-red-700">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl">⚠️</span>
+              <h3 className="text-lg font-bold">Unable to load courses</h3>
             </div>
-            <button onClick={fetchCourses} className="btn btn-secondary text-sm bg-bg-primary text-rose-700 border-rose-200 hover:bg-rose-50">
+
+            <p className="mb-4">{error}</p>
+
+            <div className="bg-white p-4 rounded-lg border border-red-100 text-sm font-mono overflow-auto">
+              <p className="font-bold text-gray-700 mb-2">Debug Information:</p>
+              <div className="space-y-1 text-gray-600">
+                <p><span className="font-semibold">API URL:</span> {courseAPI.getAll.toString().includes('http') ? 'Custom' : api.defaults.baseURL}</p>
+                <p><span className="font-semibold">Endpoint:</span> /courses</p>
+                <p><span className="font-semibold">Time:</span> {new Date().toLocaleTimeString()}</p>
+                <p><span className="font-semibold">Status:</span> {error.toString()}</p>
+              </div>
+            </div>
+
+            <button
+              onClick={fetchCourses}
+              className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-sm"
+            >
               Try Again
             </button>
           </div>
