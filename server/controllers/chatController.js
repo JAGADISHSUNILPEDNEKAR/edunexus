@@ -17,7 +17,7 @@ exports.getCourseMessages = async (req, res) => {
 
     // Verify course exists and user has access
     const course = await Course.findById(courseId);
-    
+
     if (!course) {
       return res.status(404).json({
         success: false,
@@ -26,8 +26,8 @@ exports.getCourseMessages = async (req, res) => {
     }
 
     // Check if user has access to course
-    const isInstructor = course.instructor.toString() === req.user.id;
-    const isEnrolled = course.enrolledStudents.includes(req.user.id);
+    const isInstructor = course.instructor.toString() === req.user.id.toString();
+    const isEnrolled = course.enrolledStudents.some(id => id.toString() === req.user.id.toString());
     const isAdmin = req.user.role === 'admin';
 
     if (!isInstructor && !isEnrolled && !isAdmin) {
@@ -80,7 +80,7 @@ exports.sendMessage = async (req, res) => {
 
     // Verify course exists and user has access
     const course = await Course.findById(courseId);
-    
+
     if (!course) {
       return res.status(404).json({
         success: false,
@@ -88,8 +88,8 @@ exports.sendMessage = async (req, res) => {
       });
     }
 
-    const isInstructor = course.instructor.toString() === req.user.id;
-    const isEnrolled = course.enrolledStudents.includes(req.user.id);
+    const isInstructor = course.instructor.toString() === req.user.id.toString();
+    const isEnrolled = course.enrolledStudents.some(id => id.toString() === req.user.id.toString());
     const isAdmin = req.user.role === 'admin';
 
     if (!isInstructor && !isEnrolled && !isAdmin) {
