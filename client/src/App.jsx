@@ -18,6 +18,7 @@ import EditCourse from './components/courses/EditCourse'
 import CreateCourse from './components/courses/CreateCourse'
 import ChatRoom from './components/chat/ChatRoom'
 import UserProfile from './components/user/UserProfile'
+import AssignmentSubmissions from './components/assignments/AssignmentSubmissions'
 
 const MainContent = () => {
   const location = useLocation()
@@ -65,6 +66,12 @@ const MainContent = () => {
           <Route path="/courses/:id/edit" element={
             <ProtectedRoute allowedRoles={['instructor', 'admin']}>
               <EditCourse />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/assignments/:id/submissions" element={
+            <ProtectedRoute allowedRoles={['instructor', 'admin']}>
+              <AssignmentSubmissions />
             </ProtectedRoute>
           } />
 
