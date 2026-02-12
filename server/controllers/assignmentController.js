@@ -73,7 +73,7 @@ exports.createAssignment = async (req, res) => {
 
     // Verify course exists and user is instructor
     const course = await Course.findById(courseId);
-    
+
     if (!course) {
       return res.status(404).json({
         success: false,
@@ -334,6 +334,58 @@ exports.getMySubmissions = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error fetching submissions',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Mark submission (Grade and Feedback)
+// @route   PUT /api/assignments/submissions/:id/mark
+// @access  Private (Instructor/Admin)
+exports.markSubmission = async (req, res) => {
+  try {
+    const { score, feedback } = req.body;
+
+    let submission = await Submission.findById(req.params.id)
+      .populate('assignment');
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+
+    // Verify instructor ownership via assignment -> course
+    const assignment = await Assignment.findById(submission.assignment._id);
+    const course = await Course.findById(assignment.course);
+
+    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to grade this submission'
+      });
+    }
+
+    // Update submission
+    submission.score = score;
+    submission.feedback = feedback || '';
+    submission.gradedAt = new Date();
+
+    await submission.save();
+
+    logger.success(`Submission graded for student ${submission.student} on assignment ${assignment.title}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Submission graded successfully',
+      submission
+    });
+  } catch (error) {
+    logger.error('Mark submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error grading submission',
       error: error.message
     });
   }
