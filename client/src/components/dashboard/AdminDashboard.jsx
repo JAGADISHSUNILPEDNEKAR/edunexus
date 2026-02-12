@@ -9,10 +9,12 @@ const AdminDashboard = () => {
   const { user } = useAuth()
   const [stats, setStats] = useState({
     totalUsers: 0,
+    totalStudents: 0,  // Added
+    totalInstructors: 0,
+    totalAdmins: 0,    // Added
     activeUsers: 0,
     inactiveUsers: 0,
     totalCourses: 0,
-    totalInstructors: 0,
     totalEnrollments: 0,
     revenue: 0
   })
@@ -114,14 +116,14 @@ const AdminDashboard = () => {
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-text-secondary">Students</span>
                       <span className="font-semibold text-text-primary">
-                        {stats.totalUsers ? Math.round(((stats.totalUsers - stats.totalInstructors) / stats.totalUsers) * 100) : 0}%
+                        {stats.totalUsers ? Math.round((stats.totalStudents / stats.totalUsers) * 100) : 0}%
                       </span>
                     </div>
                     <div className="w-full bg-bg-tertiary rounded-full h-2">
                       <div
                         className="bg-primary-500 h-2 rounded-full"
                         style={{
-                          width: `${stats.totalUsers ? ((stats.totalUsers - stats.totalInstructors) / stats.totalUsers) * 100 : 0}%`
+                          width: `${stats.totalUsers ? (stats.totalStudents / stats.totalUsers) * 100 : 0}%`
                         }}
                       ></div>
                     </div>
@@ -138,6 +140,22 @@ const AdminDashboard = () => {
                         className="bg-secondary-500 h-2 rounded-full"
                         style={{
                           width: `${stats.totalUsers ? (stats.totalInstructors / stats.totalUsers) * 100 : 0}%`
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-text-secondary">Admins</span>
+                      <span className="font-semibold text-text-primary">
+                        {stats.totalUsers ? Math.round((stats.totalAdmins / stats.totalUsers) * 100) : 0}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-bg-tertiary rounded-full h-2">
+                      <div
+                        className="bg-purple-500 h-2 rounded-full"
+                        style={{
+                          width: `${stats.totalUsers ? (stats.totalAdmins / stats.totalUsers) * 100 : 0}%`
                         }}
                       ></div>
                     </div>

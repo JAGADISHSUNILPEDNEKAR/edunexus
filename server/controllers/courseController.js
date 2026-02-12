@@ -125,7 +125,8 @@ exports.updateCourse = async (req, res) => {
     }
 
     // Check ownership
-    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
+    // Use .equals() for reliableObjectId comparison
+    if (!course.instructor.equals(req.user._id) && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Not authorized to update this course'
@@ -172,7 +173,7 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // Check ownership
-    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
+    if (!course.instructor.equals(req.user._id) && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Not authorized to delete this course'
@@ -262,7 +263,7 @@ exports.addLecture = async (req, res) => {
     }
 
     // Check ownership
-    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
+    if (!course.instructor.equals(req.user._id) && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Not authorized to add lectures to this course'
