@@ -165,7 +165,7 @@ const startServer = async () => {
     initSocket(server);
     logger.success('✅ Socket.io initialized');
 
-    const PORT = process.env.PORT || 5000;
+    const PORT = process.env.PORT || 5001;
     server.listen(PORT, '0.0.0.0', () => {
       logger.success(`🚀 Server running in ${process.env.NODE_ENV || 'production'} on port ${PORT}`);
     });
