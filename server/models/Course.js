@@ -73,12 +73,12 @@ courseSchema.index({ title: 'text', description: 'text' });
 
 // Virtual for enrolled count
 courseSchema.virtual('enrolledCount').get(function () {
-  return this.enrolledStudents.length;
+  return this.enrolledStudents ? this.enrolledStudents.length : 0;
 });
 
 // Virtual for lecture count
 courseSchema.virtual('lectureCount').get(function () {
-  return this.lectures.length;
+  return this.lectures ? this.lectures.length : 0;
 });
 
 module.exports = mongoose.model('Course', courseSchema);
