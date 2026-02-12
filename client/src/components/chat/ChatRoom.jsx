@@ -18,6 +18,7 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('') // Added error state
   const [socket, setSocket] = useState(null)
   const [isTyping, setIsTyping] = useState(false)
   const [typingUsers, setTypingUsers] = useState(new Set())
@@ -51,8 +52,9 @@ const ChatRoom = () => {
       setMessages(messagesRes.data.messages)
     } catch (err) {
       console.error('Failed to fetch data:', err)
-      alert('Failed to load chat')
-      navigate('/courses')
+      const errorMsg = err.response?.data?.message || 'Failed to load chat. You might not have permission to view this course chat.'
+      setError(errorMsg)
+      // Don't redirect immediately so user can see the error
     } finally {
       setLoading(false)
     }
@@ -158,6 +160,23 @@ const ChatRoom = () => {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="w-12 h-12 border-4 border-t-primary-600 border-border-light rounded-full animate-spin"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto mt-8">
+        <div className="bg-rose-50 border border-rose-200 text-rose-700 px-6 py-4 rounded-lg shadow-sm">
+          <h3 className="text-lg font-bold mb-2">Access Denied</h3>
+          <p>{error}</p>
+          <button
+            onClick={() => navigate(`/courses/${courseId}`)}
+            className="mt-4 btn btn-secondary text-sm"
+          >
+            &larr; Back to Course
+          </button>
+        </div>
       </div>
     )
   }

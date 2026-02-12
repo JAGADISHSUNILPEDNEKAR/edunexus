@@ -56,7 +56,7 @@ const CourseDetail = () => {
 
   if (!course) return null
 
-  const isInstructor = user?.id === course.instructor._id || user?.role === 'admin'
+  const isInstructor = user?.id === course.instructor._id?.toString() || user?.id === course.instructor.toString() || user?.role === 'admin'
   const isEnrolled = course.enrolledStudents.some(s => s._id === user?.id)
 
   return (
