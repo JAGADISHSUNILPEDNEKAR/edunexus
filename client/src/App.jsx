@@ -14,6 +14,7 @@ import InstructorDashboard from './components/dashboard/InstructorDashboard'
 import AdminDashboard from './components/dashboard/AdminDashboard'
 import CourseList from './components/courses/CourseList'
 import CourseDetail from './components/courses/CourseDetail'
+import EditCourse from './components/courses/EditCourse'
 import CreateCourse from './components/courses/CreateCourse'
 import ChatRoom from './components/chat/ChatRoom'
 import UserProfile from './components/user/UserProfile'
@@ -60,6 +61,12 @@ const MainContent = () => {
           } />
 
           {/* Protected routes - All authenticated users */}
+
+          <Route path="/courses/:id/edit" element={
+            <ProtectedRoute allowedRoles={['instructor', 'admin']}>
+              <EditCourse />
+            </ProtectedRoute>
+          } />
 
           <Route path="/courses/:id" element={
             <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
