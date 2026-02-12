@@ -60,9 +60,16 @@ const MainContent = () => {
           } />
 
           {/* Protected routes - All authenticated users */}
+
           <Route path="/courses/:id" element={
             <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
               <CourseDetail />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/courses/:id/chat" element={
+            <ProtectedRoute allowedRoles={['student', 'instructor', 'admin']}>
+              <ChatRoom />
             </ProtectedRoute>
           } />
 
