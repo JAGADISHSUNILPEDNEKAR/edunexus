@@ -6,21 +6,22 @@ const CourseList = () => {
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
+  const [isSearching, setIsSearching] = useState(false)
 
   useEffect(() => {
+    // Only search if searchTerm has changed or page has changed
     const delayDebounceFn = setTimeout(() => {
       fetchCourses()
-    }, 500)
+    }, 300) // Reduced to 300ms for better responsiveness
 
     return () => clearTimeout(delayDebounceFn)
   }, [page, searchTerm])
 
   const fetchCourses = async () => {
     try {
-      setLoading(true)
+      if (searchTerm) setIsSearching(true)
+      else setLoading(true)
+
       setError('')
       const response = await courseAPI.getAll({ page, limit: 9, search: searchTerm })
       setCourses(response.data.courses || [])
@@ -30,12 +31,16 @@ const CourseList = () => {
       setError('Unable to load courses. Please try again later.')
     } finally {
       setLoading(false)
+      setIsSearching(false)
     }
   }
 
+  const handleClearSearch = () => {
+    setSearchTerm('')
+    setPage(1)
+  }
 
-
-  if (loading && courses.length === 0) {
+  if (loading && courses.length === 0 && !searchTerm) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center pt-20">
         <div className="w-16 h-16 border-4 border-border-light border-t-primary-600 rounded-full animate-spin"></div>
@@ -62,9 +67,13 @@ const CourseList = () => {
           <div className="max-w-2xl mx-auto">
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg className="h-6 w-6 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+                {isSearching ? (
+                  <div className="h-5 w-5 border-2 border-border-light border-t-primary-600 rounded-full animate-spin"></div>
+                ) : (
+                  <svg className="h-6 w-6 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                )}
               </div>
               <input
                 type="text"
@@ -74,8 +83,18 @@ const CourseList = () => {
                   setSearchTerm(e.target.value)
                   setPage(1)
                 }}
-                className="block w-full pl-12 pr-4 py-4 bg-bg-primary text-text-primary placeholder-text-muted border border-border-light rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
+                className="block w-full pl-12 pr-12 py-4 bg-bg-primary text-text-primary placeholder-text-muted border border-border-light rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
               />
+              {searchTerm && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-text-muted hover:text-text-primary transition-colors"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
         </div>
