@@ -87,9 +87,12 @@ const CourseDetail = () => {
             💬 Course Chat
           </Link>
           {isInstructor && (
-            <button className="btn btn-secondary">
+            <Link
+              to={`/courses/${course._id}/edit`}
+              className="btn btn-secondary"
+            >
               ✏️ Edit Course
-            </button>
+            </Link>
           )}
         </div>
       </div>
