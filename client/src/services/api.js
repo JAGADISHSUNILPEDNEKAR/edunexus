@@ -19,7 +19,7 @@ const getApiUrl = () => {
   return 'http://localhost:5001/api';
 };
 
-const API_URL = getApiUrl();
+export const API_URL = getApiUrl();
 
 console.log('🔧 API Configuration:', {
   apiUrl: API_URL,
@@ -167,7 +167,8 @@ export const assignmentAPI = {
     headers: { 'Content-Type': 'multipart/form-data' }
   }),
   getSubmissions: (id) => api.get(`/assignments/${id}/submissions`),
-  getMySubmissions: () => api.get('/assignments/my/submissions')
+  getMySubmissions: () => api.get('/assignments/my/submissions'),
+  markSubmission: (id, data) => api.put(`/assignments/submissions/${id}/mark`, data)
 }
 
 // Users (Admin)

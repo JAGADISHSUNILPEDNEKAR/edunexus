@@ -10,7 +10,8 @@ const {
   deleteAssignment,
   submitAssignment,
   getAssignmentSubmissions,
-  getMySubmissions
+  getMySubmissions,
+  markSubmission
 } = require('../controllers/assignmentController');
 const { protect } = require('../middleware/auth');
 const { authorize } = require('../middleware/roleCheck');
@@ -32,6 +33,7 @@ router.post('/', protect, authorize('instructor', 'admin'), uploadAssignment.sin
 router.put('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, updateAssignment);
 router.delete('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, deleteAssignment);
 router.get('/:id/submissions', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, getAssignmentSubmissions);
+router.put('/submissions/:id/mark', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, markSubmission);
 
 // Common routes
 router.get('/course/:courseId', protect, objectIdValidation('courseId'), validate, getCourseAssignments);
