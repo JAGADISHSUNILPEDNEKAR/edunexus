@@ -125,8 +125,17 @@ exports.updateCourse = async (req, res) => {
     }
 
     // Check ownership
-    // Use .equals() for reliableObjectId comparison
-    if (!course.instructor.equals(req.user._id) && req.user.role !== 'admin') {
+    // Robust check for both populated object and direct ID
+    const instructorId = course.instructor._id || course.instructor;
+
+    // Debug logging
+    console.log(`Update Course - Course ID: ${course._id}`);
+    console.log(`Instructor ID from course: ${instructorId}`);
+    console.log(`User ID from request: ${req.user._id}`);
+    console.log(`User Role: ${req.user.role}`);
+
+    if (instructorId.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      logger.warn(`Unauthorized update attempt by user ${req.user._id} on course ${course._id}`);
       return res.status(403).json({
         success: false,
         message: 'Not authorized to update this course'
@@ -173,7 +182,10 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // Check ownership
-    if (!course.instructor.equals(req.user._id) && req.user.role !== 'admin') {
+    const instructorId = course.instructor._id || course.instructor;
+
+    if (instructorId.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      logger.warn(`Unauthorized delete attempt by user ${req.user._id} on course ${course._id}`);
       return res.status(403).json({
         success: false,
         message: 'Not authorized to delete this course'
@@ -263,7 +275,10 @@ exports.addLecture = async (req, res) => {
     }
 
     // Check ownership
-    if (!course.instructor.equals(req.user._id) && req.user.role !== 'admin') {
+    const instructorId = course.instructor._id || course.instructor;
+
+    if (instructorId.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      logger.warn(`Unauthorized add lecture attempt by user ${req.user._id} on course ${course._id}`);
       return res.status(403).json({
         success: false,
         message: 'Not authorized to add lectures to this course'
