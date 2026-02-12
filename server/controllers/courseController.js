@@ -15,7 +15,7 @@ exports.getCourses = async (req, res) => {
     const search = req.query.search || '';
     const skip = (page - 1) * limit;
 
-    let query = { isActive: true };
+    let query = { isActive: { $ne: false } };
 
     if (search) {
       query.$or = [
