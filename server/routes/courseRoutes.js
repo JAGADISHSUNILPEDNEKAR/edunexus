@@ -35,7 +35,7 @@ router.post('/:id/enroll', protect, authorize('student'), objectIdValidation('id
 router.get('/my/enrolled', protect, authorize('student'), getEnrolledCourses);
 
 // Protected routes - Instructor/Admin (other endpoints remain protected)
-router.put('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, updateCourse);
+router.put('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), courseValidation, validate, updateCourse);
 router.delete('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, deleteCourse);
 router.post('/:id/lectures', protect, authorize('instructor', 'admin'), objectIdValidation('id'), validate, addLecture);
 router.get('/my/instructor', protect, authorize('instructor', 'admin'), getInstructorCourses);
