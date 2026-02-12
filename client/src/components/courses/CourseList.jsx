@@ -7,6 +7,9 @@ const CourseList = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [isSearching, setIsSearching] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
     // Only search if searchTerm has changed or page has changed
@@ -101,30 +104,14 @@ const CourseList = () => {
       </section>
 
       <div className="container-custom py-12">
-        {/* Error State with Debug Info */}
+        {/* Error State */}
         {error && (
-          <div className="mb-8 p-6 bg-red-50 border border-red-200 rounded-xl text-red-700">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl">⚠️</span>
-              <h3 className="text-lg font-bold">Unable to load courses</h3>
+          <div className="mb-8 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-xl">⚠️</span>
+              <p><strong>Error:</strong> {error}</p>
             </div>
-
-            <p className="mb-4">{error}</p>
-
-            <div className="bg-white p-4 rounded-lg border border-red-100 text-sm font-mono overflow-auto">
-              <p className="font-bold text-gray-700 mb-2">Debug Information:</p>
-              <div className="space-y-1 text-gray-600">
-                <p><span className="font-semibold">API URL:</span> {courseAPI.getAll.toString().includes('http') ? 'Custom' : api.defaults.baseURL}</p>
-                <p><span className="font-semibold">Endpoint:</span> /courses</p>
-                <p><span className="font-semibold">Time:</span> {new Date().toLocaleTimeString()}</p>
-                <p><span className="font-semibold">Status:</span> {error.toString()}</p>
-              </div>
-            </div>
-
-            <button
-              onClick={fetchCourses}
-              className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-sm"
-            >
+            <button onClick={fetchCourses} className="btn btn-secondary text-sm bg-bg-primary text-rose-700 border-rose-200 hover:bg-rose-50">
               Try Again
             </button>
           </div>
