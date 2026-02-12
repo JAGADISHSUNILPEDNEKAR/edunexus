@@ -81,6 +81,14 @@ const ContentModeration = () => {
                     >
                       View
                     </a>
+                    <a
+                      href={`/courses/${course._id}/edit`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-600 hover:underline"
+                    >
+                      Edit
+                    </a>
                     <button
                       onClick={() => handleDeleteCourse(course._id)}
                       className="text-sm text-rose-600 hover:underline"
