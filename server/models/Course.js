@@ -60,7 +60,28 @@ const courseSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  ratings: [{
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    value: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5
+    },
+    review: {
+      type: String,
+      maxlength: 500
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 }, {
   timestamps: true,
   toJSON: { virtuals: true },
@@ -76,9 +97,17 @@ courseSchema.virtual('enrolledCount').get(function () {
   return this.enrolledStudents ? this.enrolledStudents.length : 0;
 });
 
-// Virtual for lecture count
 courseSchema.virtual('lectureCount').get(function () {
   return this.lectures ? this.lectures.length : 0;
+});
+
+// Virtual for average rating
+courseSchema.virtual('averageRating').get(function () {
+  if (this.ratings.length === 0) {
+    return 0;
+  }
+  const sum = this.ratings.reduce((total, rating) => total + rating.value, 0);
+  return sum / this.ratings.length;
 });
 
 module.exports = mongoose.model('Course', courseSchema);

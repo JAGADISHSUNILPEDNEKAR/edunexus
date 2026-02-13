@@ -16,6 +16,9 @@ const CourseDetail = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [activeTab, setActiveTab] = useState('lectures')
+  const [userRating, setUserRating] = useState(0)
+  const [hoverRating, setHoverRating] = useState(0)
+  const [isRatingSubmitting, setIsRatingSubmitting] = useState(false)
 
   useEffect(() => {
     fetchCourseData()
@@ -29,12 +32,31 @@ const CourseDetail = () => {
         assignmentAPI.getByCourse(id)
       ])
       setCourse(courseRes.data.course)
+      if (courseRes.data.course.userRating) {
+        setUserRating(courseRes.data.course.userRating.value)
+      }
       setAssignments(assignmentsRes.data.assignments)
     } catch (err) {
       setError('Failed to load course details')
       console.error(err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleRate = async (value) => {
+    try {
+      setIsRatingSubmitting(true)
+      await courseAPI.rate(id, { rating: value })
+      setUserRating(value)
+      // Refresh course data to update average rating
+      const courseRes = await courseAPI.getById(id)
+      setCourse(prev => ({ ...prev, averageRating: courseRes.data.course.averageRating }))
+    } catch (err) {
+      console.error('Failed to rate course:', err)
+      alert('Failed to submit rating')
+    } finally {
+      setIsRatingSubmitting(false)
     }
   }
 
@@ -69,12 +91,34 @@ const CourseDetail = () => {
             <p className="text-text-secondary mb-4">{course.description}</p>
             <div className="flex items-center space-x-4 text-sm text-text-muted">
               <span>👨‍🏫 {course.instructor.name}</span>
+              <span>⭐ {course.averageRating ? Number(course.averageRating).toFixed(1) : 'New'}</span>
               <span>📚 {course.lectures.length} lectures</span>
               <span>👥 {course.enrolledStudents.length} students</span>
             </div>
           </div>
           {user?.role === 'student' && !isEnrolled && (
             <EnrollButton courseId={course._id} onEnroll={fetchCourseData} />
+          )}
+          {user?.role === 'student' && isEnrolled && (
+            <div className="flex flex-col items-end">
+              <span className="text-sm text-text-muted mb-1">Your Rating</span>
+              <div className="flex space-x-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    className={`text-2xl transition-colors ${(hoverRating || userRating) >= star ? 'text-yellow-400' : 'text-gray-300'
+                      } ${isRatingSubmitting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110'}`}
+                    onClick={() => handleRate(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    disabled={isRatingSubmitting}
+                    title={`Rate ${star} star${star > 1 ? 's' : ''}`}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 

@@ -11,7 +11,9 @@ const {
   enrollCourse,
   addLecture,
   getInstructorCourses,
-  getEnrolledCourses
+  getInstructorCourses,
+  getEnrolledCourses,
+  rateCourse
 } = require('../controllers/courseController');
 const { protect } = require('../middleware/auth');
 const { authorize } = require('../middleware/roleCheck');
@@ -33,6 +35,7 @@ router.post('/', courseValidation, validate, createCourse);
 // Protected routes - Student
 router.post('/:id/enroll', protect, authorize('student'), objectIdValidation('id'), validate, enrollCourse);
 router.get('/my/enrolled', protect, authorize('student'), getEnrolledCourses);
+router.post('/:id/rate', protect, authorize('student'), objectIdValidation('id'), validate, rateCourse);
 
 // Protected routes - Instructor/Admin (other endpoints remain protected)
 router.put('/:id', protect, authorize('instructor', 'admin'), objectIdValidation('id'), courseValidation, validate, updateCourse);

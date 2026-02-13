@@ -66,9 +66,25 @@ exports.getCourse = async (req, res) => {
       });
     }
 
+    const courseObj = course.toObject({ virtuals: true });
+    courseObj.averageRating = course.averageRating;
+
+    // If user is logged in, check if they have rated
+    if (req.user) {
+      const userRating = course.ratings.find(
+        r => r.student.toString() === req.user.id.toString()
+      );
+      if (userRating) {
+        courseObj.userRating = userRating;
+      }
+    }
+
+    // Remove raw ratings array to protect privacy
+    delete courseObj.ratings;
+
     res.status(200).json({
       success: true,
-      course
+      course: courseObj
     });
   } catch (error) {
     logger.error('Get course error:', error);
@@ -314,6 +330,67 @@ exports.addLecture = async (req, res) => {
   }
 };
 
+// @desc    Rate a course
+// @route   POST /api/courses/:id/rate
+// @access  Private (Student only)
+exports.rateCourse = async (req, res) => {
+  try {
+    const { rating, review } = req.body;
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found'
+      });
+    }
+
+    // Check if enrolled
+    if (!course.enrolledStudents.includes(req.user.id)) {
+      return res.status(403).json({
+        success: false,
+        message: 'You must be enrolled to rate this course'
+      });
+    }
+
+    // Check if already rated
+    const existingRatingIndex = course.ratings.findIndex(
+      r => r.student.toString() === req.user.id.toString()
+    );
+
+    if (existingRatingIndex !== -1) {
+      // Update existing rating
+      course.ratings[existingRatingIndex].value = rating;
+      course.ratings[existingRatingIndex].review = review;
+      course.ratings[existingRatingIndex].createdAt = Date.now();
+    } else {
+      // Add new rating
+      course.ratings.push({
+        student: req.user.id,
+        value: rating,
+        review
+      });
+    }
+
+    await course.save();
+
+    logger.success(`Course rated: ${course.title} by ${req.user.name}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Course rated successfully',
+      rating: existingRatingIndex !== -1 ? course.ratings[existingRatingIndex] : course.ratings[course.ratings.length - 1]
+    });
+  } catch (error) {
+    logger.error('Rate course error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error rating course',
+      error: error.message
+    });
+  }
+};
+
 // @desc    Get my courses (as instructor)
 // @route   GET /api/courses/my/instructor
 // @access  Private (Instructor)
@@ -323,10 +400,19 @@ exports.getInstructorCourses = async (req, res) => {
       .populate('enrolledStudents', 'name email')
       .sort({ createdAt: -1 });
 
+    // Add average rating to each course object for frontend
+    const coursesWithRating = courses.map(course => {
+      const courseObj = course.toObject({ virtuals: true });
+      courseObj.rating = course.averageRating;
+      // Remove raw ratings for privacy
+      delete courseObj.ratings;
+      return courseObj;
+    });
+
     res.status(200).json({
       success: true,
-      count: courses.length,
-      courses
+      count: coursesWithRating.length,
+      courses: coursesWithRating
     });
   } catch (error) {
     logger.error('Get instructor courses error:', error);
