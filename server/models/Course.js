@@ -103,7 +103,7 @@ courseSchema.virtual('lectureCount').get(function () {
 
 // Virtual for average rating
 courseSchema.virtual('averageRating').get(function () {
-  if (this.ratings.length === 0) {
+  if (!this.ratings || this.ratings.length === 0) {
     return 0;
   }
   const sum = this.ratings.reduce((total, rating) => total + rating.value, 0);
