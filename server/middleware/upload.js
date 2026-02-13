@@ -6,8 +6,12 @@ const path = require('path');
 const fs = require('fs');
 
 // Ensure upload directories exist
+const uploadDir = path.join(__dirname, '../uploads');
 const ensureUploadDirs = () => {
-  const dirs = ['uploads/videos', 'uploads/assignments'];
+  const dirs = [
+    path.join(uploadDir, 'videos'),
+    path.join(uploadDir, 'assignments')
+  ];
   dirs.forEach(dir => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
@@ -20,7 +24,7 @@ ensureUploadDirs();
 // Configure storage for videos
 const videoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/videos/');
+    cb(null, path.join(uploadDir, 'videos'));
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -31,7 +35,7 @@ const videoStorage = multer.diskStorage({
 // Configure storage for assignments
 const assignmentStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/assignments/');
+    cb(null, path.join(uploadDir, 'assignments'));
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -73,7 +77,7 @@ const uploadVideo = multer({
 
 const uploadAssignment = multer({
   storage: assignmentStorage,
-  limits: { fileSize: 10 *1024 * 1024 }, // 10MB
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   fileFilter: assignmentFilter
 });
 
