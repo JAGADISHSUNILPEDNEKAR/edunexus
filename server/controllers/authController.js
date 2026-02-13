@@ -78,9 +78,13 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    logger.info(`Login attempt for email: ${email}`);
+    console.log(`[DEBUG] Login request received for: ${email}`);
 
     // Find user with password field
+    console.log('[DEBUG] Searching for user in database...');
     const user = await User.findOne({ email }).select('+password');
+    console.log(`[DEBUG] User search complete. User found: ${!!user}`);
 
     if (!user) {
       return res.status(401).json({
@@ -98,7 +102,9 @@ exports.login = async (req, res) => {
     }
 
     // Verify password
+    console.log('[DEBUG] Verifying password...');
     const isMatch = await user.comparePassword(password);
+    console.log(`[DEBUG] Password verification complete. Match: ${isMatch}`);
 
     if (!isMatch) {
       return res.status(401).json({
@@ -111,6 +117,7 @@ exports.login = async (req, res) => {
 
     sendTokenResponse(user, 200, res);
   } catch (error) {
+    console.error('[DEBUG] Login error caught:', error);
     logger.error('Login error:', error);
     res.status(500).json({
       success: false,

@@ -1,0 +1,4 @@
+// Adding debug log to ignore list
+debug.log
+node_modules
+.env

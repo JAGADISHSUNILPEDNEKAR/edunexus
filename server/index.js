@@ -83,6 +83,20 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
 
+// debug logging to file
+const fs = require('fs');
+const path = require('path');
+app.use((req, res, next) => {
+  const logMsg = `[${new Date().toISOString()}] ${req.method} ${req.url}\n`;
+  try {
+    fs.appendFileSync(path.join(__dirname, 'debug.log'), logMsg);
+  } catch (e) {
+    console.error('Failed to write to debug log', e);
+  }
+  next();
+});
+
+
 // ✅ Root route (for health checks)
 app.get('/', (req, res) => {
   res.status(200).json({
