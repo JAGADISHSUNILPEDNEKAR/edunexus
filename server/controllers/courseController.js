@@ -345,17 +345,31 @@ exports.rateCourse = async (req, res) => {
       });
     }
 
-    // Check if enrolled
-    if (!course.enrolledStudents.includes(req.user.id)) {
+    // Ensure enrolledStudents array exists
+    if (!course.enrolledStudents) {
+      course.enrolledStudents = [];
+    }
+
+    // Check if enrolled (Robust check for ObjectId vs String)
+    const isEnrolled = course.enrolledStudents.some(
+      studentId => studentId.toString() === req.user._id.toString()
+    );
+
+    if (!isEnrolled) {
       return res.status(403).json({
         success: false,
         message: 'You must be enrolled to rate this course'
       });
     }
 
+    // Ensure ratings array exists
+    if (!course.ratings) {
+      course.ratings = [];
+    }
+
     // Check if already rated
     const existingRatingIndex = course.ratings.findIndex(
-      r => r.student.toString() === req.user.id.toString()
+      r => r.student.toString() === req.user._id.toString()
     );
 
     if (existingRatingIndex !== -1) {
@@ -366,7 +380,7 @@ exports.rateCourse = async (req, res) => {
     } else {
       // Add new rating
       course.ratings.push({
-        student: req.user.id,
+        student: req.user._id,
         value: rating,
         review
       });
@@ -376,17 +390,23 @@ exports.rateCourse = async (req, res) => {
 
     logger.success(`Course rated: ${course.title} by ${req.user.name}`);
 
+    // Return the updated rating object safely
+    const updatedRating = existingRatingIndex !== -1
+      ? course.ratings[existingRatingIndex]
+      : course.ratings[course.ratings.length - 1];
+
     res.status(200).json({
       success: true,
       message: 'Course rated successfully',
-      rating: existingRatingIndex !== -1 ? course.ratings[existingRatingIndex] : course.ratings[course.ratings.length - 1]
+      rating: updatedRating
     });
   } catch (error) {
     logger.error('Rate course error:', error);
+    // Return detailed error in development, generic in production
     res.status(500).json({
       success: false,
       message: 'Error rating course',
-      error: error.message
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 };
