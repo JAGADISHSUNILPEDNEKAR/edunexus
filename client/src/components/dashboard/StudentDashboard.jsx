@@ -32,6 +32,9 @@ const StudentDashboard = () => {
     } catch (err) {
       console.error('Failed to fetch dashboard data:', err)
       // Attempt to show error in UI if needed, or just log
+      if (err.response && err.response.status === 404) {
+        console.warn('Endpoint not found - check backend routes');
+      }
     } finally {
       setLoading(false)
     }
