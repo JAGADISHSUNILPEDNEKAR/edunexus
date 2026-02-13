@@ -151,7 +151,8 @@ export const courseAPI = {
   enroll: (id) => api.post(`/courses/${id}/enroll`),
   addLecture: (id, data) => api.post(`/courses/${id}/lectures`, data),
   getInstructorCourses: () => api.get('/courses/my/instructor'),
-  getEnrolledCourses: () => api.get('/courses/my/enrolled')
+  getEnrolledCourses: () => api.get('/courses/my/enrolled'),
+  rate: (id, data) => api.post(`/courses/${id}/rate`, data)
 }
 
 // Assignments
