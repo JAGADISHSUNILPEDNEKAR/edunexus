@@ -6,7 +6,7 @@ const fs = require('fs');
 const logger = require('../utils/logger');
 
 // Configure Cloudinary if credentials are provided
-const isCloudinaryConfigured = 
+const isCloudinaryConfigured =
   process.env.CLOUDINARY_CLOUD_NAME &&
   process.env.CLOUDINARY_API_KEY &&
   process.env.CLOUDINARY_API_SECRET;
@@ -52,7 +52,7 @@ const uploadVideo = async (filePath) => {
     };
   } catch (error) {
     logger.error('Cloudinary upload failed, using local storage:', error.message);
-    
+
     // Fallback to local storage
     return {
       url: `/uploads/videos/${filePath.split('/').pop()}`,
@@ -63,12 +63,45 @@ const uploadVideo = async (filePath) => {
 };
 
 // Upload assignment file (local only)
+// Upload assignment file
 const uploadAssignmentFile = async (filePath) => {
-  return {
-    url: `/uploads/assignments/${filePath.split('/').pop()}`,
-    public_id: null,
-    provider: 'local'
-  };
+  if (!isCloudinaryConfigured) {
+    // Return local file path
+    return {
+      url: `/uploads/assignments/${filePath.split('/').pop()}`,
+      public_id: null,
+      provider: 'local'
+    };
+  }
+
+  try {
+    const result = await cloudinary.uploader.upload(filePath, {
+      resource_type: 'auto', // Auto-detect (raw for non-image/video)
+      folder: 'edunexus/assignments',
+      use_filename: true,
+      unique_filename: true
+    });
+
+    // Delete local file after successful upload
+    fs.unlinkSync(filePath);
+
+    logger.success(`Assignment uploaded to Cloudinary: ${result.public_id}`);
+
+    return {
+      url: result.secure_url,
+      public_id: result.public_id,
+      provider: 'cloudinary'
+    };
+  } catch (error) {
+    logger.error('Cloudinary upload failed, using local storage:', error.message);
+
+    // Fallback to local storage
+    return {
+      url: `/uploads/assignments/${filePath.split('/').pop()}`,
+      public_id: null,
+      provider: 'local'
+    };
+  }
 };
 
 // Delete file from Cloudinary
