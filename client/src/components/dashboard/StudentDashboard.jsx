@@ -20,10 +20,18 @@ const StudentDashboard = () => {
         courseAPI.getEnrolledCourses(),
         assignmentAPI.getMySubmissions()
       ])
-      setEnrolledCourses(coursesRes.data.courses)
-      setSubmissions(submissionsRes.data.submissions)
+
+      console.log('Courses API Response:', coursesRes.data)
+
+      // Safe access with fallbacks
+      const courses = coursesRes.data.courses || []
+      const submissions = submissionsRes.data.submissions || []
+
+      setEnrolledCourses(courses)
+      setSubmissions(submissions)
     } catch (err) {
       console.error('Failed to fetch dashboard data:', err)
+      // Attempt to show error in UI if needed, or just log
     } finally {
       setLoading(false)
     }

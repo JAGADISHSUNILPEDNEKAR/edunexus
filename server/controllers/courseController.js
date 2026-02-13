@@ -449,15 +449,35 @@ exports.getInstructorCourses = async (req, res) => {
 // @access  Private (Student)
 exports.getEnrolledCourses = async (req, res) => {
   try {
+    // Debug logging
+    console.log(`Getting enrolled courses for user: ${req.user.id}`);
+
     const user = await User.findById(req.user.id).populate({
       path: 'enrolledCourses',
       populate: { path: 'instructor', select: 'name email' }
     });
 
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Filter out any null courses (in case of deleted courses)
+    const validCourses = (user.enrolledCourses || []).filter(course => course !== null);
+
+    // Log if there was a mismatch
+    if (user.enrolledCourses && user.enrolledCourses.length !== validCourses.length) {
+      console.warn(`User ${req.user.id} has null enrollments. Raw: ${user.enrolledCourses.length}, Valid: ${validCourses.length}`);
+    }
+
+    console.log(`Found ${validCourses.length} enrolled courses for user ${req.user.id}`);
+
     res.status(200).json({
       success: true,
-      count: user.enrolledCourses.length,
-      courses: user.enrolledCourses
+      count: validCourses.length,
+      courses: validCourses
     });
   } catch (error) {
     logger.error('Get enrolled courses error:', error);
