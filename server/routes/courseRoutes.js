@@ -11,7 +11,7 @@ const {
   enrollCourse,
   addLecture,
   getInstructorCourses,
-  getInstructorCourses,
+
   getEnrolledCourses,
   rateCourse
 } = require('../controllers/courseController');
