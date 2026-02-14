@@ -76,10 +76,11 @@ const uploadAssignmentFile = async (filePath) => {
 
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      resource_type: 'auto',
+      resource_type: 'raw',
       folder: 'edunexus/assignments',
       use_filename: true,
-      unique_filename: true
+      unique_filename: true,
+      access_mode: 'public' // Explicitly request public access
     });
 
     // Delete local file after successful upload
@@ -111,10 +112,15 @@ const deleteFromCloudinary = async (publicId) => {
   }
 
   try {
-    // Try deleting as video first
-    let result = await cloudinary.uploader.destroy(publicId, { resource_type: 'video' });
+    // Try deleting as raw first (since we are now uploading as raw)
+    let result = await cloudinary.uploader.destroy(publicId, { resource_type: 'raw' });
 
-    // If not found, try as image (which covers 'auto' uploads like PDFs)
+    // If not found, try as video (legacy)
+    if (result.result === 'not found') {
+      result = await cloudinary.uploader.destroy(publicId, { resource_type: 'video' });
+    }
+
+    // If still not found, try as image (legacy auto)
     if (result.result === 'not found') {
       result = await cloudinary.uploader.destroy(publicId, { resource_type: 'image' });
     }
