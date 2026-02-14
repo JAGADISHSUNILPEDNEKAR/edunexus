@@ -76,7 +76,7 @@ const uploadAssignmentFile = async (filePath) => {
 
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      resource_type: 'raw',
+      resource_type: 'auto', // Allow Cloudinary to detect type (e.g. image for PDFs to allow preview)
       folder: 'edunexus/assignments',
       use_filename: true,
       unique_filename: true,
@@ -91,10 +91,11 @@ const uploadAssignmentFile = async (filePath) => {
     // Generate a signed URL for this authenticated resource
     // valid for long term access
     const signedUrl = cloudinary.url(result.public_id, {
-      resource_type: 'raw',
+      resource_type: result.resource_type, // Use the detected type
       type: 'authenticated',
       secure: true,
-      sign_url: true
+      sign_url: true,
+      version: result.version // Include version for correct signature generation
     });
 
     return {
