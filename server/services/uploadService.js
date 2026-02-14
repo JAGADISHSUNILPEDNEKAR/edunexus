@@ -80,7 +80,7 @@ const uploadAssignmentFile = async (filePath) => {
       folder: 'edunexus/assignments',
       use_filename: true,
       unique_filename: true,
-      access_mode: 'public' // Explicitly request public access
+      type: 'authenticated' // Store as authenticated (private)
     });
 
     // Delete local file after successful upload
@@ -88,10 +88,19 @@ const uploadAssignmentFile = async (filePath) => {
 
     logger.success(`Assignment uploaded to Cloudinary: ${result.public_id}`);
 
+    // Generate a signed URL for this authenticated resource
+    // valid for long term access
+    const signedUrl = cloudinary.url(result.public_id, {
+      resource_type: 'raw',
+      type: 'authenticated',
+      secure: true,
+      sign_url: true
+    });
+
     return {
-      url: result.secure_url,
+      url: signedUrl,
       public_id: result.public_id,
-      provider: 'cloudinary'
+      provider: 'cloudinary' // Use generic provider name
     };
   } catch (error) {
     logger.error('Cloudinary upload failed, using local storage:', error.message);
@@ -112,8 +121,13 @@ const deleteFromCloudinary = async (publicId) => {
   }
 
   try {
-    // Try deleting as raw first (since we are now uploading as raw)
-    let result = await cloudinary.uploader.destroy(publicId, { resource_type: 'raw' });
+    // Try deleting as authenticated raw first (new method)
+    let result = await cloudinary.uploader.destroy(publicId, { resource_type: 'raw', type: 'authenticated' });
+
+    // If not found, try as public raw (previous method)
+    if (result.result === 'not found') {
+      result = await cloudinary.uploader.destroy(publicId, { resource_type: 'raw' });
+    }
 
     // If not found, try as video (legacy)
     if (result.result === 'not found') {
