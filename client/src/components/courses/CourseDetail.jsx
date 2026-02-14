@@ -102,7 +102,7 @@ const CourseDetail = () => {
           {user?.role === 'student' && isEnrolled && (
             <div className="flex flex-col items-end">
               <span className="text-sm text-text-muted mb-1">Your Rating</span>
-              <div className="flex space-x-1">
+              <div className="flex space-x-1 mb-2">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -118,6 +118,24 @@ const CourseDetail = () => {
                   </button>
                 ))}
               </div>
+              <button
+                onClick={async () => {
+                  if (window.confirm('Are you sure you want to unenroll from this course?')) {
+                    try {
+                      await courseAPI.unenroll(course._id)
+                      // Refresh data to update UI
+                      fetchCourseData()
+                      // Optional: Redirect to dashboard if preferred, but refreshing is fine too
+                    } catch (err) {
+                      console.error('Failed to unenroll:', err)
+                      alert('Failed to unenroll from course')
+                    }
+                  }
+                }}
+                className="text-xs text-rose-600 hover:text-rose-800 underline"
+              >
+                Unenroll from course
+              </button>
             </div>
           )}
         </div>

@@ -9,6 +9,7 @@ const {
   updateCourse,
   deleteCourse,
   enrollCourse,
+  unenrollCourse,
   addLecture,
   getInstructorCourses,
 
@@ -35,6 +36,7 @@ router.post('/', courseValidation, validate, createCourse);
 // Protected routes - Student
 router.post('/:id/enroll', protect, authorize('student'), objectIdValidation('id'), validate, enrollCourse);
 router.get('/my/enrolled', protect, authorize('student'), getEnrolledCourses);
+router.post('/:id/unenroll', protect, authorize('student'), objectIdValidation('id'), validate, unenrollCourse);
 router.post('/:id/rate', protect, authorize('student'), objectIdValidation('id'), validate, rateCourse);
 
 // Protected routes - Instructor/Admin (other endpoints remain protected)
