@@ -76,7 +76,7 @@ const uploadAssignmentFile = async (filePath) => {
 
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      resource_type: 'raw', // Force raw for documents to avoid image transformation issues
+      resource_type: 'auto',
       folder: 'edunexus/assignments',
       use_filename: true,
       unique_filename: true
@@ -111,19 +111,10 @@ const deleteFromCloudinary = async (publicId) => {
   }
 
   try {
-    // Determine resource type based on publicId or assume video if not specified
-    // For now, we'll try both if one fails, or just default to video as it was
-    // The previous code only handled video. We should make it flexible.
-
-    // Attempt to delete as video first (legacy behavior for videos)
+    // Try deleting as video first
     let result = await cloudinary.uploader.destroy(publicId, { resource_type: 'video' });
 
-    // If not found, try as raw (for assignments)
-    if (result.result === 'not found') {
-      result = await cloudinary.uploader.destroy(publicId, { resource_type: 'raw' });
-    }
-
-    // If still not found, try as image (just in case)
+    // If not found, try as image (which covers 'auto' uploads like PDFs)
     if (result.result === 'not found') {
       result = await cloudinary.uploader.destroy(publicId, { resource_type: 'image' });
     }
