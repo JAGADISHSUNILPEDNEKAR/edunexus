@@ -9,6 +9,8 @@ import ProtectedRoute from './components/layout/ProtectedRoute'
 import LandingPage from './components/landing/LandingPage'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
+import ForgotPassword from './components/auth/ForgotPassword'
+import ResetPassword from './components/auth/ResetPassword'
 import StudentDashboard from './components/dashboard/StudentDashboard'
 import InstructorDashboard from './components/dashboard/InstructorDashboard'
 import AdminDashboard from './components/dashboard/AdminDashboard'
@@ -33,6 +35,8 @@ const MainContent = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
           <Route path="/courses" element={<CourseList />} />
 
           {/* Protected routes - Student */}
