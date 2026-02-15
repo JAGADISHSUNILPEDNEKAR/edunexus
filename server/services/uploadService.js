@@ -76,7 +76,7 @@ const uploadAssignmentFile = async (filePath) => {
 
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      resource_type: 'raw', // Use raw to ensure PDFs are stored as files with extensions, not images
+      resource_type: 'auto', // Let Cloudinary detect file type (important for PDFs to be viewable)
       folder: 'edunexus/assignments',
       use_filename: true,
       unique_filename: true,
@@ -86,12 +86,12 @@ const uploadAssignmentFile = async (filePath) => {
     // Delete local file after successful upload
     fs.unlinkSync(filePath);
 
-    logger.success(`Assignment uploaded to Cloudinary: ${result.public_id}`);
+    logger.success(`Assignment uploaded to Cloudinary: ${result.public_id} (${result.resource_type})`);
 
     // Generate a signed URL for this authenticated resource
     // valid for long term access
     const signedUrl = cloudinary.url(result.public_id, {
-      resource_type: 'raw', // Match request type
+      resource_type: result.resource_type, // Use detected resource type
       type: 'authenticated',
       secure: true,
       sign_url: true,
@@ -124,6 +124,11 @@ const deleteFromCloudinary = async (publicId) => {
   try {
     // Try deleting as authenticated raw first (new method)
     let result = await cloudinary.uploader.destroy(publicId, { resource_type: 'raw', type: 'authenticated' });
+
+    // If not found, try as authenticated image (for PDFs stored as images)
+    if (result.result === 'not found') {
+      result = await cloudinary.uploader.destroy(publicId, { resource_type: 'image', type: 'authenticated' });
+    }
 
     // If not found, try as public raw (previous method)
     if (result.result === 'not found') {
