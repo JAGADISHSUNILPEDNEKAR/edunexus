@@ -80,7 +80,7 @@ const uploadAssignmentFile = async (filePath) => {
       folder: 'edunexus/assignments',
       use_filename: true,
       unique_filename: true,
-      type: 'authenticated' // Store as authenticated (private)
+      // Removed type: 'authenticated' to allow public access
     });
 
     // Delete local file after successful upload
@@ -88,18 +88,12 @@ const uploadAssignmentFile = async (filePath) => {
 
     logger.success(`Assignment uploaded to Cloudinary: ${result.public_id}`);
 
-    // Generate a signed URL for this authenticated resource
-    // valid for long term access
-    const signedUrl = cloudinary.url(result.public_id, {
-      resource_type: 'raw', // Match request type
-      type: 'authenticated',
-      secure: true,
-      sign_url: true,
-      version: result.version // Include version for correct signature generation
-    });
+    // Generate a standard public URL
+    // For 'raw' resources, we don't need signing if they are public
+    const publicUrl = result.secure_url;
 
     return {
-      url: signedUrl,
+      url: publicUrl,
       public_id: result.public_id,
       provider: 'cloudinary' // Use generic provider name
     };
